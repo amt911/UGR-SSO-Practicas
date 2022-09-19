@@ -1,0 +1,125 @@
+%TODO: PONER IMAGENES DE EJEMPLO DE LOS FICHEROS DEL EJERCICIO 1
+%TODO 2: INTENTAR QUITAR LA MORRAYA QUE NO SIRVA
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx, graphics, float, hyperref}
+\usepackage{listings}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+
+\title{SSO Práctica 1}
+\author{Andrés Merlo Trujillo}
+\date{}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Primer ejercicio}
+A continuación, voy a explicar el formato y el significado de cada uno de los campos. Para ello, voy a dividir cada archivo en subsecciones:
+
+\subsection{/etc/passwd}
+Este fichero está formado por líneas de 7 campos separados por ``:''. Los campos y sus significados son los siguientes:
+
+\begin{enumerate}
+    \item \textbf{Nombre de login: }Nombre de usuario.
+    \item \textbf{Contraseña encriptada opcional: }Contraseña encriptada del usuario.
+    Si este campo tiene la letra ``x'' minuscula, significa que la contraseña se almacena en ``/etc/shadow''.
+
+    Si se encuentra vacio, significa que no hace falta contraseña para autenticar.
+
+    Si comienza en exclamacion, significa que la contraseña ha sido bloqueada.
+
+    Ademas, si contiene una exclamacion o un asterisco, significa que el usuario no podra usar la contraseña para iniciar sesion (pero puede usar otro medio).
+
+    \item \textbf{User ID numerico: }ID del usuario.
+    \item \textbf{Group ID numerico: }ID del grupo al que pertenece.
+    \item \textbf{Nombre de usuario o campo de comentario: }Este campo sirve para poder poner un comentario sobre el usuario (por ejemplo: accion que realiza, para evitar confusion con dos usuarios similares, etc).
+    \item \textbf{Directorio home del usuario: }Directorio que será el home privado del usuario. Además sirve para poner la variable de entorno ``\$HOME''
+    \item \textbf{Interprete opcional de comando de usuario: }Shell que usará el usuario por defecto (bash, sh, zsh, fish, etc). Ademas, pondra la variable de entorno ``\$SHELL'' a este valor.
+\end{enumerate}
+
+
+\subsection{/etc/group}
+Este fichero está formado por 4 campos separados por ``:''. EL significado de cada campo es el siguiente:
+
+\begin{enumerate}
+    \item \textbf{Nombre del grupo: }Nombre del grupo. Este nombre debe ser único en el sistema.
+    
+    %REVISAR ESTE CAMPO
+    \item \textbf{Contraseña: }Contraseña del grupo. Si es una letra ``x'' minuscula significa que la contraseña encriptada se encuentra en ``/etc/gpasswd''.
+    \item \textbf{Group ID: }Indica el ID del grupo. Este valor debe ser único en el sistema.
+    \item \textbf{Usuarios: }Lista de ususarios separados por coma (``,'') los cuales son miembros del grupo. 
+\end{enumerate}
+\subsection{/etc/shadow}
+Este fichero está formado por líneas de 9 campos separados por ``:''. Los campos y sus significados son los siguientes:
+
+\begin{enumerate}
+    \item \textbf{login name (nombre de login): }Nombre de la cuenta del usuario. Debe existir en el sistema.
+    
+    %Hablar de la encriptacion concreta que tiene (quizas sea un salteo)
+    \item \textbf{encrypted password (contraseña encryptada): }Contraseña encriptada del usuario especificado en ``login name''. Si este campo está vacío, significa que ese usuario no requiere contraseña para iniciar sesion. 
+    
+    Además, en caso de que la contraseña comience con una exclamacion (``!''), significa que la contraseña ha sido bloqueada.
+
+    Por último, si la contraseña contiene el carácter de exclamacion mencionado anteriormente o asterisco (``*''), significa que no puede iniciar sesión (si es exclamación también se cumple lo de arriba).
+
+    \item \textbf{date of last password change (fecha del ultimo cambio de contraseña): }El último cambio de contraseña, expresado como el numero de dias desde el epoch (1 de enero de 1970).
+    
+    Además, si el valor es 0 significa que el usuario debe cambiar la contraseña en el proximo login.
+
+    %comprobar este parrafo
+    En cambio, si el campo está vacio signicia que las contraseñas no tienen edad (y por tanto no se cumplen estas restricciones).
+
+    \item \textbf{minimum password age (edad minima de la contraseña): }Numero de dias que el usuario tiene que esperar antes de poder cambiar la contraseña de nuevo. Un valor 0 ó vacio indica que no hay un minimo de dias.
+    \item \textbf{maximum password age (edad maxima de la contraseña): }Numero maximo de dias en los cuales la contraseña ``caduca'' (tiene que cambiarla). Al pasar este numero de dias, el sistema pedira al usuario que cambie la contraseña.
+    
+    Si el valor maximo es mayor que el del campo anterior, el usuario no podra cambiar su contraseña.
+
+    Por último, si el campo está vacio, se deshabilitara este servicio junto con ``password warning period'' y ``password inactivity period''.
+
+    \item \textbf{password warning period (periodo de advertencia de la contraseña): }El numero de dias antes de que la contraseña ``caduqeu'' durante los cuales se le  advierte al usuario.
+    
+    Un valor 0 o cadena vacia indica que no habra advertencias.
+
+    \item \textbf{password inactivity period (periodo de inactividad de la contraseña): }Numero de dias despues de que la contraseña haya ``caducado'' en el cual eberia ser aceptada. Al pasar este eriodo, el usuario no podra iniciar sesion.
+    
+    Un campo vacio indica que no se cumple esta regla.
+
+    \item  \textbf{account expiration date (fecha de expiracion de la cuenta): }La fecha en la que la cuenta expira. Esta fecha se exresa como el numero de dias desde el epoch.
+    
+    La diferencia con la expiracion de una contraseña es que, si la cuenta expira, no podra iniciar sesion de ninguna forma, mientras que si la contraseña expira, tendrá otros medios para iniciar sesion.
+
+    El campo vacio indica que la cuenta no expira. Ademas, no se debe usar el valor 0 ya que se puede interpretar como que la cuenta expira en el epoch o que no expira.
+
+    \item \textbf{reserved field (campo reservado): }Este campo está reservado para usos futuros.
+\end{enumerate}
+
+\subsection{/etc/gshadow}
+Este fichero está tambien formado por 4 campos separados por el símbolo ``:''. El significado de cada campo es el siguiente:
+
+\begin{enumerate}
+    \item \textbf{Nombre del grupo: }Nombre del grupo. Debe existir en el sistema.
+    \item \textbf{Contraseña encriptada: }Contraseña encriptada que sirve para que un usuario que no es miembro del grupo obtenga los permisos.
+    
+    Si el campo está vacio, entonces cualquier usuario puede obtener los privilegios del grupo.
+
+    Si la contraseña comienza por una exclamacion, significa que esta está bloqueada.
+
+    Si contiene una exclamacion o asterisco, los usuarios no podran acceder al grupo si no estan en el.
+
+    \item \textbf{Administradores: }Lista de usuarios separados por coma que puede realizar operaciones como cambiar la contrasñéa del grupo o administrar los usuarios del mismo.
+    \item \textbf{Miembros: }Lista de usaurios separados por coma. Los miembros del grupo pueden acceder al mismo sin necesitar la contraseña.
+\end{enumerate}
+
+\section{Segundo ejercicio}
+
+
+
+\end{document}
