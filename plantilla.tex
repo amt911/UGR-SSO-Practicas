@@ -197,4 +197,13 @@ Como se puede ver en la linea 8, esta llamada lo que hace es prohibir el cambio 
 
 La funcion de la linea 12 es de permitir al superusuario cambiar la shell sin ser necesdario introducir la contraseña. Esto se realiza mediante el campo de control ``sufficient'' y el modulo ``pam\_rootok.so''. Con ``sufficient'', cuando la orden tiene exito retorna sin ejecutar los demas modulos \textbf{COMPROBAR AFIRMACION: (Como es el ultimo puede retornar sin prblema)}. Ademas, con el modulo ``pam\_rootok.so'' autoriza al usuario con el UID 0 (root).
 
+
+\section{Quinto ejercicio}
+Cabe destacar que en Ubuntu 22.04 los modulos de PAM no se encontraban en el directorio ``/etc/lib/security'', sino en el direcotiro ``/usr/lib/x86\_64-linux-gnu/security''. Los he tenido que encontrar con el comando ``find / -name ``pam\_*.so''''
+
+%imagen de la salida
+\subsection{Apartado a}
+
+\subsection{Apartado b}
+
 \end{document}
