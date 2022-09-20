@@ -1,5 +1,6 @@
 %TODO: PONER IMAGENES DE EJEMPLO DE LOS FICHEROS DEL EJERCICIO 1
 %TODO 2: INTENTAR QUITAR LA MORRAYA QUE NO SIRVA
+%TODO 3: INTENTAR NO REPETIR TANTAS COSAS EN EL EJERCICIO 3
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -119,7 +120,52 @@ Este fichero está tambien formado por 4 campos separados por el símbolo ``:''.
 \end{enumerate}
 
 \section{Segundo ejercicio}
+En este ejercicio se pide modificar el valor de la variable ``LOGIN\_TIMEOUT'' y comprobar sus efectos con un usuario nuevo que se haya creado manualmente.
+
+Para ello, modifico la variable, que estaba por defecto a 60 segundos:
+
+%imagen del archivo con 60
+
+Y lo cambio a otro valor, por ejemplo, 5 segundos:
+
+%imagen del archivo con 5
+
+A continuacion, creo el usuario llamado ``prueba'', le cambio la contraseña y hago login con él desde la terminal. Cuando se encuentre en la parte de pedir la contraseña de este usuario nuevo, se espera un tiempo hasta que la terminal devuevla un mensaje:
+
+%mensaje de que han pasado 5 segundos
+
+Como se puede ver, pone que han pasado 5 segundos y el acceso ha caducado.
+
+Ahora, pruebo con otro valor, por ejemplo \textbf{PONER AQUI EL TIEMPO QUE QEURIA} segundos:
+
+%imagen de timeout a otro valor
+
+E intento iniciar sesion de nueov con el usuario ``prueba'' y espero en la parte de la contraseña.
+
+%imagen timout nuevo
+
+Como se puede ver, el timeout ahora es distinto.
 
 
+\section{Tercer ejercicio}
+En este ejercicio se pide crear un archivo y darle, mediante un ACL, permisos de lectura y escritura al usuario creado (en mi caso sigue siendo ``prueba'').
+
+Para ello, mediante la orden ``touch'' creo el archivo denominado ``ejercicio3''.
+
+Ahora bien, al menos en Ubuntu 22.04 no están las ordenes ``getacl/setacl'', sino que se llaman ``getfacl/setfacl''. El resultado no varía y tienen las mismas sintaxis.
+
+%foto del get original
+%caption: se puede ver que solo el usuario ``andres'' tiene los permisos
+
+Ahora, con la orden ``setfacl'' se le dará al usuario ``prueba'' permisos ``rw''.
+
+%foto del comando
+
+
+Y ahora mostramos con ``getfacl'' el archivo anterior:
+
+%foto del get nuevo
+
+Como se puede observar, ahora aparece una linea que indica que el usuario ``prueba'' tiene permisos ``rw''.
 
 \end{document}
