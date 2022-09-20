@@ -168,4 +168,33 @@ Y ahora mostramos con ``getfacl'' el archivo anterior:
 
 Como se puede observar, ahora aparece una linea que indica que el usuario ``prueba'' tiene permisos ``rw''.
 
+
+\section{Ejercicio 4}
+Con el comando ``ls'' muestro los archivos que se encuentran en el directorio ``/etc/pam.d'':
+
+%IMAGEN ARCHIVOS PAM.D
+
+A continuacion explicare dos archivos:
+
+\subsection{/etc/pam.d/chfn}
+Permite cambiar la informacion personal de un usuario tales como: el nombre, el numero de telefono, de habitacion, etc. Estos datos luego pueden ser leidos por comandos como ``finger''.
+
+El contenido del archivo es:
+
+%imagen del chfn
+
+La funcion de la linea 7 es para no pedir la contraseña al usuario root cuando esté usando este comando. Para ello, hace uso del campo de control sufficient, que hace que si tiene exito retorne sin ejecutar mas modulos. Ademas, hgace uso del modulo ``pam\_rootok.so'' que hace que solo tenga extio si el usuario tiene el UID a 0 (es el usuario root).
+
+\subsection{/etc/pam.d/chsh}
+El comando ``chsh'' permite cambiar la shell por defecto del usuario que lo invoca. Si no se le pasa ningun parametro se activa el modo interactivo para realizar el cambio de shell.
+
+El contenido del archivo es el siguiente:
+
+%imagen de chsh
+
+
+Como se puede ver en la linea 8, esta llamada lo que hace es prohibir el cambio de shell a no ser que se encuentre listada en ``/etc/shells''. Esto se consigue mediante el campo de control ``required'', que provocará un fallo de autenticacion en el sistema (ejecutará la linea siguiente, pero al ser irrelevante, no pasa nada) si el modulo falla. Tambien se consguie mediente la llamada al modulo ``pam\_shells.so'', que hace que si la shell pasada como parametro no se encuentra en ``/etc/shells'' dé un fallo.
+
+La funcion de la linea 12 es de permitir al superusuario cambiar la shell sin ser necesdario introducir la contraseña. Esto se realiza mediante el campo de control ``sufficient'' y el modulo ``pam\_rootok.so''. Con ``sufficient'', cuando la orden tiene exito retorna sin ejecutar los demas modulos \textbf{COMPROBAR AFIRMACION: (Como es el ultimo puede retornar sin prblema)}. Ademas, con el modulo ``pam\_rootok.so'' autoriza al usuario con el UID 0 (root).
+
 \end{document}
