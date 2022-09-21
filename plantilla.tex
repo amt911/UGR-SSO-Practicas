@@ -199,11 +199,37 @@ La funcion de la linea 12 es de permitir al superusuario cambiar la shell sin se
 
 
 \section{Quinto ejercicio}
-Cabe destacar que en Ubuntu 22.04 los modulos de PAM no se encontraban en el directorio ``/etc/lib/security'', sino en el direcotiro ``/usr/lib/x86\_64-linux-gnu/security''. Los he tenido que encontrar con el comando ``find / -name ``pam\_*.so''''
+%Cabe destacar que en Ubuntu 22.04 los modulos de PAM no se encontraban en el directorio ``/etc/lib/security'', sino en el direcotiro ``/usr/lib/x86\_64-linux-gnu/security''. Los he tenido que encontrar con el comando ``find / -name ``pam\_*.so''''
 
 %imagen de la salida
 \subsection{Apartado a}
+Es necesario modificar el archivo PAM ``common-password'' y en Ubuntu 22.04 ya como primera linea aparece el uso del modulo ``pam\_pwquality''. 
 
+Ahora bien si leemos el manual de este modulo con ``man 8 pam\_pwquality'' se puede ver que hay un argumento denominado ``minlen'' y que valor por defecto es 8. No obstante, no se puede bajar del valor 4, ya que es un limite que tiene ``Cracklib'' y mostrara que la contrasñae es muy corta. Por eso, voy a poner el limite a \textbf{15 caracteres}.
+
+%foto del argumento modificado de common-password
+
+Y ahora al usar el comando ``passwd'' y poner una contraseña con menos de 15 palabras, muestra un error:
+
+%imagen del error de passwd
+
+Y al agotarse los intentos (que son 3) se sale del programa.
 \subsection{Apartado b}
+En esta parte he restringido el acceso al comando ``su'' para así evitar que un usuario que ponga el comando sin ``sudo'' pueda entrar. Si ponen ``sudo su'' sí van a poder entrar, pero esto es así ya que son usuarios administradores (y es una decisión de diseño, ya que en otro caso no podría usar nadie ``sudo''), en ese caso lo recomendable es deshabilitar el acceso al grupo ``sudo'' (en el caso de Ubuntu) para que no lo pueda usar (editando el archivo sudoers mediante el comando ``visudo'').
 
+Para conseguir esto, es neceasrio modificar el arcvhio ``/etc/pam.d/su'' y añadir la siguiente línea al principio:
+
+%foto de la linea de /etc/pam/su
+
+Ahora, al ejecutar el comando ``su'' con un usuario nomral aparece lo siguiente:
+
+%foto de fallo de autenticacion
+
+
+En cambio, si el usuario puede usar ``sudo'', si puede acceder.
+
+%foto del usuario prueba que no puede entrar
+%caption: el usuario que se ha creado en esta practica no tiene permisos de sudo y por tanto no puede entrar de ninguna manera
+
+La línea que he añadido lo que hace es comproba que la cuenta sea root (UID=0) y en caso de no serlo, no sigue ejecutando el archivo provocando un error de autenticación.
 \end{document}
