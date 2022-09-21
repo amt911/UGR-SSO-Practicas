@@ -232,4 +232,20 @@ En cambio, si el usuario puede usar ``sudo'', si puede acceder.
 %caption: el usuario que se ha creado en esta practica no tiene permisos de sudo y por tanto no puede entrar de ninguna manera
 
 La línea que he añadido lo que hace es comproba que la cuenta sea root (UID=0) y en caso de no serlo, no sigue ejecutando el archivo provocando un error de autenticación.
+
+
+\section{Sexto ejercicio}
+En Ubuntu 22.04 los cambios de contraseña no se almacenan en ``/var/log/messages'', sino en ``/var/log/auth.log''. \href{https://ubuntu.com/tutorials/viewing-and-monitoring-log-files#2-log-files-locations}{Enlace} a la guía.
+
+
+Voy a crear el usuario ``ejercicio6'' y le voy a cambiar la contraseña:
+
+%foto de la creacion y cambio de la contraseña de ejercicio6
+
+Y ahora, al mostrar el archivo ``/var/log/auth.log'' aparecen las siguientes lineas:
+
+%/var/log/auth.log con la linea de cambio de contraseña de ejercicio6
+
+\section{Séptimo ejercicio}
+
 \end{document}
