@@ -291,10 +291,27 @@ Y ahora voy a inicar sesion con el usuario ``prueba'' y lohout para ver como se 
 
 %foto de last today con prueba casi arriba del todo.
 \subsection{/var/log/utmp}
+Muestra los usuarios que estan \textit{loggeados} en el sistema. Se puede obtener esta cinfromacion con la orden ``who''.
 
+%who normal
+
+AHora si inicio sesion con el usuario ``prueba'' deberia aparecer con el comando anterior:
+
+%foto con el usuario prueba apareciendo
 \subsection{/var/log/btmp}
+Muestra los intentos fallidos de inicio de sesion en el sismtea. Se puede obtener con la orden ``lastb''.
 
+%foto de la orden lastb
+
+Ahora, si hago que fallo el inicio de sesion del usuario ``prueba'' deberia de salir:
+
+%foto de la orden lastb con prueba el primero
 \subsection{/var/log/sudo}
-
+Este archivo, al menos en Ubuntu, no existe, por tanto no puedo mostrar informacion al respecto sobre la actividad del uso de ``sudo''.
 \subsection{/var/log/messages}
+En Ubuntu (no sé si en otras distribuciones también) ya no existe este archivo porque duplicaba informacion con ``/var/log/syslog''. Por tanto, voy a mostrar este archivo:
+
+%foto del archivo syslog
+
+
 \end{document}
