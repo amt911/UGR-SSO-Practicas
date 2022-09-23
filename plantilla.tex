@@ -313,5 +313,35 @@ En Ubuntu (no sé si en otras distribuciones también) ya no existe este archivo
 
 %foto del archivo syslog
 
+\subsection{Noveno ejercicio}
+\subsection{PC de mi casa}
+Para comprobar los intentos de inicio de sesion fallidos en el ordenador de mi casa, voy a usar ``lastb'':
 
+%foto de lastb de torre-amd
+Como se puede observar, el unico intento fallido de inicio de sesion que he tenido ha sido provocado por mi en el momento de hacer esta parte del ejercicio.
+
+Ahora, muestro con el comando ``last'' los login y logout del sitema:
+
+%last pc casa
+
+POr lo que puedo ber, no ha habido ningun inicio en el ssistema por ssh (se mostraria en la tercera columna la direccion IP del que lo ha intentado).
+
+POr ultimo, con la orden ``lastlog'' muestro los inicios de sesion producidos en el sistema.
+
+%lastlog casa
+
+COmo se puede ver, no hay ninguno en el que aparezca ssh y los inicios de sesion me concuerdan, lo cual me puede indicar que el sistema no ha sido (a simple vista) comprometido.
+\subsection{PC de prácticas (máquina virtual)}
+Voy a usar los mismo comandoos para la maquina virtual y comprobar su seguridad. Para suponer que el sistema ha sido comprometido, he usado SSH desde el ordenador de mi casa (host) hacia la maquina virtual.
+
+%lastb
+COmo se puede ver, la direccion IP ``192.168.122.1'' ha intentado conectarse a la maquona con el usuario ``andres'' por SSH. 
+
+%last
+Se puede observar que alguien ha entrado al sistema con SSH usando el usuario ``andres''.
+
+%lastlog
+Aqui tambien se puede observar que alguien ha accedido con la misma direccion IP anterior mediante SSH y ha conseguido iniciar sesion en el sistema.
+
+Segun estos datos, suponiendo que no hubiera sido yo, se podria decir que alguien ha intentado acceder al sistema y ha conseguido iniciar sesion como el usuario ``andres''. Una vez sacada esta conclusion, lo recomendable es detectar los cambios que ha realizado en el sistema y el tradico de red para ver que posibles datos se ha podido llevar.
 \end{document}
