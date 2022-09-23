@@ -244,8 +244,57 @@ Voy a crear el usuario ``ejercicio6'' y le voy a cambiar la contraseña:
 
 Y ahora, al mostrar el archivo ``/var/log/auth.log'' aparecen las siguientes lineas:
 
-%/var/log/auth.log con la linea de cambio de contraseña de ejercicio6
+%img /var/log/auth.log con la linea de cambio de contraseña de ejercicio6
 
 \section{Séptimo ejercicio}
+Para empezar, el propio archivon de sudoers recomienda usar la orden ``visudo''. POr tanto, es necesario usar ``visudo'' para que no haya problemas después. Además, por defecto usa el editor ``vi'', esto se puede cambiar usando el comando siguiente:
 
+\verb|EDITOR=nano visudo|
+
+Ahora, voy a asignarle permisos para usar sudo al usuario ``prueba'' que no se encuentra en el grupo ``sudo'', que es el que usa Ubuntu para dar permisos.
+
+%foto de los grupos de prueba junto con sudo su fallido
+
+Si añadimos la siguiente linea en el archivo ``sudoers'' tendremos acceso con sudo:
+
+%foto con la modificacion
+
+
+Y ahora al hacer una prueba se puede ver que ya funciona:
+
+%foto de whoami con sudo su funcionando
+
+\section{Octavo ejercicio}
+Voy a examinar cada uno de los archivos y comprobar que se registran eventos que realizaré. Para ello, voy a dividir la explicacion en subsecciones para cada uno de los archivos.
+
+\subsection{/var/log/lastlog}
+ESte archivo almacena informacion sobre le ultimo inicio de sesion de los usuarios. Para acceder a la informacion es necesairio utilizar el comando ``lastlog'':
+
+%foto de lastlog
+
+Como se puede ver, el usuario ``ejercicio6'' nunca ha iniciado sesion en el sistema. Ahora si inicio sesion y vuelvo a usar la orden ``lastlog'' aparece lo siguiente:
+
+%foto de lastlog con el usuario ejercicio6 con fecha
+
+Ahora como se puede ver aparece la fecha del ultimo inicio de sesion del usuario ``ejercicio6''.
+
+\subsection{/var/log/wtmp}
+Almacena los login y logout de los distintos usuarios del sistema. Se accede con el comando ``last''. 
+
+%foto de last normal
+
+Ahora con el comando ``last --since today'' muestra solo la informacion de hoy.
+
+%foto de last today
+
+Y ahora voy a inicar sesion con el usuario ``prueba'' y lohout para ver como se almacena la informacion:
+
+%foto de last today con prueba casi arriba del todo.
+\subsection{/var/log/utmp}
+
+\subsection{/var/log/btmp}
+
+\subsection{/var/log/sudo}
+
+\subsection{/var/log/messages}
 \end{document}
