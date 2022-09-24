@@ -124,25 +124,37 @@ En este ejercicio se pide modificar el valor de la variable ``LOGIN\_TIMEOUT'' y
 
 Para ello, modifico la variable, que estaba por defecto a 60 segundos:
 
-%imagen del archivo con 60
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/tout60.png}
+    \caption{Valor por defecto.}
+\end{figure}
 
 Y lo cambio a otro valor, por ejemplo, 5 segundos:
 
-%imagen del archivo con 5
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/tout5.png}
+    \caption{Valor cambiado a 5 segundos.}
+\end{figure}
 
 A continuacion, creo el usuario llamado ``prueba'', le cambio la contraseña y hago login con él desde la terminal. Cuando se encuentre en la parte de pedir la contraseña de este usuario nuevo, se espera un tiempo hasta que la terminal devuevla un mensaje:
 
-%mensaje de que han pasado 5 segundos
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/tout5login.png}
+\end{figure}
 
 Como se puede ver, pone que han pasado 5 segundos y el acceso ha caducado.
 
-Ahora, pruebo con otro valor, por ejemplo \textbf{PONER AQUI EL TIEMPO QUE QEURIA} segundos:
+Ahora, pruebo con otro valor, por ejemplo \textbf{12} segundos:
 
-%imagen de timeout a otro valor
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/tout12.png}
+\end{figure}
 
 E intento iniciar sesion de nueov con el usuario ``prueba'' y espero en la parte de la contraseña.
 
-%imagen timout nuevo
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/tout12login.png}
+\end{figure}
 
 Como se puede ver, el timeout ahora es distinto.
 
@@ -154,17 +166,18 @@ Para ello, mediante la orden ``touch'' creo el archivo denominado ``ejercicio3''
 
 Ahora bien, al menos en Ubuntu 22.04 no están las ordenes ``getacl/setacl'', sino que se llaman ``getfacl/setfacl''. El resultado no varía y tienen las mismas sintaxis.
 
-%foto del get original
-%caption: se puede ver que solo el usuario ``andres'' tiene los permisos
-
-Ahora, con la orden ``setfacl'' se le dará al usuario ``prueba'' permisos ``rw''.
-
-%foto del comando
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/getfaclorg.png}
+    \caption{se puede ver que solo el usuario ``andres'' tiene los permisos}
+\end{figure}
 
 
-Y ahora mostramos con ``getfacl'' el archivo anterior:
+Ahora, con la orden \verb|setfacl -m u:prueba:rw ejercicio3| se le dará al usuario ``prueba'' permisos ``rw''. Y de nuevo mostramos con ``getfacl'' el archivo anterior:
 
-%foto del get nuevo
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/getfaclnew.png}
+    \caption{se puede ver que solo el usuario ``andres'' tiene los permisos}
+\end{figure}
 
 Como se puede observar, ahora aparece una linea que indica que el usuario ``prueba'' tiene permisos ``rw''.
 
@@ -172,7 +185,9 @@ Como se puede observar, ahora aparece una linea que indica que el usuario ``prue
 \section{Ejercicio 4}
 Con el comando ``ls'' muestro los archivos que se encuentran en el directorio ``/etc/pam.d'':
 
-%IMAGEN ARCHIVOS PAM.D
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lspam.png}
+\end{figure}
 
 A continuacion explicare dos archivos:
 
@@ -181,7 +196,9 @@ Permite cambiar la informacion personal de un usuario tales como: el nombre, el 
 
 El contenido del archivo es:
 
-%imagen del chfn
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/pamchfn.png}
+\end{figure}
 
 La funcion de la linea 7 es para no pedir la contraseña al usuario root cuando esté usando este comando. Para ello, hace uso del campo de control sufficient, que hace que si tiene exito retorne sin ejecutar mas modulos. Ademas, hgace uso del modulo ``pam\_rootok.so'' que hace que solo tenga extio si el usuario tiene el UID a 0 (es el usuario root).
 
@@ -190,7 +207,9 @@ El comando ``chsh'' permite cambiar la shell por defecto del usuario que lo invo
 
 El contenido del archivo es el siguiente:
 
-%imagen de chsh
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/pamchsh.png}
+\end{figure}
 
 
 Como se puede ver en la linea 8, esta llamada lo que hace es prohibir el cambio de shell a no ser que se encuentre listada en ``/etc/shells''. Esto se consigue mediante el campo de control ``required'', que provocará un fallo de autenticacion en el sistema (ejecutará la linea siguiente, pero al ser irrelevante, no pasa nada) si el modulo falla. Tambien se consguie mediente la llamada al modulo ``pam\_shells.so'', que hace que si la shell pasada como parametro no se encuentra en ``/etc/shells'' dé un fallo.
@@ -199,19 +218,20 @@ La funcion de la linea 12 es de permitir al superusuario cambiar la shell sin se
 
 
 \section{Quinto ejercicio}
-%Cabe destacar que en Ubuntu 22.04 los modulos de PAM no se encontraban en el directorio ``/etc/lib/security'', sino en el direcotiro ``/usr/lib/x86\_64-linux-gnu/security''. Los he tenido que encontrar con el comando ``find / -name ``pam\_*.so''''
-
-%imagen de la salida
 \subsection{Apartado a}
 Es necesario modificar el archivo PAM ``common-password'' y en Ubuntu 22.04 ya como primera linea aparece el uso del modulo ``pam\_pwquality''. 
 
 Ahora bien si leemos el manual de este modulo con ``man 8 pam\_pwquality'' se puede ver que hay un argumento denominado ``minlen'' y que valor por defecto es 8. No obstante, no se puede bajar del valor 4, ya que es un limite que tiene ``Cracklib'' y mostrara que la contrasñae es muy corta. Por eso, voy a poner el limite a \textbf{15 caracteres}.
 
-%foto del argumento modificado de common-password
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/passwordminlen15.png}
+\end{figure}
 
 Y ahora al usar el comando ``passwd'' y poner una contraseña con menos de 15 palabras, muestra un error:
 
-%imagen del error de passwd
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/passwordminlen15passwd.png}
+\end{figure}
 
 Y al agotarse los intentos (que son 3) se sale del programa.
 \subsection{Apartado b}
@@ -219,17 +239,23 @@ En esta parte he restringido el acceso al comando ``su'' para así evitar que un
 
 Para conseguir esto, es neceasrio modificar el arcvhio ``/etc/pam.d/su'' y añadir la siguiente línea al principio:
 
-%foto de la linea de /etc/pam/su
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/sudeny.png}
+\end{figure}
 
 Ahora, al ejecutar el comando ``su'' con un usuario nomral aparece lo siguiente:
 
-%foto de fallo de autenticacion
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/sudenyuser.png}
+\end{figure}
 
 
 En cambio, si el usuario puede usar ``sudo'', si puede acceder.
 
-%foto del usuario prueba que no puede entrar
-%caption: el usuario que se ha creado en esta practica no tiene permisos de sudo y por tanto no puede entrar de ninguna manera
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/sudenyuserprueba.png}
+    \caption{el usuario que se ha creado en esta practica no tiene permisos de sudo y por tanto no puede entrar de ninguna manera}
+\end{figure}
 
 La línea que he añadido lo que hace es comproba que la cuenta sea root (UID=0) y en caso de no serlo, no sigue ejecutando el archivo provocando un error de autenticación.
 
@@ -240,11 +266,15 @@ En Ubuntu 22.04 los cambios de contraseña no se almacenan en ``/var/log/message
 
 Voy a crear el usuario ``ejercicio6'' y le voy a cambiar la contraseña:
 
-%foto de la creacion y cambio de la contraseña de ejercicio6
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/createejercicio6.png}
+\end{figure}
 
 Y ahora, al mostrar el archivo ``/var/log/auth.log'' aparecen las siguientes lineas:
 
-%img /var/log/auth.log con la linea de cambio de contraseña de ejercicio6
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/authcreateejercicio6.png}
+\end{figure}
 
 \section{Séptimo ejercicio}
 Para empezar, el propio archivon de sudoers recomienda usar la orden ``visudo''. POr tanto, es necesario usar ``visudo'' para que no haya problemas después. Además, por defecto usa el editor ``vi'', esto se puede cambiar usando el comando siguiente:
@@ -253,16 +283,22 @@ Para empezar, el propio archivon de sudoers recomienda usar la orden ``visudo''.
 
 Ahora, voy a asignarle permisos para usar sudo al usuario ``prueba'' que no se encuentra en el grupo ``sudo'', que es el que usa Ubuntu para dar permisos.
 
-%foto de los grupos de prueba junto con sudo su fallido
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/sudoprueba.png}
+\end{figure}
 
 Si añadimos la siguiente linea en el archivo ``sudoers'' tendremos acceso con sudo:
 
-%foto con la modificacion
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/sudoersprueba.png}
+\end{figure}
 
 
 Y ahora al hacer una prueba se puede ver que ya funciona:
 
-%foto de whoami con sudo su funcionando
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/sudopruebaok.png}
+\end{figure}
 
 \section{Octavo ejercicio}
 Voy a examinar cada uno de los archivos y comprobar que se registran eventos que realizaré. Para ello, voy a dividir la explicacion en subsecciones para cada uno de los archivos.
@@ -270,11 +306,15 @@ Voy a examinar cada uno de los archivos y comprobar que se registran eventos que
 \subsection{/var/log/lastlog}
 ESte archivo almacena informacion sobre le ultimo inicio de sesion de los usuarios. Para acceder a la informacion es necesairio utilizar el comando ``lastlog'':
 
-%foto de lastlog
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lastlogejercicio6never.png}
+\end{figure}
 
 Como se puede ver, el usuario ``ejercicio6'' nunca ha iniciado sesion en el sistema. Ahora si inicio sesion y vuelvo a usar la orden ``lastlog'' aparece lo siguiente:
 
-%foto de lastlog con el usuario ejercicio6 con fecha
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lastlogejercicio6ok.png}
+\end{figure}
 
 Ahora como se puede ver aparece la fecha del ultimo inicio de sesion del usuario ``ejercicio6''.
 
