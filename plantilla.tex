@@ -26,6 +26,10 @@
 A continuación, voy a explicar el formato y el significado de cada uno de los campos. Para ello, voy a dividir cada archivo en subsecciones:
 
 \subsection{/etc/passwd}
+\textbf{Formato:} \verb|nombre_login:contra_encriptada:UID:GID:comentario:shell|
+%foto
+\bigskip
+
 Este fichero está formado por líneas de 7 campos separados por ``:''. Los campos y sus significados son los siguientes:
 
 \begin{enumerate}
@@ -48,6 +52,10 @@ Este fichero está formado por líneas de 7 campos separados por ``:''. Los camp
 
 
 \subsection{/etc/group}
+\textbf{Formato: }\verb|nombre_grupo:contra:GID:usuario1,usuario2,...|
+%foto
+\bigskip
+
 Este fichero está formado por 4 campos separados por ``:''. EL significado de cada campo es el siguiente:
 
 \begin{enumerate}
@@ -59,6 +67,10 @@ Este fichero está formado por 4 campos separados por ``:''. EL significado de c
     \item \textbf{Usuarios: }Lista de ususarios separados por coma (``,'') los cuales son miembros del grupo. 
 \end{enumerate}
 \subsection{/etc/shadow}
+\textbf{Formato: }\verb|login:pass:last_change:min_age:max_age:pass_warn:pass_inact:acc_exp:reserved|
+
+\bigskip
+
 Este fichero está formado por líneas de 9 campos separados por ``:''. Los campos y sus significados son los siguientes:
 
 \begin{enumerate}
@@ -103,6 +115,10 @@ Este fichero está formado por líneas de 9 campos separados por ``:''. Los camp
 \end{enumerate}
 
 \subsection{/etc/gshadow}
+\textbf{Formato: }\verb|group_name:encrypted_pass:admin1,admin2,...:member1,member2,...|
+
+\bigskip
+%foto
 Este fichero está tambien formado por 4 campos separados por el símbolo ``:''. El significado de cada campo es el siguiente:
 
 \begin{enumerate}
