@@ -27,7 +27,12 @@ A continuación, voy a explicar el formato y el significado de cada uno de los c
 
 \subsection{/etc/passwd}
 \textbf{Formato:} \verb|nombre_login:contra_encriptada:UID:GID:comentario:shell|
-%foto
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/passwdfile.png}
+    \caption{Ejemplo de entradas en el archivo.}
+\end{figure}
+
 \bigskip
 
 Este fichero está formado por líneas de 7 campos separados por ``:''. Los campos y sus significados son los siguientes:
@@ -53,7 +58,12 @@ Este fichero está formado por líneas de 7 campos separados por ``:''. Los camp
 
 \subsection{/etc/group}
 \textbf{Formato: }\verb|nombre_grupo:contra:GID:usuario1,usuario2,...|
-%foto
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/groupfile.png}
+    \caption{Ejemplo de entradas en el archivo.}    
+\end{figure}
+
 \bigskip
 
 Este fichero está formado por 4 campos separados por ``:''. EL significado de cada campo es el siguiente:
@@ -68,6 +78,11 @@ Este fichero está formado por 4 campos separados por ``:''. EL significado de c
 \end{enumerate}
 \subsection{/etc/shadow}
 \textbf{Formato: }\verb|login:pass:last_change:min_age:max_age:pass_warn:pass_inact:acc_exp:reserved|
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/shadowfile.png}
+    \caption{Ejemplo de entradas en el archivo.}    
+\end{figure}
 
 \bigskip
 
@@ -118,7 +133,12 @@ Este fichero está formado por líneas de 9 campos separados por ``:''. Los camp
 \textbf{Formato: }\verb|group_name:encrypted_pass:admin1,admin2,...:member1,member2,...|
 
 \bigskip
-%foto
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/gshadowfile.png}
+    \caption{Ejemplo de entradas en el archivo.}    
+\end{figure}
+
 Este fichero está tambien formado por 4 campos separados por el símbolo ``:''. El significado de cada campo es el siguiente:
 
 \begin{enumerate}
