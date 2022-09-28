@@ -1,7 +1,4 @@
-%TODO: CORREGIR COMANDOS PARA QUE SE VEAN CON VERB
-%TODO: INTENTAR QUITAR LA MORRAYA QUE NO SIRVA
-%TODO: INTENTAR NO REPETIR TANTAS COSAS EN EL EJERCICIO 3
-%TODO: REVISAR DOCUMENTO PARA FALLOS ORTOGRAFICOS/GRAMATICALES
+%TODO: ARREGLAR EJERCICIO 1B
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -9,7 +6,7 @@
 \usepackage{listings}
 \usepackage[a4paper, total={6in, 10in}]{geometry}
 
-\title{SSO Práctica 1}
+\title{SSO Práctica 1 Sesión 2}
 \author{Andrés Merlo Trujillo}
 \date{}
 \hypersetup{
@@ -27,13 +24,94 @@
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
 
-\addcontentsline{toc}{subsection}{/etc/passwd}
-\subsection*{/etc/passwd}
-\textbf{Formato:} \verb|nombre_login:contra_encriptada:UID:GID:comentario:shell|
+\addcontentsline{toc}{subsection}{Apartado A}
+\subsection*{Apartado A}
+Mediante la orden \verb|lsof -i| ejecutada como root, podemos obtener la informacion de los servicios y procesos que tienen alguna conexion abierta o archivo abierto.
+
+%foto de lsof -i
+
+La orden ofrece 9 columnas con los siguientes signifiacdos:
+
+\begin{itemize}
+    \item \textbf{COMMAND: }Nombre del comando asociado al proceso/archivo.
+    \item \textbf{PID: }Process IDentificator (identificador de proceso).
+    \item \textbf{USER: }UID del usuario al que pertenece el proceso/archivo.
+    \item \textbf{FD: }Descriptor de fichero.
+    \item \textbf{TYPE: }Tipo de archivo asociado al mismo (GDIR, GREG, ...) o indica el tipo de conexion (en cpaa de red) (IPv4, IPv6, X.25, etc.).
+    \item \textbf{DEVICE: }Numero de dispotivio.
+    \item \textbf{SIZE/OFF: }Tamaño del archivo.
+    \item \textbf{NODE: }Numero de nodo/inodo de un fichero o el procotolo en capa de transporte (TCP, UDP, ...).
+    \item \textbf{NAME: }Punto de montaje y sistema de archivos que usa el archivo abierto. Tambien puede significar la direccion local o remota de internet o de un socket.
+\end{itemize}
+
+A continuación explicaré dos procesos de la salida del comando anterior:
+
+\addcontentsline{toc}{subsubsection}{sshd}
+\subsubsection*{sshd}
+\begin{itemize}
+    \item \textbf{COMMAND: }sshd
+    \item \textbf{PID: }1319
+    \item \textbf{USER: }root
+    \item \textbf{FD: }3u/4u (FDs 3 y 4. La letra ``u'' indica acceso de lectura y escritua)
+    \item \textbf{TYPE: }IPv4/IPv6 (está a la espera de recibir algo en las dos versiones del protocolo IP.)
+    \item \textbf{DEVICE: }22997/23008
+    \item \textbf{SIZE/OFF: }0t0 (Offset, el segundo ``0'' indica que no hay offset)
+    \item \textbf{NODE: }TCP (usan este protocolo de transporte porque asegura que se reciben los paquetes mediante ACKs).
+    \item \textbf{NAME: }*:ssh (LISTEN) (El asterisco indica que espera de cualquier IP, en el puerto ssh (configurable, por defecto el 22)).
+\end{itemize}
+
+\addcontentsline{toc}{subsubsection}{avahi-daemon}
+\subsubsection*{avahi-daemon}
+\begin{itemize}
+    \item \textbf{COMMAND: }avahi-dae (avahi-daemon)
+    \item \textbf{PID: }1144
+    \item \textbf{USER: }avahi
+    \item \textbf{FD: }14u (FD 14. La letra ``u'' indica acceso de lectura y escritua)
+    \item \textbf{TYPE: }IPv6
+    \item \textbf{DEVICE: }22668
+    \item \textbf{SIZE/OFF: }0t0 (Offset, el segundo ``0'' indica que no hay offset)
+    \item \textbf{NODE: }UDP
+    \item \textbf{NAME: }*:53167 (Cualquier IP en el puerto 53167).
+\end{itemize}
+
+
+\addcontentsline{toc}{subsection}{Apartado B}
+\subsection*{Apartado B}
+Leyendo el manual, hace falta usar el switch ``-i'', como en el apartado anterior, y añadiendo que busque las conexiones con el servicio ``ssh''. Por tanto, el comando quedaria asi: \verb|lsof -i :ssh|.
+
+%foto del comando sin ssh desde host
+
+Ahora mismo no hay nadie conectado, solo estan los ``daemons'' a la escucha de peticiones de conexion. Si ahora me conecto desde el otra maquina virtual a la de Ubuntu, la salida es la siguiente:
+
+%foto del comando con ssh desde host.
+
+Aparecen dos lineas nuevas y en el apartado \verb|NAME| se ve que la conexion es entre el usuario ``andres-kvm'' (Ubuntu) usando el servicio ``ssh'' (en mi caso es el puerto 22)  y el usuario ``archlinux'' en el puerto 57686, que es un puerto que se asigna aleatoriamente para enviar informacion (escuchar) a ``archlinux''.
+
+Con la orden \verb|lsof -c sshd| se puede ver los archivos que tiene abiertos SSH:
+
+%foto de alguno importante
+
+Como se puede ver, aparece el usuario conectado y con el mismo PID aparecen todos los archivos abiertos por \verb|sshd|
+
+
+\addcontentsline{toc}{subsection}{Apartado C}
+\subsection*{Apartado C}
+Para mostrar los archivos que usa un proceso concreto, es necesario referenciarlo con su PID. Para ello es necesario usar el siguiente comando: \verb|lsof -p PID|.
+
+%foto de lsof -p 
+
+Y ahora para ver los archivos que esta usando un usuario concreto, se debe usar el switch ``-u'': \verb|lsof -u usuario|
+
+%foto de lsof -u
+%caption: salida de lsof -u andres, se puede ver que en la tercera columna solo aparece ese usuario.
+
+Por ultimo, para obtener los archivos que tiene abiertos un proceso \textbf{Y} un usuario, es necesario usar el switch adicional ``-a''. Esto es debido a que por defecto solo busca, en caso de haber varios switches, utilizando un criterio \textbf{OR}. Comando: \verb|lsof -u usuario -p PID -a|
+
+%img de eso
+
+\end{document}
 
 %\begin{figure}[H]
 %    \includegraphics[width=\textwidth]{imagenes/passwdfile.png}
 %    \caption{Ejemplo de entradas en el archivo.}
 %\end{figure}
-
-\end{document}
