@@ -147,6 +147,81 @@ Y al ver los warnings se ve que no aparece ninguno:
 
 Por tanto, a nivel de advertencias el sistema ya está ``seguro'' (nunca se puede decir con seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como ``fail2ban''. No son fallos demasiado críticos.
 
+\addcontentsline{toc}{subsection}{Apartado B MAL}
+\subsection*{Apartado B MAL}
+Con el comando \verb|lynis show tests| podemos obtener todos los tests que realiza:
+
+%comando lynis show tests
+
+Y se puede ver que el codigo de uno de ellos es ``MALW-*''
+
+%comando resaltando el test
+%caption: El test MALW-3280 es el que me interesa
+Ahroa con el comando \verb|lynis show details MALW-3280|
+%foto 1
+%foto 2
+
+Por tanto, la lista de antivirus que escanea son: Avast, Avira, epagd, CrowdStrike, CylanceSvc, esets\_daemon, Kapersky, McAffee, savscand, SophosScanD, rtvscand, Symantec management client service, Symantec Endpoint Protection configuration service, synoavd, Trend Micro Deep Anti Malware component y TmccMac to test for Trend Micro anti-virus (macOS)
+
+Además, con la orden \verb|lynis show tests| también aparecen en la seccion ``MALW'' algunos antivirus extras, estos son: ClamAV, Rootkit Hunter, LMD y chkrootkit
+
+%foto de la lista resaltada
+
+
+Ahora instalaré ``unhide'' con la orden \verb|sudo apt install unhide|. Una vez hecho esto, seguirá saliendo en el report que no tengo antivirus.
+
+%foto de lo ocurrido con unhide que no sale
+
+\addcontentsline{toc}{subsection}{Apartado B}
+\subsection*{Apartado B}
+Lynis permite añadir nuevos tests o modificar existentes para añadirles más funcionalidad. Todo esto se realiza mediante los archivos que se encuentran en el directorio \verb|/usr/share/lynis/include|.
+
+En este caso, para poder ver los antivirus que detecta actualmente es necesario inspeccionar el archivo \verb|/usr/share/lynis/include/tests_malware|:
+
+%fotos del contenido de este archivo (incluyendo algun codigo con el comentario del antivirus)
+
+Como se puede ver, detecta los siguientes antivirus: 
+
+\begin{itemize}
+    \item Avast
+    \item Avira
+    \item Bitdefender
+    \item ClamAV (clamd, clamscan y freshclam)
+    \item CrowdStrike
+    \item ESET
+    \item Kapersky
+    \item McAffee
+    \item chkrootkit
+    \item rkhunter
+    \item LMD
+    \item CylanceSvc
+    \item SophosScanD
+    \item Symantec
+    \item Synology Antivirus Essential
+    \item Trend Micro Anti Malware for Linux
+\end{itemize}
+
+Ahora voy a instalar el programa ``unhide'', el cual no es detectado por Lynis:
+
+%foto de que no encuetra antivirus
+
+AHora, modifico el archivo anterior y añado la macro:
+
+%foto con la nueva macro
+
+Y añadimos un nuvo ``if'' en la cadena de ``if'' del test ``MALW-3280'':
+
+%foto de ese if resaltado
+
+Y ahora al pasar el test ya aparece como que existe un antivirus:
+
+%foto del test OK en malware scanner
+
+Y si desinstalo \verb|unhide| aparece como que no hay ningún antivirus instalado:
+
+%foto del test no OK en malware scanner
+
+
 \end{document}
 
 %\begin{figure}[H]
