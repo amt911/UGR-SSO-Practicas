@@ -108,6 +108,44 @@ Y ahora para ver los archivos que esta usando un usuario concreto, se debe usar 
 Por ultimo, para obtener los archivos que tiene abiertos un proceso \textbf{Y} un usuario, es necesario usar el switch adicional ``-a''. Esto es debido a que por defecto solo busca, en caso de haber varios switches, utilizando un criterio \textbf{OR}. Comando: \verb|lsof -u usuario -p PID -a|
 
 %img de eso
+%caption: archivos aboiertps por el PID PID y el usuario root
+
+\addcontentsline{toc}{section}{Ejercicio 2}
+\section*{Ejercicio 2}
+\addcontentsline{toc}{subsection}{Apartado A}
+\subsection*{Apartado A}
+Para ver que vulnerabilidades hay en el sistema es neceasrio instalar el paquete \verb|lynis| junto al comando \verb|lynis audit system|.
+
+%foto de los resultados
+
+Y las posibles vulnerabilidades son las siguientes:
+
+%foto de los warnings
+
+Como se puede ver, solo hay dos avisos. Suponiendo que es una maquina para desarrollar aplicaciones, voy a listar los grados de severidad:
+
+\begin{itemize}
+    \item \textbf{Found one or more vulnerable packages. [PKGS-7392]} $\rightarrow$ Severidad: \textbf{Alta}. Puede llegar a ser muy peligroso, ya que pueden ser vulnerabilidades que potencialmente le otorguen acceso root al sistema. 
+    
+    \textbf{Solucion: }Para solucionarlo, es necesario actualizar todos los paquetes del sistema con la orden (en Ubuntu y en distros basadas en Debian) \verb|sudo apt upgrade|.
+
+
+    \item \textbf{iptables module(s) loaded, but no rules active [FIRE-4512]} $\rightarrow$ Severidad: \textbf{Alta}. \verb|iptables| es un paquete que se utiliza principalmente junto a un firewall para permitir/bloquear cierto trafico. Si fuera una compañia importante sin firewall, podria darse el caso de que alguien entrase en el sistema y obtuviese datos sin permiso, produciendo asi un ``leak'' o incluso chantaje.
+    
+    \textbf{Solucion: }La solucion es habilitar el firewall y aplicarle las reglas que sean necesarias. En Ubuntu viene instalado por defecto \verb|ufw|, pero viene deshabilitado por defecto. Para habilitarlo hay que poner: \verb|sudo ufw enable| y con la orden \verb|sudo ufw status verbose| se pueden ver las reglas (por defecto prohibe trafico entrante y permite trafico saliente, prohibiendo asi conexiones del tipo SSH).
+
+    %foto del status
+\end{itemize}
+
+Ahora, ejecutando de nuevo \verb|lynis audit system| aparece la siguiente puntuacion:
+
+%puntuacion nueva (mas alta)
+
+Y al ver los warnings se ve que no aparece ninguno:
+
+%foto de great, no warnings
+
+Por tanto, a nivel de advertencias el sistema ya está ``seguro'' (nunca se puede decir con seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como ``fail2ban''. No son fallos demasiado críticos.
 
 \end{document}
 
