@@ -222,6 +222,49 @@ Y si desinstalo \verb|unhide| aparece como que no hay ningún antivirus instalad
 %foto del test no OK en malware scanner
 
 
+\addcontentsline{toc}{section}{Ejercicio 3}
+\subsection*{Ejercicio 3}
+
+Para instalar la herramienta en Ubuntu se ejecuta la orden: \verb|sudo apt install rkhunter|.
+
+\addcontentsline{toc}{subsection}{Apartado A}
+\subsection*{Apartado A}
+Para realizar el analisis es necesario ejecutar el comando: \verb|sudo rkhunter --check|
+
+%foto de la salida de rkhunter
+
+Como se puede ver en los resultados, aparece que hay alguna advertencia. Ahora, revisando el archivo \verb|/var/log/rkhunter.log| y buscando la palabra ``Warning''.
+
+%foto de los warnings
+
+La primera advertencia tiene que ver con la posible modificacion del binario \verb|lwp-request|, ne caso de ser una modificacion malintencionada, un atacante podria modificar el binario para recibir todos los datos que se envian o reciben a traves de el (por ejemplo, si se usa SSH, poner un keylogger para obtener las contraseñas).
+
+%foto
+El segundo error tiene que ver con la seguridad de la configuracion SSH, ya que el parametro ``PermitRootLogin'' no esta puesto a ninugn valro y por defecto puede ser ``Yes'', dando la posibilidad de que un atacante pueda a entrar al sistema por SSH como usuario root.
+
+
+\addcontentsline{toc}{subsection}{Apartado B}
+\subsection*{Apartado B}
+El primer error se puedde solucionar cambiando en \verb|/etc/rkhunter.log| el macro \verb|PKGMGR| (por defecto esta a ``NONE''), en el caso de Ubuntu y Debian se debe cambiar a ``DPKG''. Este cambio hace que coteje con los hashes de cada paquete para ver si ha sido modificado malintencionadamente:
+
+%Foto de la macro cambiada
+
+Una vez realizado este cambio, se debe ejecutar el comando \verb|sudo rkhunter --propupd|.
+
+
+Todo esto se puede solucionar cambiando en el archivo de configuracion \verb|/etc/ssh/sshd_config| y poniendo el parametro a ``no'':
+
+%foto del cambio
+
+Ademas, es necesario reinicar el servicio con el comando \verb|systemctl restart ssh|.
+
+Por ultimo, para comprobar que el sistema ya no tiene mas advertencias, ejcutamos de nuevo la orden \verb|sudo rkhunter --check|:
+
+%foto del resumen de warnings
+
+Y como se puede ver, le sistema ya es seguro, eran solo falsos positivos en el primer caso, y en el segundo una mala configuracion de un servicio importante.
+
+
 \end{document}
 
 %\begin{figure}[H]
