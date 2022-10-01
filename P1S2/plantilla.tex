@@ -28,7 +28,9 @@
 \subsection*{Apartado A}
 Mediante la orden \verb|lsof -i| ejecutada como root, podemos obtener la informacion de los servicios y procesos que tienen alguna conexion abierta o archivo abierto.
 
-%foto de lsof -i
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lsofi.png}
+\end{figure}
 
 La orden ofrece 9 columnas con los siguientes signifiacdos:
 
@@ -79,17 +81,23 @@ A continuación explicaré dos procesos de la salida del comando anterior:
 \subsection*{Apartado B}
 Leyendo el manual, hace falta usar el switch ``-i'', como en el apartado anterior, y añadiendo que busque las conexiones con el servicio ``ssh''. Por tanto, el comando quedaria asi: \verb|lsof -i :ssh|.
 
-%foto del comando sin ssh desde host
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lsofisshlisten.png}
+\end{figure}
 
 Ahora mismo no hay nadie conectado, solo estan los ``daemons'' a la escucha de peticiones de conexion. Si ahora me conecto desde el otra maquina virtual a la de Ubuntu, la salida es la siguiente:
 
-%foto del comando con ssh desde host.
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lsofissharch.png}
+\end{figure}
 
 Aparecen dos lineas nuevas y en el apartado \verb|NAME| se ve que la conexion es entre el usuario ``andres-kvm'' (Ubuntu) usando el servicio ``ssh'' (en mi caso es el puerto 22)  y el usuario ``archlinux'' en el puerto 57686, que es un puerto que se asigna aleatoriamente para enviar informacion (escuchar) a ``archlinux''.
 
 Con la orden \verb|lsof -c sshd| se puede ver los archivos que tiene abiertos SSH:
 
-%foto de alguno importante
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lsofcsshd.png}
+\end{figure}
 
 Como se puede ver, aparece el usuario conectado y con el mismo PID aparecen todos los archivos abiertos por \verb|sshd|
 
@@ -98,17 +106,23 @@ Como se puede ver, aparece el usuario conectado y con el mismo PID aparecen todo
 \subsection*{Apartado C}
 Para mostrar los archivos que usa un proceso concreto, es necesario referenciarlo con su PID. Para ello es necesario usar el siguiente comando: \verb|lsof -p PID|.
 
-%foto de lsof -p 
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lsofp.png}
+\end{figure} 
 
 Y ahora para ver los archivos que esta usando un usuario concreto, se debe usar el switch ``-u'': \verb|lsof -u usuario|
 
-%foto de lsof -u
-%caption: salida de lsof -u andres, se puede ver que en la tercera columna solo aparece ese usuario.
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lsofuandres.png}
+    \caption{Salida de ``lsof -u andres'', se puede ver que en la tercera columna solo aparece ese usuario.}
+\end{figure}
 
 Por ultimo, para obtener los archivos que tiene abiertos un proceso \textbf{Y} un usuario, es necesario usar el switch adicional ``-a''. Esto es debido a que por defecto solo busca, en caso de haber varios switches, utilizando un criterio \textbf{OR}. Comando: \verb|lsof -u usuario -p PID -a|
 
-%img de eso
-%caption: archivos aboiertps por el PID PID y el usuario root
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lsofand.png}
+    \caption{Archivos aboiertps por el PID PID \textbf{Y} el usuario root}
+\end{figure}
 
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
@@ -116,11 +130,15 @@ Por ultimo, para obtener los archivos que tiene abiertos un proceso \textbf{Y} u
 \subsection*{Apartado A}
 Para ver que vulnerabilidades hay en el sistema es neceasrio instalar el paquete \verb|lynis| junto al comando \verb|lynis audit system|.
 
-%foto de los resultados
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lynisresults1.png}
+\end{figure}
 
 Y las posibles vulnerabilidades son las siguientes:
 
-%foto de los warnings
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lyniswarnings1.png}
+\end{figure}
 
 Como se puede ver, solo hay dos avisos. Suponiendo que es una maquina para desarrollar aplicaciones, voy a listar los grados de severidad:
 
@@ -134,43 +152,52 @@ Como se puede ver, solo hay dos avisos. Suponiendo que es una maquina para desar
     
     \textbf{Solucion: }La solucion es habilitar el firewall y aplicarle las reglas que sean necesarias. En Ubuntu viene instalado por defecto \verb|ufw|, pero viene deshabilitado por defecto. Para habilitarlo hay que poner: \verb|sudo ufw enable| y con la orden \verb|sudo ufw status verbose| se pueden ver las reglas (por defecto prohibe trafico entrante y permite trafico saliente, prohibiendo asi conexiones del tipo SSH).
 
-    %foto del status
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{imagenes/ufwstatus.png}
+    \end{figure}
 \end{itemize}
 
 Ahora, ejecutando de nuevo \verb|lynis audit system| aparece la siguiente puntuacion:
 
-%puntuacion nueva (mas alta)
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lynisresults2.png}
+\end{figure}
 
 Y al ver los warnings se ve que no aparece ninguno:
 
-%foto de great, no warnings
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lyniswarnings2.png}
+\end{figure}
 
-Por tanto, a nivel de advertencias el sistema ya está ``seguro'' (nunca se puede decir con seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como ``fail2ban''. No son fallos demasiado críticos.
+Por tanto, a nivel de advertencias el sistema ya está ``seguro'' (nunca se puede decir con seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como \verb|fail2ban|. No son fallos demasiado críticos.
 
-\addcontentsline{toc}{subsection}{Apartado B MAL}
-\subsection*{Apartado B MAL}
-Con el comando \verb|lynis show tests| podemos obtener todos los tests que realiza:
-
-%comando lynis show tests
-
-Y se puede ver que el codigo de uno de ellos es ``MALW-*''
-
-%comando resaltando el test
-%caption: El test MALW-3280 es el que me interesa
-Ahroa con el comando \verb|lynis show details MALW-3280|
-%foto 1
-%foto 2
-
-Por tanto, la lista de antivirus que escanea son: Avast, Avira, epagd, CrowdStrike, CylanceSvc, esets\_daemon, Kapersky, McAffee, savscand, SophosScanD, rtvscand, Symantec management client service, Symantec Endpoint Protection configuration service, synoavd, Trend Micro Deep Anti Malware component y TmccMac to test for Trend Micro anti-virus (macOS)
-
-Además, con la orden \verb|lynis show tests| también aparecen en la seccion ``MALW'' algunos antivirus extras, estos son: ClamAV, Rootkit Hunter, LMD y chkrootkit
-
-%foto de la lista resaltada
-
-
-Ahora instalaré ``unhide'' con la orden \verb|sudo apt install unhide|. Una vez hecho esto, seguirá saliendo en el report que no tengo antivirus.
-
-%foto de lo ocurrido con unhide que no sale
+%\addcontentsline{toc}{subsection}{Apartado B MAL}
+%\subsection*{Apartado B MAL}
+%Con el comando \verb|lynis show tests| podemos obtener todos los tests que realiza:
+%
+%%comando lynis show tests
+%
+%Y se puede ver que el codigo de uno de ellos es ``MALW-*''
+%
+%%comando resaltando el test
+%%caption: El test MALW-3280 es el que me interesa
+%Ahroa con el comando \verb|lynis show details MALW-3280|
+%%foto 1
+%%foto 2
+%
+%Por tanto, la lista de antivirus que escanea son: Avast, Avira, epagd, CrowdStrike, CylanceSvc, esets\_daemon, Kapersky, McAffee, savscand, SophosScanD, rtvscand, Symantec management client service, Symantec Endpoint Protection configuration service, synoavd, Trend Micro Deep Anti Malware component y TmccMac to test for Trend Micro anti-virus (macOS)
+%
+%Además, con la orden \verb|lynis show tests| también aparecen en la seccion ``MALW'' algunos antivirus extras, estos son: ClamAV, Rootkit Hunter, LMD y chkrootkit
+%
+%%foto de la lista resaltada
+%
+%
+%Ahora instalaré ``unhide'' con la orden \verb|sudo apt install unhide|. Una vez hecho esto, seguirá saliendo en el report que no tengo antivirus.
+%
+%%foto de lo ocurrido con unhide que no sale
+%
+%
+%
 
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
@@ -178,7 +205,9 @@ Lynis permite añadir nuevos tests o modificar existentes para añadirles más f
 
 En este caso, para poder ver los antivirus que detecta actualmente es necesario inspeccionar el archivo \verb|/usr/share/lynis/include/tests_malware|:
 
-%fotos del contenido de este archivo (incluyendo algun codigo con el comentario del antivirus)
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/antivirus1.png}
+\end{figure}
 
 Como se puede ver, detecta los siguientes antivirus: 
 
@@ -201,25 +230,35 @@ Como se puede ver, detecta los siguientes antivirus:
     \item Trend Micro Anti Malware for Linux
 \end{itemize}
 
-Ahora voy a instalar el programa ``unhide'', el cual no es detectado por Lynis:
+Ahora voy a instalar el programa \verb|unhide|, el cual no es detectado por Lynis:
 
-%foto de que no encuetra antivirus
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lynisresults3unhide.png}
+\end{figure}
 
 AHora, modifico el archivo anterior y añado la macro:
 
-%foto con la nueva macro
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/macro.png}
+\end{figure}
 
-Y añadimos un nuvo ``if'' en la cadena de ``if'' del test ``MALW-3280'':
+Y añadimos un nuvo ``if'' en la cadena del test ``MALW-3280'':
 
-%foto de ese if resaltado
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/unhidetest.png}
+\end{figure}
 
 Y ahora al pasar el test ya aparece como que existe un antivirus:
 
-%foto del test OK en malware scanner
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lynisok.png}
+\end{figure}
 
 Y si desinstalo \verb|unhide| aparece como que no hay ningún antivirus instalado:
 
-%foto del test no OK en malware scanner
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/lynisnook.png}
+\end{figure}
 
 
 \addcontentsline{toc}{section}{Ejercicio 3}
