@@ -26,24 +26,24 @@
 
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
-Mediante la orden \verb|lsof -i| ejecutada como root, podemos obtener la informacion de los servicios y procesos que tienen alguna conexion abierta o archivo abierto.
+Mediante la orden \verb|lsof -i| ejecutada como root, podemos obtener la información de los servicios y procesos que tienen alguna conexión abierta o archivo abierto.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofi.png}
 \end{figure}
 
-La orden ofrece 9 columnas con los siguientes signifiacdos:
+La orden ofrece 9 columnas con los siguientes significados:
 
 \begin{itemize}
     \item \textbf{COMMAND: }Nombre del comando asociado al proceso/archivo.
     \item \textbf{PID: }Process IDentificator (identificador de proceso).
     \item \textbf{USER: }UID del usuario al que pertenece el proceso/archivo.
     \item \textbf{FD: }Descriptor de fichero.
-    \item \textbf{TYPE: }Tipo de archivo asociado al mismo (GDIR, GREG, ...) o indica el tipo de conexion (en cpaa de red) (IPv4, IPv6, X.25, etc.).
-    \item \textbf{DEVICE: }Numero de dispotivio.
+    \item \textbf{TYPE: }Tipo de archivo asociado al mismo (GDIR, GREG, ...) o indica el tipo de conexión (en capa de red) (IPv4, IPv6, X.25, etc.).
+    \item \textbf{DEVICE: }Número de dispositivo.
     \item \textbf{SIZE/OFF: }Tamaño del archivo.
-    \item \textbf{NODE: }Numero de nodo/inodo de un fichero o el procotolo en capa de transporte (TCP, UDP, ...).
-    \item \textbf{NAME: }Punto de montaje y sistema de archivos que usa el archivo abierto. Tambien puede significar la direccion local o remota de internet o de un socket.
+    \item \textbf{NODE: }Número de nodo/inodo de un fichero o el protocolo en capa de transporte (TCP, UDP, ...).
+    \item \textbf{NAME: }Punto de montaje y sistema de archivos que usa el archivo abierto. También puede significar la dirección local o remota de internet o de un socket.
 \end{itemize}
 
 A continuación explicaré dos procesos de la salida del comando anterior:
@@ -54,11 +54,11 @@ A continuación explicaré dos procesos de la salida del comando anterior:
     \item \textbf{COMMAND: }sshd
     \item \textbf{PID: }1319
     \item \textbf{USER: }root
-    \item \textbf{FD: }3u/4u (FDs 3 y 4. La letra ``u'' indica acceso de lectura y escritua)
+    \item \textbf{FD: }3u/4u (FD 3 y 4. La letra ``u'' indica acceso de lectura y escritura)
     \item \textbf{TYPE: }IPv4/IPv6 (está a la espera de recibir algo en las dos versiones del protocolo IP.)
     \item \textbf{DEVICE: }22997/23008
     \item \textbf{SIZE/OFF: }0t0 (Offset, el segundo ``0'' indica que no hay offset)
-    \item \textbf{NODE: }TCP (usan este protocolo de transporte porque asegura que se reciben los paquetes mediante ACKs).
+    \item \textbf{NODE: }TCP (usan este protocolo de transporte porque asegura que se reciben los paquetes mediante ACK).
     \item \textbf{NAME: }*:ssh (LISTEN) (El asterisco indica que espera de cualquier IP, en el puerto ssh (configurable, por defecto el 22)).
 \end{itemize}
 
@@ -68,7 +68,7 @@ A continuación explicaré dos procesos de la salida del comando anterior:
     \item \textbf{COMMAND: }avahi-dae (avahi-daemon)
     \item \textbf{PID: }1144
     \item \textbf{USER: }avahi
-    \item \textbf{FD: }14u (FD 14. La letra ``u'' indica acceso de lectura y escritua)
+    \item \textbf{FD: }14u (FD 14. La letra ``u'' indica acceso de lectura y escritura)
     \item \textbf{TYPE: }IPv6
     \item \textbf{DEVICE: }22668
     \item \textbf{SIZE/OFF: }0t0 (Offset, el segundo ``0'' indica que no hay offset)
@@ -79,19 +79,19 @@ A continuación explicaré dos procesos de la salida del comando anterior:
 
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
-Leyendo el manual, hace falta usar el switch ``-i'', como en el apartado anterior, y añadiendo que busque las conexiones con el servicio ``ssh''. Por tanto, el comando quedaria asi: \verb|lsof -i :ssh|.
+Leyendo el manual, hace falta usar el switch \verb|-i|, como en el apartado anterior, y añadiendo que busque las conexiones con el servicio ``ssh''. Por tanto, el comando quedaría así: \verb|lsof -i :ssh|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofisshlisten.png}
 \end{figure}
 
-Ahora mismo no hay nadie conectado, solo estan los ``daemons'' a la escucha de peticiones de conexion. Si ahora me conecto desde el otra maquina virtual a la de Ubuntu, la salida es la siguiente:
+Ahora mismo no hay nadie conectado, solo están los ``daemons'' a la escucha de peticiones de conexión. Si ahora me conecto desde otra máquina virtual a la de Ubuntu, la salida es la siguiente:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofissharch.png}
 \end{figure}
 
-Aparecen dos lineas nuevas y en el apartado \verb|NAME| se ve que la conexion es entre el usuario ``andres-kvm'' (Ubuntu) usando el servicio ``ssh'' (en mi caso es el puerto 22)  y el usuario ``archlinux'' en el puerto 57686, que es un puerto que se asigna aleatoriamente para enviar informacion (escuchar) a ``archlinux''.
+Aparecen dos líneas nuevas y en el apartado \verb|NAME| se ve que la conexión es entre el usuario ``andres-kvm'' (Ubuntu) usando el servicio ``ssh'' (en mi caso es el puerto 22)  y el usuario ``archlinux'' en el puerto 57686, que es un puerto que se asigna aleatoriamente para enviar información (escuchar) a ``archlinux''.
 
 Con la orden \verb|lsof -c sshd| se puede ver los archivos que tiene abiertos SSH:
 
@@ -110,25 +110,25 @@ Para mostrar los archivos que usa un proceso concreto, es necesario referenciarl
     \includegraphics[width=\textwidth]{imagenes/lsofp.png}
 \end{figure} 
 
-Y ahora para ver los archivos que esta usando un usuario concreto, se debe usar el switch ``-u'': \verb|lsof -u usuario|
+Y ahora para ver los archivos que está usando un usuario concreto, se debe usar el switch \verb|-u|: \verb|lsof -u usuario|
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofuandres.png}
     \caption{Salida de ``lsof -u andres'', se puede ver que en la tercera columna solo aparece ese usuario.}
 \end{figure}
 
-Por ultimo, para obtener los archivos que tiene abiertos un proceso \textbf{Y} un usuario, es necesario usar el switch adicional ``-a''. Esto es debido a que por defecto solo busca, en caso de haber varios switches, utilizando un criterio \textbf{OR}. Comando: \verb|lsof -u usuario -p PID -a|
+Por último, para obtener los archivos que tiene abiertos un proceso \textbf{Y} un usuario, es necesario usar el switch adicional \verb|-a|. Esto es debido a que por defecto solo busca, en caso de haber varios switches, utilizando un criterio \textbf{OR}. Comando: \verb|lsof -u usuario -p PID -a|
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofand.png}
-    \caption{Archivos aboiertps por el PID PID \textbf{Y} el usuario root}
+    \caption{Archivos abiertos por el PID 4029 \textbf{Y} el usuario root}
 \end{figure}
 
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
-Para ver que vulnerabilidades hay en el sistema es neceasrio instalar el paquete \verb|lynis| junto al comando \verb|lynis audit system|.
+Para ver que vulnerabilidades hay en el sistema es necesario instalar el paquete \verb|lynis| junto al comando \verb|lynis audit system|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisresults1.png}
@@ -140,24 +140,24 @@ Y las posibles vulnerabilidades son las siguientes:
     \includegraphics[width=\textwidth]{imagenes/lyniswarnings1.png}
 \end{figure}
 
-Como se puede ver, solo hay dos avisos. Suponiendo que es una maquina para desarrollar aplicaciones, voy a listar los grados de severidad:
+Como se puede ver, solo hay dos avisos. Suponiendo que es una máquina para desarrollar aplicaciones, voy a listar los grados de severidad:
 
 \begin{itemize}
     \item \textbf{Found one or more vulnerable packages. [PKGS-7392]} $\rightarrow$ Severidad: \textbf{Alta}. Puede llegar a ser muy peligroso, ya que pueden ser vulnerabilidades que potencialmente le otorguen acceso root al sistema. 
     
-    \textbf{Solucion: }Para solucionarlo, es necesario actualizar todos los paquetes del sistema con la orden (en Ubuntu y en distros basadas en Debian) \verb|sudo apt upgrade|.
+    \textbf{Solución: }Para solucionarlo, es necesario actualizar todos los paquetes del sistema con la orden (en Ubuntu y en distros basadas en Debian) \verb|sudo apt upgrade|.
 
 
-    \item \textbf{iptables module(s) loaded, but no rules active [FIRE-4512]} $\rightarrow$ Severidad: \textbf{Alta}. \verb|iptables| es un paquete que se utiliza principalmente junto a un firewall para permitir/bloquear cierto trafico. Si fuera una compañia importante sin firewall, podria darse el caso de que alguien entrase en el sistema y obtuviese datos sin permiso, produciendo asi un ``leak'' o incluso chantaje.
+    \item \textbf{iptables module(s) loaded, but no rules active [FIRE-4512]} $\rightarrow$ Severidad: \textbf{Alta}. \verb|iptables| es un paquete que se utiliza principalmente junto a un firewall para permitir o bloquear cierto tráfico. Si fuera una compañía importante sin firewall, podría darse el caso de que alguien entrase en el sistema y obtuviese datos sin permiso, produciendo así un ``leak'' o incluso pidiendo un rescate para no publicar la información (que en este caso podrían ser aplicaciones que no se desean que se publiquen aún).
     
-    \textbf{Solucion: }La solucion es habilitar el firewall y aplicarle las reglas que sean necesarias. En Ubuntu viene instalado por defecto \verb|ufw|, pero viene deshabilitado por defecto. Para habilitarlo hay que poner: \verb|sudo ufw enable| y con la orden \verb|sudo ufw status verbose| se pueden ver las reglas (por defecto prohibe trafico entrante y permite trafico saliente, prohibiendo asi conexiones del tipo SSH).
+    \textbf{Solución: }La solución es habilitar el firewall y aplicarle las reglas que sean necesarias. En Ubuntu viene instalado por defecto \verb|ufw|, pero viene deshabilitado. Para habilitarlo hay que poner: \verb|sudo ufw enable| y con la orden \verb|sudo ufw status verbose| se pueden ver las reglas (por defecto prohíbe tráfico entrante y permite trafico saliente, prohibiendo así conexiones del tipo SSH).
 
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{imagenes/ufwstatus.png}
     \end{figure}
 \end{itemize}
 
-Ahora, ejecutando de nuevo \verb|lynis audit system| aparece la siguiente puntuacion:
+Ahora, ejecutando de nuevo \verb|lynis audit system| aparece la siguiente puntuación:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisresults2.png}
@@ -169,35 +169,7 @@ Y al ver los warnings se ve que no aparece ninguno:
     \includegraphics[width=\textwidth]{imagenes/lyniswarnings2.png}
 \end{figure}
 
-Por tanto, a nivel de advertencias el sistema ya está ``seguro'' (nunca se puede decir con seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como \verb|fail2ban|. No son fallos demasiado críticos.
-
-%\addcontentsline{toc}{subsection}{Apartado B MAL}
-%\subsection*{Apartado B MAL}
-%Con el comando \verb|lynis show tests| podemos obtener todos los tests que realiza:
-%
-%%comando lynis show tests
-%
-%Y se puede ver que el codigo de uno de ellos es ``MALW-*''
-%
-%%comando resaltando el test
-%%caption: El test MALW-3280 es el que me interesa
-%Ahroa con el comando \verb|lynis show details MALW-3280|
-%%foto 1
-%%foto 2
-%
-%Por tanto, la lista de antivirus que escanea son: Avast, Avira, epagd, CrowdStrike, CylanceSvc, esets\_daemon, Kapersky, McAffee, savscand, SophosScanD, rtvscand, Symantec management client service, Symantec Endpoint Protection configuration service, synoavd, Trend Micro Deep Anti Malware component y TmccMac to test for Trend Micro anti-virus (macOS)
-%
-%Además, con la orden \verb|lynis show tests| también aparecen en la seccion ``MALW'' algunos antivirus extras, estos son: ClamAV, Rootkit Hunter, LMD y chkrootkit
-%
-%%foto de la lista resaltada
-%
-%
-%Ahora instalaré ``unhide'' con la orden \verb|sudo apt install unhide|. Una vez hecho esto, seguirá saliendo en el report que no tengo antivirus.
-%
-%%foto de lo ocurrido con unhide que no sale
-%
-%
-%
+Por tanto, en cuanto a advertencias el sistema ya está ``seguro'' (nunca se puede decir con total seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como \verb|fail2ban|. No son fallos demasiado críticos.
 
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
@@ -218,8 +190,8 @@ Como se puede ver, detecta los siguientes antivirus:
     \item ClamAV (clamd, clamscan y freshclam)
     \item CrowdStrike
     \item ESET
-    \item Kapersky
-    \item McAffee
+    \item Kaspersky
+    \item McAfee
     \item chkrootkit
     \item rkhunter
     \item LMD
@@ -234,15 +206,17 @@ Ahora voy a instalar el programa \verb|unhide|, el cual no es detectado por Lyni
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisresults3unhide.png}
+    \caption{Indica que no hay un antivirus, cuando realmente hay un tipo de protección (unhide).}
 \end{figure}
 
-AHora, modifico el archivo anterior y añado la macro:
+Ahora, modifico el archivo anterior y añado la macro:
 
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/macro.png}
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagenes/macro.png}
 \end{figure}
 
-Y añadimos un nuvo ``if'' en la cadena del test ``MALW-3280'':
+Y añadimos un nuevo ``if'' en la cadena del test ``MALW-3280'':
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/unhidetest.png}
@@ -252,12 +226,14 @@ Y ahora al pasar el test ya aparece como que existe un antivirus:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisok.png}
+    \caption{Se puede observar el resultado en la tercera línea.}
 \end{figure}
 
 Y si desinstalo \verb|unhide| aparece como que no hay ningún antivirus instalado:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisnook.png}
+    \caption{Se puede observar el resultado en la tercera línea.}
 \end{figure}
 
 
@@ -268,40 +244,53 @@ Para instalar la herramienta en Ubuntu se ejecuta la orden: \verb|sudo apt insta
 
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
-Para realizar el analisis es necesario ejecutar el comando: \verb|sudo rkhunter --check|
+Para realizar el análisis es necesario ejecutar el comando: \verb|sudo rkhunter --check|
 
-%foto de la salida de rkhunter
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/rkhuntersalida1.png}
+\end{figure}
 
 Como se puede ver en los resultados, aparece que hay alguna advertencia. Ahora, revisando el archivo \verb|/var/log/rkhunter.log| y buscando la palabra ``Warning''.
 
-%foto de los warnings
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/warn1.png}
+\end{figure}
 
-La primera advertencia tiene que ver con la posible modificacion del binario \verb|lwp-request|, ne caso de ser una modificacion malintencionada, un atacante podria modificar el binario para recibir todos los datos que se envian o reciben a traves de el (por ejemplo, si se usa SSH, poner un keylogger para obtener las contraseñas).
+La primera advertencia tiene que ver con la posible modificación del binario \verb|lwp-request|, en caso de ser una modificación malintencionada, un atacante podría modificar el binario para recibir todos los datos que se envían o reciben a través de él (por ejemplo, si se usa SSH, poner un keylogger para obtener las contraseñas).
 
-%foto
-El segundo error tiene que ver con la seguridad de la configuracion SSH, ya que el parametro ``PermitRootLogin'' no esta puesto a ninugn valro y por defecto puede ser ``Yes'', dando la posibilidad de que un atacante pueda a entrar al sistema por SSH como usuario root.
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/warn2.png}
+\end{figure}
+
+La segunda advertencia tiene que ver con la seguridad de la configuración SSH, ya que el parámetro ``PermitRootLogin'' no está puesto a ningún valor y por defecto puede ser ``Yes'', dando la posibilidad de que un atacante pueda a entrar al sistema por SSH como usuario root.
 
 
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
-El primer error se puedde solucionar cambiando en \verb|/etc/rkhunter.log| el macro \verb|PKGMGR| (por defecto esta a ``NONE''), en el caso de Ubuntu y Debian se debe cambiar a ``DPKG''. Este cambio hace que coteje con los hashes de cada paquete para ver si ha sido modificado malintencionadamente:
+El primer error se puede solucionar cambiando en \verb|/etc/rkhunter.log| el macro \verb|PKGMGR| (por defecto esta a ``NONE''), en el caso de Ubuntu y Debian se debe cambiar a ``DPKG''. Este cambio hace que coteje con los hashes de cada paquete para ver si han sido modificados malintencionadamente:
 
-%Foto de la macro cambiada
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/rkhuntermacrodpkg.png}
+\end{figure}
 
 Una vez realizado este cambio, se debe ejecutar el comando \verb|sudo rkhunter --propupd|.
 
 
-Todo esto se puede solucionar cambiando en el archivo de configuracion \verb|/etc/ssh/sshd_config| y poniendo el parametro a ``no'':
+Todo esto se puede solucionar cambiando en el archivo de configuración \verb|/etc/ssh/sshd_config| y poniendo el parámetro a ``no'':
 
-%foto del cambio
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/sshpermit.png}
+\end{figure}
 
-Ademas, es necesario reinicar el servicio con el comando \verb|systemctl restart ssh|.
+Además, es necesario reiniciar el servicio con el comando \verb|systemctl restart ssh|.
 
-Por ultimo, para comprobar que el sistema ya no tiene mas advertencias, ejcutamos de nuevo la orden \verb|sudo rkhunter --check|:
+Por último, para comprobar que el sistema ya no tiene más advertencias, ejecutamos de nuevo la orden \verb|sudo rkhunter --check|:
 
-%foto del resumen de warnings
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/rkhunterokk.png}
+\end{figure}
 
-Y como se puede ver, le sistema ya es seguro, eran solo falsos positivos en el primer caso, y en el segundo una mala configuracion de un servicio importante.
+Y como se puede ver, el sistema ya es seguro, eran solo falsos positivos en el primer caso, y en el segundo una mala configuración de un servicio importante.
 
 
 \end{document}

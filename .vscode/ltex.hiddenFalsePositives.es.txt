@@ -30,3 +30,7 @@
 {"rule":"PUNTO_EN_ABREVIATURAS","sentence":"^\\QTambién se consigue mediante la llamada al módulo “pamshells.so”, que hace que si la shell pasada como parámetro no se encuentra en “/etc/shells” dé un fallo.\\E$"}
 {"rule":"PUNTO_EN_ABREVIATURAS","sentence":"^\\QPara conseguir esto, es necesario modificar el archivo “/etc/pam.d/su” y añadir la siguiente línea al principio:\\E$"}
 {"rule":"ESPACIO_DESPUES_DE_PUNTO","sentence":"^\\QPara conseguir esto, es necesario modificar el archivo “/etc/pam.d/su” y añadir la siguiente línea al principio:\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qsshd.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qavahi-daemon.\\E$"}
+{"rule":"SUBJUNTIVO_PASADO","sentence":"^\\QFound one or more vulnerable packages.\\E$"}
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QFound one or more vulnerable packages.\\E$"}
