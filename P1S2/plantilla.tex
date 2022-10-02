@@ -32,6 +32,8 @@ Mediante la orden \verb|lsof -i| ejecutada como root, podemos obtener la informa
     \includegraphics[width=\textwidth]{imagenes/lsofi.png}
 \end{figure}
 
+\bigskip
+
 La orden ofrece 9 columnas con los siguientes significados:
 
 \begin{itemize}
@@ -45,6 +47,8 @@ La orden ofrece 9 columnas con los siguientes significados:
     \item \textbf{NODE: }Número de nodo/inodo de un fichero o el protocolo en capa de transporte (TCP, UDP, ...).
     \item \textbf{NAME: }Punto de montaje y sistema de archivos que usa el archivo abierto. También puede significar la dirección local o remota de internet o de un socket.
 \end{itemize}
+
+\bigskip
 
 A continuación explicaré dos procesos de la salida del comando anterior:
 
@@ -91,7 +95,10 @@ Ahora mismo no hay nadie conectado, solo están los ``daemons'' a la escucha de 
     \includegraphics[width=\textwidth]{imagenes/lsofissharch.png}
 \end{figure}
 
+
 Aparecen dos líneas nuevas y en el apartado \verb|NAME| se ve que la conexión es entre el usuario ``andres-kvm'' (Ubuntu) usando el servicio ``ssh'' (en mi caso es el puerto 22)  y el usuario ``archlinux'' en el puerto 57686, que es un puerto que se asigna aleatoriamente para enviar información (escuchar) a ``archlinux''.
+
+\newpage
 
 Con la orden \verb|lsof -c sshd| se puede ver los archivos que tiene abiertos SSH:
 
@@ -101,6 +108,7 @@ Con la orden \verb|lsof -c sshd| se puede ver los archivos que tiene abiertos SS
 
 Como se puede ver, aparece el usuario conectado y con el mismo PID aparecen todos los archivos abiertos por \verb|sshd|
 
+\bigskip
 
 \addcontentsline{toc}{subsection}{Apartado C}
 \subsection*{Apartado C}
@@ -110,6 +118,8 @@ Para mostrar los archivos que usa un proceso concreto, es necesario referenciarl
     \includegraphics[width=\textwidth]{imagenes/lsofp.png}
 \end{figure} 
 
+\newpage
+
 Y ahora para ver los archivos que está usando un usuario concreto, se debe usar el switch \verb|-u|: \verb|lsof -u usuario|
 
 \begin{figure}[H]
@@ -117,12 +127,17 @@ Y ahora para ver los archivos que está usando un usuario concreto, se debe usar
     \caption{Salida de ``lsof -u andres'', se puede ver que en la tercera columna solo aparece ese usuario.}
 \end{figure}
 
+\bigskip
+
 Por último, para obtener los archivos que tiene abiertos un proceso \textbf{Y} un usuario, es necesario usar el switch adicional \verb|-a|. Esto es debido a que por defecto solo busca, en caso de haber varios switches, utilizando un criterio \textbf{OR}. Comando: \verb|lsof -u usuario -p PID -a|
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofand.png}
     \caption{Archivos abiertos por el PID 4029 \textbf{Y} el usuario root}
 \end{figure}
+
+
+\newpage
 
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
@@ -134,11 +149,15 @@ Para ver que vulnerabilidades hay en el sistema es necesario instalar el paquete
     \includegraphics[width=\textwidth]{imagenes/lynisresults1.png}
 \end{figure}
 
+\bigskip
+
 Y las posibles vulnerabilidades son las siguientes:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lyniswarnings1.png}
 \end{figure}
+
+\newpage
 
 Como se puede ver, solo hay dos avisos. Suponiendo que es una máquina para desarrollar aplicaciones, voy a listar los grados de severidad:
 
@@ -157,11 +176,15 @@ Como se puede ver, solo hay dos avisos. Suponiendo que es una máquina para desa
     \end{figure}
 \end{itemize}
 
+\bigskip
+
 Ahora, ejecutando de nuevo \verb|lynis audit system| aparece la siguiente puntuación:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisresults2.png}
 \end{figure}
+
+\newpage
 
 Y al ver los warnings se ve que no aparece ninguno:
 
@@ -170,6 +193,8 @@ Y al ver los warnings se ve que no aparece ninguno:
 \end{figure}
 
 Por tanto, en cuanto a advertencias el sistema ya está ``seguro'' (nunca se puede decir con total seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como \verb|fail2ban|. No son fallos demasiado críticos.
+
+\bigskip
 
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
@@ -180,6 +205,8 @@ En este caso, para poder ver los antivirus que detecta actualmente es necesario 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/antivirus1.png}
 \end{figure}
+
+\newpage
 
 Como se puede ver, detecta los siguientes antivirus: 
 
@@ -202,12 +229,16 @@ Como se puede ver, detecta los siguientes antivirus:
     \item Trend Micro Anti Malware for Linux
 \end{itemize}
 
+\bigskip
+
 Ahora voy a instalar el programa \verb|unhide|, el cual no es detectado por Lynis:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisresults3unhide.png}
     \caption{Indica que no hay un antivirus, cuando realmente hay un tipo de protección (unhide).}
 \end{figure}
+
+\newpage
 
 Ahora, modifico el archivo anterior y añado la macro:
 
@@ -216,18 +247,24 @@ Ahora, modifico el archivo anterior y añado la macro:
     \includegraphics[width=0.5\textwidth]{imagenes/macro.png}
 \end{figure}
 
+\bigskip
+
 Y añadimos un nuevo ``if'' en la cadena del test ``MALW-3280'':
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/unhidetest.png}
 \end{figure}
 
-Y ahora al pasar el test ya aparece como que existe un antivirus:
+\newpage
+
+Ahora al pasar el test ya aparece como que existe un antivirus:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisok.png}
     \caption{Se puede observar el resultado en la tercera línea.}
 \end{figure}
+
+\bigskip
 
 Y si desinstalo \verb|unhide| aparece como que no hay ningún antivirus instalado:
 
@@ -236,6 +273,8 @@ Y si desinstalo \verb|unhide| aparece como que no hay ningún antivirus instalad
     \caption{Se puede observar el resultado en la tercera línea.}
 \end{figure}
 
+
+\newpage
 
 \addcontentsline{toc}{section}{Ejercicio 3}
 \subsection*{Ejercicio 3}
@@ -262,8 +301,11 @@ La primera advertencia tiene que ver con la posible modificación del binario \v
     \includegraphics[width=\textwidth]{imagenes/warn2.png}
 \end{figure}
 
+\bigskip
+
 La segunda advertencia tiene que ver con la seguridad de la configuración SSH, ya que el parámetro ``PermitRootLogin'' no está puesto a ningún valor y por defecto puede ser ``Yes'', dando la posibilidad de que un atacante pueda a entrar al sistema por SSH como usuario root.
 
+\newpage
 
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
