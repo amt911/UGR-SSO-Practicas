@@ -29,6 +29,68 @@
 
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
+Con la orden \verb|aa-status| o la orden \verb|apparmor_status| se pueden ver los perfiles activos en Ubuntu:
+
+%foto de los perfiles
+%caption: como se puede ver hay 42 perfiles cargados.
+
+Ahora voy a elegir el perfil \verb|/usr/bin/man|, para poder ver el archivo del perfil asociado basta con irse al directorio \verb|/etc/apparmor.d| y el archivo se denomina igual que la ruta absoluta del mismo, pero en vez de usar ``/'' se utilizan puntos. Por tanto, el archivo deseado es: \verb|/etc/apparmor.d/usr.bin.man|.
+
+%foto del archivo
+
+%otra foto
+
+
+Las compoenntes principales son las siguientes:
+
+\begin{itemize}
+    \item \verb|#include <tunables/global>| carga un archivo que contiene las definiciones de las variables.
+    \item \verb|/usr/bin/man| Ruta absoluta del binario.
+    \item \verb|#include <abstractions/base>| obtiene los componentes de los perfiles de AppArmor para simplifcar el desarrollo de perfiles.
+    \item \verb|{,usr/}| Permite eliminar lineas innecesarias, poniendo los directorios similares dentro de la lista entre lalves. En este caso las opciones son \verb|/bin/bzip2| y \verb|/usr/bin/bzip2|
+    \item \verb|... -> &man_groff| Utiliza el perfil referenciado en la derecha cuando \verb|man| utiliza algun comando de la izquierda.
+    \item \verb|profile ... {| Perfiles secundarios que se ejecutarán cuando estos sean llamados desde el principal. Por ejemplo, mediante el enlace de otro comando desde el perfil principal cuando man lo llame.
+\end{itemize}
+
+Además, despues de la ruta de los comadnos, aparecen letras similares a los permisos de sistemas Linux, estos representan:
+
+\begin{itemize}
+    \item \textbf{r: }Modo lectura
+    \item \textbf{w: }Modo escritura
+    \item \textbf{a: }Modo adjuntar (append)
+    \item \textbf{k: }Modo de bloqueo de archivo
+    \item \textbf{l: }Modo de enlace
+    \item \textbf{ux: }Modo de ejeccion sin restricciones
+    \item \textbf{Ux: }Modo de ejeccion sin restricciones. Ademas, limpia el entorno (scrub the environment)
+    \item \textbf{px: }Ejecucion discreta del perfil
+    \item \textbf{Px: }MOdo de ejecucion discreta del perfil. Ademas, limpia el entorno (scrub the environment)
+    \item \textbf{ix: }MOdo de ejecucion heredada
+    \item \textbf{m: }Permite \verb|PROT_EXEC| con llamadas a \verb|mmap|
+    \item \textbf{Cx: }Permite transiciones a un perfil hijo. Con la C mayuscula se usa ``secure exec'' de glibc.
+\end{itemize}
+
+
+\addcontentsline{toc}{section}{Ejercicio 2}
+\section*{Ejercicio 2}
+Voy a generar un perfil para el programa \verb|nano|, para saber su ruta absoluta se puede usar la orden \verb|which nano|:
+
+%foto de which nano
+
+Ahora para generar el perfil se ejecuta el comando \verb|aa-genprof /usr/bin/nano|:
+
+%fotos
+
+Ahora pide que abramos el programa a perfilar y pulsemos en el boton de escanear.
+
+Es recomendable abrir el manual de capabilites para ver que significa cada capability con \verb|man 7 capabilities|.
+
+%foto de dar_read_search
+
+Esto permite saltarse las comoprobaciones de permisos de lecutra sobre el archivo y las comprobaciones sobre el directorio de permiso de lectura y ejecucion. Es mejor denegarlo con la tecla ``D''.
+
+%foto nanorc
+nanorc es un archivo con las configuraciones personlaizadas para el editor, al ser un archivo inofensivo se puede permitir su uso.
+
 
 
 \end{document}
