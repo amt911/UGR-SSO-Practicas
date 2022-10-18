@@ -6,7 +6,7 @@
 \usepackage{listings}
 \usepackage[a4paper, total={6in, 10in}]{geometry}
 
-\title{SSO Práctica 1 Sesión 2}
+\title{SSO Práctica 1 Sesión 3}
 \author{Andrés Merlo Trujillo}
 \date{}
 \hypersetup{
@@ -36,9 +36,18 @@ Con la orden \verb|aa-status| o la orden \verb|apparmor_status| se pueden ver lo
 
 Ahora voy a elegir el perfil \verb|/usr/bin/freshclam|, para poder ver el archivo del perfil asociado basta con irse al directorio \verb|/etc/apparmor.d| y el archivo se denomina igual que la ruta absoluta del mismo, pero en vez de usar ``/'' se utilizan puntos. Por tanto, el archivo deseado es: \verb|/etc/apparmor.d/usr.bin.freshclam|.
 
-%foto del archivo
+\addcontentsline{toc}{section}{Ejercicio 1}
+\section*{Ejercicio 1}
 
-%otra foto
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 16-13-59.png}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 16-14-08.png}
+\end{figure}
+
+\newpage
 
 Las compoenntes principales son las siguientes:
 
@@ -60,14 +69,23 @@ Las compoenntes principales son las siguientes:
     \item \verb|deny archivo| Deniega el acceso al archivo indicado.
 \end{itemize}
 
-Además, aparecen variables del tipo ``@{\dots}'', el valor de estas variables se almacenan en \verb|/etc/apparmor.d/file| donde file es el nombre de la variable. Las que aparecen en este perfil son:
+Además, aparecen variables del tipo ``@{\dots}'', el valor de estas variables se almacenan en \verb|/etc/apparmor.d/file| donde file es el nombre de la variable.
 
-%foto de proc
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 16-25-52.png}
+    \caption{Ejemplo de archivo usado por las variables, en este caso de PROC.}
+\end{figure}
+
+\bigskip
+
+Las que aparecen en este perfil son:
 
 \begin{itemize}
     \item \textbf{@\{HOME\}: }Lista de todos los \verb|home| de los usuarios, incluido el root.
     \item \textbf{@\{PROC\}: }Directorio donde procfs es montado.
 \end{itemize}
+
+\newpage
 
 Se puede ver que contiene una lista de archivos y directorios junto con sus permisos, estos son los archivos o directorios a los que puede tener acceso, determinado por los switches que se muestran a continuacion:
 
@@ -91,50 +109,79 @@ Se puede ver que contiene una lista de archivos y directorios junto con sus perm
 \section*{Ejercicio 2}
 Voy a generar un perfil para el programa \verb|nano|, la característica principal que voy a añadir es prohibirle el acceso a un archivo denominado \verb|/root/archivoProhibido| el cual contiene los siguiente:
 
-%foto del archivo prohibido
 
-, para saber su ruta absoluta se puede usar la orden \verb|which nano|:
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 16-41-05.png}
+    \caption{Contenido de ``archivoProhibido''.}
+\end{figure}
+
+Para saber su ruta absoluta se puede usar la orden \verb|which nano|:
 
 %foto de which nano
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{imagenes/which.png}
+\end{figure}
 
 Ahora para generar el perfil se ejecuta el comando \verb|aa-genprof /usr/bin/nano|:
 
-%fotos
+%Captura desde 2022-10-18 16-41-31
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{imagenes/Captura desde 2022-10-18 16-41-31.png}
+    \caption{Contenido de ``archivoProhibido''.}
+\end{figure}
 
-Ahora pide que abramos el programa a perfilar y pulsemos en el boton de escanear.
+Ahora pide que abramos el programa a perfilar y pulsemos en el boton de escanear. Abriendo \verb|nano| en otra terminal permitira continuar con el proceso.
 
+\bigskip
 
 A continuacion apareceran distintos archivos y capabilities relacionadas a las que debemos dar acceso o no.
 
-%foto de nanorc
 
-Al ser el archivo de configuracion de nano, es recomendable deshabilitar los permisos de propietario, para que los demas usuarios puedan usarlo y permitirlo.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 17-11-50.png}
+    \caption{Al pulsar la tecla ``O'' desaparece la palabra ``owner'', permitiendo acceso a todos.}
+\end{figure}
+
+Al ser el archivo de configuracion de \verb|nano|, es recomendable deshabilitar los permisos de propietario, para que los demas usuarios puedan usarlo y permitirlo.
+
+\bigskip
 
 Ademas, aparece la opción de denegar el acceso a \verb|/etc/passwd|, tras varias modificaciones he llegado a la conclusion de que es necesario para que detecte los usuarios que no sean root, por lo que hay que ponerle el mismo ajuste que a \verb|/etc/nanorc|.
 
+\bigskip
 
 Finalmente, el archivo generado por defecto es el siguiente:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 17-23-45.png}
+\end{figure}
 
-%foto del archivo generado por defecto
-
-Como se puede ver, va a prohibir el acceso a cualuqier directorio.
-
-%foto de prohibido el acceso
-
-Si se quiere que se permita acceso a los directorios \verb|/home| y \verb|/root|, pero prohibiendo el acceso a \verb|/root/archivoProhibido| se debe poner lo siguiente:
-
-%foto de la modificacion
-
-Ahora, haciendo \verb|systemctl reload apparmor| se recargan todos los perfiles.
+Esta configuracion va a prohibir por defecto el acceso a todos los directorios, salvo los explicitamente mencionados. Si se quiere que se permita acceso a los directorios \verb|/home| y \verb|/root|, pero prohibiendo el acceso a \verb|/root/archivoProhibido| se debe poner lo siguiente:
 
 
-Como se puede ver, si hago \verb|nano /root/prueba| permite la creacion del archivo.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 17-30-04.png}
+\end{figure}
 
-%foto de eso
+Ahora, haciendo \verb|systemctl reload apparmor| se recargan todos los perfiles y como se puede observar, si hago \verb|nano /root/prueba| permite la creacion del archivo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 17-26-43.png}
+\end{figure}
+
+\bigskip
 
 Sin embargo, si intento hacer \verb|nano /root/archivoProhibido| no permite ni visualizarlo:
 
-%foto de eso
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 17-26-52.png}
+\end{figure}
 
 \end{document}
 
