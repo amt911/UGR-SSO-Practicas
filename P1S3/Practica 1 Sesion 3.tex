@@ -34,25 +34,42 @@ Con la orden \verb|aa-status| o la orden \verb|apparmor_status| se pueden ver lo
 %foto de los perfiles
 %caption: como se puede ver hay 42 perfiles cargados.
 
-Ahora voy a elegir el perfil \verb|/usr/bin/man|, para poder ver el archivo del perfil asociado basta con irse al directorio \verb|/etc/apparmor.d| y el archivo se denomina igual que la ruta absoluta del mismo, pero en vez de usar ``/'' se utilizan puntos. Por tanto, el archivo deseado es: \verb|/etc/apparmor.d/usr.bin.man|.
+Ahora voy a elegir el perfil \verb|/usr/bin/freshclam|, para poder ver el archivo del perfil asociado basta con irse al directorio \verb|/etc/apparmor.d| y el archivo se denomina igual que la ruta absoluta del mismo, pero en vez de usar ``/'' se utilizan puntos. Por tanto, el archivo deseado es: \verb|/etc/apparmor.d/usr.bin.freshclam|.
 
 %foto del archivo
 
 %otra foto
 
-
 Las compoenntes principales son las siguientes:
 
+%https://manpages.debian.org/jessie/apparmor/apparmor.d.5.en.html
+
 \begin{itemize}
-    \item \verb|#include <tunables/global>| carga un archivo que contiene las definiciones de las variables.
-    \item \verb|/usr/bin/man| Ruta absoluta del binario.
-    \item \verb|#include <abstractions/base>| obtiene los componentes de los perfiles de AppArmor para simplifcar el desarrollo de perfiles.
-    \item \verb|{,usr/}| Permite eliminar lineas innecesarias, poniendo los directorios similares dentro de la lista entre lalves. En este caso las opciones son \verb|/bin/bzip2| y \verb|/usr/bin/bzip2|
-    \item \verb|... -> &man_groff| Utiliza el perfil referenciado en la derecha cuando \verb|man| utiliza algun comando de la izquierda.
-    \item \verb|profile ... {| Perfiles secundarios que se ejecutarán cuando estos sean llamados desde el principal. Por ejemplo, mediante el enlace de otro comando desde el perfil principal cuando man lo llame.
+    \item \verb|#include <tunables/global>| Carga un archivo que contiene las definiciones de las variables.
+    \item \verb|/usr/bin/freshclam| Ruta absoluta del binario.
+    \item \verb|#include <abstractions/base>| Obtiene los componentes de los perfiles de AppArmor para simplifcar el desarrollo de perfiles.
+    \item \verb|#include <abstractions/nameservice>| Incluye las reglas para permitri DNS, LDAP, NIS, SMB, contraseñas de usuarios y grupos, serivicos y ``lookups'' de protocolos
+    \item \verb|#include <abstractions/user-tmp>| Permite acceder a los directorios temporales
+    \item \verb|#include <abstractions/openssl>| Permite acceder a los archivos correspondientes a OpenSSL.
+    \item \verb|{,var/}| Permite eliminar lineas innecesarias, poniendo los directorios similares dentro de la lista entre lalves. En este caso las opciones son \verb|/run/clamav/freshclam.pid| y \verb|/var/run/clamav/freshclam.pid|
+    %\item \verb|... -> &man_groff| Utiliza el perfil referenciado en la derecha cuando \verb|man| utiliza algun comando de la izquierda.
+    %\item \verb|profile ... {| Perfiles secundarios que se ejecutarán cuando estos sean llamados desde el principal. Por ejemplo, mediante el enlace de otro comando desde el perfil principal cuando \verb|freshclam| lo llame.
+    %\item \verb|#include <abstractions/console>| Incluye acceso de lectura y escritura a los archivos de dispositivo que controlan las terminales virtuales, sshd, xterm, etc. Es necesario para proogramas que interaccionan con el usuario.
+    \item \verb|capability ...| Indica las capabilities que tiene permitidas hacer en el sistema. El listado de todas ellas se puede ver usando \verb|man 7 capabilites|.
+    \item \verb|owner archivo| Indica que solo puede accder al archivo indicado si es el propietario del mismo.
+    \item \verb|deny archivo| Deniega el acceso al archivo indicado.
 \end{itemize}
 
-Además, despues de la ruta de los comadnos, aparecen letras similares a los permisos de sistemas Linux, estos representan:
+Además, aparecen variables del tipo ``@{\dots}'', el valor de estas variables se almacenan en \verb|/etc/apparmor.d/file| donde file es el nombre de la variable. Las que aparecen en este perfil son:
+
+%foto de proc
+
+\begin{itemize}
+    \item \textbf{@\{HOME\}: }Lista de todos los \verb|home| de los usuarios, incluido el root.
+    \item \textbf{@\{PROC\}: }Directorio donde procfs es montado.
+\end{itemize}
+
+Se puede ver que contiene una lista de archivos y directorios junto con sus permisos, estos son los archivos o directorios a los que puede tener acceso, determinado por los switches que se muestran a continuacion:
 
 \begin{itemize}
     \item \textbf{r: }Modo lectura
