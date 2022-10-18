@@ -34,3 +34,4 @@
 {"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qavahi-daemon.\\E$"}
 {"rule":"SUBJUNTIVO_PASADO","sentence":"^\\QFound one or more vulnerable packages.\\E$"}
 {"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QFound one or more vulnerable packages.\\E$"}
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QAdemás, aparece la opción de denegar el acceso a \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q, tras varias modificaciones he llegado a la conclusión de que es necesario para que detecte los usuarios que no sean root, por lo que hay que ponerle el mismo ajuste que a \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
