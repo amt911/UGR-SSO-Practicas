@@ -89,7 +89,11 @@ Se puede ver que contiene una lista de archivos y directorios junto con sus perm
 
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
-Voy a generar un perfil para el programa \verb|nano|, para saber su ruta absoluta se puede usar la orden \verb|which nano|:
+Voy a generar un perfil para el programa \verb|nano|, la característica principal que voy a añadir es prohibirle el acceso a un archivo denominado \verb|/root/archivoProhibido| el cual contiene los siguiente:
+
+%foto del archivo prohibido
+
+, para saber su ruta absoluta se puede usar la orden \verb|which nano|:
 
 %foto de which nano
 
@@ -99,16 +103,38 @@ Ahora para generar el perfil se ejecuta el comando \verb|aa-genprof /usr/bin/nan
 
 Ahora pide que abramos el programa a perfilar y pulsemos en el boton de escanear.
 
-Es recomendable abrir el manual de capabilites para ver que significa cada capability con \verb|man 7 capabilities|.
 
-%foto de dar_read_search
+A continuacion apareceran distintos archivos y capabilities relacionadas a las que debemos dar acceso o no.
 
-Esto permite saltarse las comoprobaciones de permisos de lecutra sobre el archivo y las comprobaciones sobre el directorio de permiso de lectura y ejecucion. Es mejor denegarlo con la tecla ``D''.
+%foto de nanorc
 
-%foto nanorc
-nanorc es un archivo con las configuraciones personlaizadas para el editor, al ser un archivo inofensivo se puede permitir su uso.
+Al ser el archivo de configuracion de nano, es recomendable deshabilitar los permisos de propietario, para que los demas usuarios puedan usarlo y permitirlo.
+
+Ademas, aparece la opción de denegar el acceso a \verb|/etc/passwd|, tras varias modificaciones he llegado a la conclusion de que es necesario para que detecte los usuarios que no sean root, por lo que hay que ponerle el mismo ajuste que a \verb|/etc/nanorc|.
 
 
+Finalmente, el archivo generado por defecto es el siguiente:
+
+%foto del archivo generado por defecto
+
+Como se puede ver, va a prohibir el acceso a cualuqier directorio.
+
+%foto de prohibido el acceso
+
+Si se quiere que se permita acceso a los directorios \verb|/home| y \verb|/root|, pero prohibiendo el acceso a \verb|/root/archivoProhibido| se debe poner lo siguiente:
+
+%foto de la modificacion
+
+Ahora, haciendo \verb|systemctl reload apparmor| se recargan todos los perfiles.
+
+
+Como se puede ver, si hago \verb|nano /root/prueba| permite la creacion del archivo.
+
+%foto de eso
+
+Sin embargo, si intento hacer \verb|nano /root/archivoProhibido| no permite ni visualizarlo:
+
+%foto de eso
 
 \end{document}
 
