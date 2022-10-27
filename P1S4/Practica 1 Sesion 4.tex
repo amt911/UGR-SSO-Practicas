@@ -53,6 +53,8 @@ Y ahora para mostrar las claves públicas se utiliza el comando \verb|gpg --list
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 11-46-16.png}
 \end{figure}
 
+\newpage
+
 Y para mostrar las claves privadas se utiliza el comando \verb|gpg --list-secret-keys|:
 
 %Captura desde 2022-10-19 16-55-26
@@ -70,9 +72,9 @@ Primero voy a crear un archivo de texto cualquiera como el siguiente:
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-19 16-57-15.png}
 \end{figure}
 
-Y para cifrar el archivo se utiliza la orden \verb|gpg --armor --recipient correo --encrypt file|. Para ello, en la parte de ``recipient'' es necesario poner el correo que se haya usado para crear las claves en el ejercicio anterior, o cualquier otro que se encuentre en un servidor como \verb|keyserver.ubuntu.com| o incluso importado localmente entre personas. Yo voy a realizar la primera de todas, encriptarlo con mi propia clave para mi correo.
+Para cifrar el archivo se utiliza la orden \verb|gpg --armor --recipient correo --encrypt file|. Para ello, en la parte de ``recipient'' es necesario poner el correo que se haya usado para crear las claves en el ejercicio anterior, o cualquier otro que se encuentre en un servidor como \verb|keyserver.ubuntu.com| o incluso importado localmente entre personas. Yo voy a realizar la primera de todas, encriptarlo con mi propia clave para mi correo.
 
-\bigskip
+\newpage
 
 Esto generará un fichero con la extensión ``.asc'' el cual, si se abre, contiene lo siguiente:
 
@@ -95,6 +97,7 @@ Por último, para descifrar el mensaje se utiliza la orden \verb|gpg --decrypt p
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-27 18-35-01.png}
 \end{figure}
 
+\newpage
 
 \addcontentsline{toc}{subsection}{Apartado C}
 \subsection*{Apartado C}
@@ -150,6 +153,8 @@ Y con la orden \verb|gpg --armor --recipient correo --encrypt file| se encripta 
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-11-31.png}
 \end{figure}
 
+\newpage
+
 Ahora, me descargo el archivo que mi compañero me ha enviado por correo electrónico:
 
 \begin{figure}[H]
@@ -169,6 +174,8 @@ Como se puede ver, también ha ``encriptado'' el mensaje del interior, se puede 
 \end{figure}
 
 Y finalmente se puede leer el mensaje sin problema alguno.
+
+\newpage
 
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
