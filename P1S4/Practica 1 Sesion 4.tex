@@ -6,7 +6,7 @@
 \usepackage{listings}
 \usepackage[a4paper, total={6in, 10in}]{geometry}
 
-\title{SSO Práctica 1 Sesión 3}
+\title{SSO Práctica 1 Sesión 4}
 \author{Andrés Merlo Trujillo}
 \date{}
 \hypersetup{
@@ -40,13 +40,13 @@ Para crear las claves personales es necesario ejecutar la orden \verb|gpg --gen-
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-19 16-42-45.png}
 \end{figure}
 
-A continuación aparece un sumario de los datos rellenados y al aceptarlos aparece un cuador de texto para introducir la contraseña. A continuacion pide al usuario realizar diversas cosas para generar entropia y que la clave sea lo mas aleatoria posible como mover el raton, realizar actividad de red y de disco, etc.
+A continuación aparece un sumario de los datos rellenados y al aceptarlos aparece un cuadro de texto para introducir la contraseña. Seguidamente, pide al usuario realizar diversas cosas para generar entropía y que la clave sea lo más aleatoria posible como mover el ratón, realizar actividad de red y de disco, etc.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 11-46-02.png}
 \end{figure}
 
-Y ahora para mostrar las claves publicas se utiliza el comando \verb|gpg --list-keys|:
+Y ahora para mostrar las claves públicas se utiliza el comando \verb|gpg --list-keys|:
 
 %Captura desde 2022-10-19 16-55-18
 \begin{figure}[H]
@@ -70,9 +70,11 @@ Primero voy a crear un archivo de texto cualquiera como el siguiente:
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-19 16-57-15.png}
 \end{figure}
 
-Y ahora para cifrar el archivo se utiliza el comando \verb|gpg --armor --recipient correo --encrypt file|. Para ello, en la parte de ``recipient'' es necesairo poner el correo que se haya usado para crear las claves en el ejercicio anterior, o cualquier otro que se encuentre en algún servidor como \verb|keyserver.ubuntu.com| o incluso importado localmente entre personas. Yo voy a realizar la primera de todas, encriptarlo con mi propia clave para mi correo.
+Y para cifrar el archivo se utiliza la orden \verb|gpg --armor --recipient correo --encrypt file|. Para ello, en la parte de ``recipient'' es necesario poner el correo que se haya usado para crear las claves en el ejercicio anterior, o cualquier otro que se encuentre en un servidor como \verb|keyserver.ubuntu.com| o incluso importado localmente entre personas. Yo voy a realizar la primera de todas, encriptarlo con mi propia clave para mi correo.
 
-Esto generara un fichero con la extension ``.asc'' el cual, si se abre, contiene lo siguiente:
+\bigskip
+
+Esto generará un fichero con la extensión ``.asc'' el cual, si se abre, contiene lo siguiente:
 
 %Captura desde 2022-10-19 17-06-08
 \begin{figure}[H]
@@ -80,7 +82,7 @@ Esto generara un fichero con la extension ``.asc'' el cual, si se abre, contiene
 \end{figure}
 
 
-Por ultimo, para descifrar el mensaje se utiliza la orden \verb|gpg --decrypt prueba.asc|, se pedira la contraseña que se inserto al crear las claves.
+Por último, para descifrar el mensaje se utiliza la orden \verb|gpg --decrypt prueba.asc|, se pedirá la contraseña que se insertó al crear las claves.
 
 %Captura desde 2022-10-19 17-07-30
 \begin{figure}[H]
@@ -99,66 +101,68 @@ Por ultimo, para descifrar el mensaje se utiliza la orden \verb|gpg --decrypt pr
 
 Me he juntado con Carlos Salas Eiroa (csalaseiroa@correo.ugr.es) para mandarnos archivos cifrados a cada uno.
 
-Para que él pueda obtener mi clave publica, es necesario subirla a un servidor como \url{https://keyserver.ubuntu.com/}. Para ello, necesito obtener el ID de la clave publica mia en formato corto con la orden \verb|gpg --list-keys --keyid-format SHORT|.
+Para que él pueda obtener mi clave pública, es necesario subirla a un servidor como \url{https://keyserver.ubuntu.com/}. Para ello, necesito obtener el ID de la clave pública mía en formato corto con la orden \verb|gpg --list-keys --keyid-format SHORT|.
 
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 11-54-58.png}
-    \caption{El ID corto se encuentra en la tercera linea despues de ``rsa3072/''.}
+    \caption{El ID corto se encuentra en la tercera línea después de ``rsa3072/''.}
 \end{figure}
 
-Y una vez obtenido el ID en formato corto, con la orden \verb|gpg --send-keys --keyserver keyserver.ubuntu.com SHORT_ID| se envia al servidor.
+Y una vez obtenido el ID en formato corto, con la orden:
+
+\verb|gpg --send-keys --keyserver keyserver.ubuntu.com SHORT_ID| se envía al servidor. 
 
 %Captura desde 2022-10-24 11-58-08
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 11-58-08.png}
 \end{figure}
 
-Y si todo se ha realizado correctamente, al buscar my clave publica en el servidor deberia aparecer:
+Y si todo se ha realizado correctamente, al buscar mi clave pública en el servidor debería aparecer:
 
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-01-53.png}
 \end{figure}
 
-Y mi compañero tambien ha subido la suya:
+Y mi compañero también ha subido la suya:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-05-30.png}
 \end{figure}
 
 
-A continuacion, he creado el siguiente archivo para mi compañero:
+A continuación, he creado el siguiente archivo para mi compañero:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-02-33.png}
 \end{figure}
 
-Y necesito su clave publica del servidor para poder encriptarlo y que solo el pueda leerlo, para ello, con el comando \verb|gpg --keyserver keyserver.ubuntu.com --recv-keys SHORT_ID| obtengo su clave publica:
+Y necesito su clave pública del servidor para poder encriptarlo y que solo él pueda leerlo, para ello, con el comando \verb|gpg --keyserver keyserver.ubuntu.com --recv-keys SHORT_ID| obtengo su clave pública:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-11-03.png}
 \end{figure}
 
-Y con la orden \verb|gpg --armor --recipient correo --encrypt file| se encripta y se puede mandar el archivo con extension ``.asc'' sin problema por correo electronico.
+Y con la orden \verb|gpg --armor --recipient correo --encrypt file| se encripta y se puede mandar el archivo con extensión ``.asc'' sin problema por correo electrónico.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-11-31.png}
 \end{figure}
 
-Ahora, me descargo el archivo que mi compañero me ha enviado por correo electronico:
+Ahora, me descargo el archivo que mi compañero me ha enviado por correo electrónico:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-16-48.png}
 \end{figure}
 
-A continuacion, usando la orden \verb|gpg --decrypt file| se puede abrir el archivo que mi compañero me ha enviado.
+A continuación, usando la orden \verb|gpg --decrypt file| se puede abrir el archivo que mi compañero me ha enviado.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-18-40.png}
 \end{figure}
 
-Como se puede ver, tambien ha ``encriptado'' el mensaje del interior, se puede observar que al principio tiene dos simbolos ``='', señal de que ha usado base64 y le ha dado la vuelta. Para desencriptarlo del todo, es necesario usar la orden \verb|echo "msg" | rev | base64 -d|:
+Como se puede ver, también ha ``encriptado'' el mensaje del interior, se puede observar que al principio tiene dos símbolos ``='', señal de que ha usado base64 y le ha dado la vuelta. Para desencriptarlo del todo, es necesario usar la orden \verb|echo "msg"| $\vert$ \verb|rev| $\vert$ \verb|base64 -d|:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Portatil/base64.png}
@@ -176,14 +180,18 @@ Voy a cifrar el siguiente archivo:
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-19 17-33-08.png}
 \end{figure}
 
-El algoritmo de cifrado que voy a usar es ``desx'' y voy a usar 1234 iteraciones y con la contraseña ``qwerty''. Por tanto, para realizar esto, es necesario usar la orden \verb|openssl enc -des3 -iter 1234 -in ejercicio2 -out cifrado|
+El algoritmo de cifrado que voy a usar es ``desx'' y voy a usar 1234 iteraciones y con la contraseña ``qwerty''. Por tanto, para realizar esto, es necesario usar la orden 
+
+\verb|openssl enc -des3 -iter 1234 -in ejercicio2 -out cifrado|
 
 %Captura desde 2022-10-19 17-44-41
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-19 17-44-41.png}
 \end{figure}
 
-COmo se puede observar, pide la contraseña para encriptar, que es ``qwerty'' como he dicho antes. 
+Como se puede observar, pide la contraseña para encriptar, que es ``qwerty'' como he dicho antes. 
+
+\bigskip
 
 Ahora al mostrar el contenido del archivo cifrado, se ve que no es entendible:
 
@@ -193,7 +201,11 @@ Ahora al mostrar el contenido del archivo cifrado, se ve que no es entendible:
 \end{figure}
 
 
-Y ahora para descifrarlo, simplemente hace falta saber la contraseña, el algoritmo de cifrado y el numero de iteraciones. Todo esto se debe poner en el siguiente comando: \verb|openssl enc -des3 -iter 1234 -d -in cifrado|
+Y ahora para descifrarlo, simplemente hace falta saber la contraseña, el algoritmo de cifrado y el número de iteraciones. 
+
+\bigskip
+
+Todo esto se debe poner en el comando: \verb|openssl enc -des3 -iter 1234 -d -in cifrado|
 
 %Captura desde 2022-10-19 17-54-02
 \begin{figure}[H]

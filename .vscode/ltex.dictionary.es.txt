@@ -195,3 +195,10 @@ exec
 glibc
 archivoProhibido
 owner
+recipient
+asc
+Eiroa
+rsa3072
+base64
+desx
+qwerty
