@@ -99,43 +99,70 @@ Por ultimo, para descifrar el mensaje se utiliza la orden \verb|gpg --decrypt pr
 
 Me he juntado con Carlos Salas Eiroa (csalaseiroa@correo.ugr.es) para mandarnos archivos cifrados a cada uno.
 
-Para que él pueda obtener mi clave publica, es necesario subirla a un servidor como \url{https://keyserver.ubuntu.com/}. Para ello, necesito obtener el ID de la clave publica mia en formato corto con la orden \verb|gpg --list-keys --keyid-format SHORT|. Y una vez obtenido el ID en formato corto, con la orden \verb|gpg --send-keys --keyserver keyserver.ubuntu.com SHORT_ID| se envia al servidor.
+Para que él pueda obtener mi clave publica, es necesario subirla a un servidor como \url{https://keyserver.ubuntu.com/}. Para ello, necesito obtener el ID de la clave publica mia en formato corto con la orden \verb|gpg --list-keys --keyid-format SHORT|.
 
-%foto de short
-%caption: El ID corto se encuentra en la tercera linea despues de ``rsa3072/''.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 11-54-58.png}
+    \caption{El ID corto se encuentra en la tercera linea despues de ``rsa3072/''.}
+\end{figure}
+
+Y una vez obtenido el ID en formato corto, con la orden \verb|gpg --send-keys --keyserver keyserver.ubuntu.com SHORT_ID| se envia al servidor.
+
+%Captura desde 2022-10-24 11-58-08
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 11-58-08.png}
+\end{figure}
 
 Y si todo se ha realizado correctamente, al buscar my clave publica en el servidor deberia aparecer:
 
-%foto de m clave en server
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-01-53.png}
+\end{figure}
 
 Y mi compañero tambien ha subido la suya:
 
-%foto de su clave
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-05-30.png}
+\end{figure}
 
 
 A continuacion, he creado el siguiente archivo para mi compañero:
 
-%foto del archivo
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-02-33.png}
+\end{figure}
 
 Y necesito su clave publica del servidor para poder encriptarlo y que solo el pueda leerlo, para ello, con el comando \verb|gpg --keyserver keyserver.ubuntu.com --recv-keys SHORT_ID| obtengo su clave publica:
 
-%foto de la salida del comadno
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-11-03.png}
+\end{figure}
 
 Y con la orden \verb|gpg --armor --recipient correo --encrypt file| se encripta y se puede mandar el archivo con extension ``.asc'' sin problema por correo electronico.
 
-%foto de la encriptacion
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-11-31.png}
+\end{figure}
 
 Ahora, me descargo el archivo que mi compañero me ha enviado por correo electronico:
 
-%foto del correo
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-16-48.png}
+\end{figure}
 
 A continuacion, usando la orden \verb|gpg --decrypt file| se puede abrir el archivo que mi compañero me ha enviado.
 
-%foto de decrypt.
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/Captura desde 2022-10-24 12-18-40.png}
+\end{figure}
 
 Como se puede ver, tambien ha ``encriptado'' el mensaje del interior, se puede observar que al principio tiene dos simbolos ``='', señal de que ha usado base64 y le ha dado la vuelta. Para desencriptarlo del todo, es necesario usar la orden \verb|echo "msg" | rev | base64 -d|:
 
-%FOTO DEL MENSAJE FINAL
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Portatil/base64.png}
+\end{figure}
 
 Y finalmente se puede leer el mensaje sin problema alguno.
 
