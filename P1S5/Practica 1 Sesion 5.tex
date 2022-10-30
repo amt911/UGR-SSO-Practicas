@@ -88,7 +88,42 @@ Sin embargo, para el usuario promedio es mejor realizarlo de manera gráfica, co
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
 
-Para instalar ``Steghide'' en Ubuntu es necesario usar la orden \verb|sudo apt install|
+Para instalar ``Steghide'' en Ubuntu es necesario usar la orden \verb|sudo apt install steghide|
+
+Voy a usar la siguiente imagen para ocultar un mensaje con la herramienta:
+
+%FOTO DE LA IMAGEN DEL PAISAJE
+
+Y voy a ocultar el siguiente mensaje:
+
+%FOTO DEL MENSAJE
+
+Finalmente, para ocultar el mensaje en la imagen se usa la orden \verb|steghide embed -cf imagen -ef texto|:
+
+%SALIDA DEL COMANDO
+
+COmo se puede observar, pide un salvoconducto, que es una contrasñé auqe hay que introducir para que se pueda extraer el contenido de la imagen.
+
+Ahora al comparar las dos imagenes, a simple vista no hay ninguna diferencia aparente.
+
+%COMPARACION DE LAS DOS IMAGEENES UNA AL LADO DE OTRA
+
+Ahora, al comparar sus hashes podemos ver que son completamente distintos.
+
+%FOTO DEL HASH
+
+Ahora bien, existe la orden \verb|compare| que permite comparar dos imágenes y obtener el resultado en otra imagen mostrando como píxeles rojos aquellos que han sido modificados. Usando la orden \verb|compare image1 image2 -compose src diff.png| se puede obtener la siguiente imagen:
+
+%IMAGEN DE DIFERENCIA
+
+Como se puede ver, han sido modificados muchos pixeles de la imagen original.
+
+Finalemtne, con la orden \verb|steghide extract -sf imagen.jpg| se puede obtener el; archivo oculto en la imagen.
+
+%FOTO DEL COMANDO Y LA SALIDA DEL ARCHIVO COTULO
+
+Como se puede ver, pide la contrasñea que se pedia al insertar el archivo en la imagen.
+
 
 \end{document}
 
