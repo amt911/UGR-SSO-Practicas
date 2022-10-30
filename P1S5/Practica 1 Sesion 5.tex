@@ -2,7 +2,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref}
+\usepackage{graphicx, graphics, float, hyperref, caption, subcaption}
 \usepackage{listings}
 \usepackage[a4paper, total={6in, 10in}]{geometry}
 
@@ -35,46 +35,68 @@
 
 Lo primero que hay que hacer es encriptar el pendrive, esto se puede hacer ejecutando la orden \verb|cryptsetup luksFormat /dev/device| (en mi caso es \verb|/dev/sda|, ya que estoy en una máquina virtual con un pendrive pasado por passthrough). Es importante recordar que el dispositivo no debe estar montado en ningun sitio, si lo estuviera con la orden \verb|umount punto_montaje| se desmonta.
 
-%foto de la salida
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-51-54.png}
+\end{figure}
 
 Como se puede ver, pide una contraseña de cifrado para encriptar el dispositivo. Una vez encriptado, es necesario abrirlo, se puede hacer con la orden \verb|cryptsetup open /dev/device nombre|, donde nombre indica el nombre que se le pondrá al ser abierto (para acceder a él es necesario buscarlo en la ruta \verb|/dev/mapper/nombre|):
 
-%Foto del comando
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-54-01.png}
+\end{figure}
 
 Una vez abierto, es necesario crear un sistema de archivos para que se pueda trabajar con él. Esto se puede hacer con la orden \verb|mkfs.ext4 /dev/mapper/device|:
 
-%foto de la creacion
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-57-11.png}
+\end{figure}
 
 Y ahora, se puede usar la orden \verb|mount /dev/mapper/device punto_montaje| como cualquier otro dispositivo.
 
-%foto del mount
-
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-58-23.png}
+\end{figure}
 
 Ahora voy a crear el siguiente archivo con algo de texto en su interior:
 
-%foto del nano
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-59-27.png}
+\end{figure}
 
-A contuinuacion, es necesario desmontar el sistema de archivos primero y luego cerrar lam particion cifrada. Esto primero se puede hacer con la orden \verb|umoun punto_montaje|.
+A contuinuacion, es necesario desmontar el sistema de archivos primero y luego cerrar lam particion cifrada. Esto primero se puede hacer con la orden \verb|umount punto_montaje|.
 
-%FOTO DE UMOUNT
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-00-34.png}
+\end{figure}
 
 Lo siguiente es cerrar la particion encriptada, esto se realiza ejecutando la orden \verb|cryptsetup close /dev/mapper/device|
 
-%foto de close
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-02-02.png}
+\end{figure}
 
 Este ultimo paso es opcional, ya que es imposible que se pueda escribir nada en el dispotivos estando desmontado, pero se puede ejecutar la orden \verb|eject /dev/sda| o hacerlo desde el entorno de escritorio para expulsar el dispositivo.
 
-%foto eject
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-03-16.png}
+\end{figure}
 
 Ahora al volverlo a conectar, GNOME pide la contraseña para desencriptar.
 
-%foto del prompt de GNOME
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-04-17.png}
+\end{figure}
 
 Una vez desencriptado, GNOME lo monta de manera automática, haciendo accesible el contenido del pendrive.
 
-%foto del contenido
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-05-16.png}
+\end{figure}
 
-%foto del nano
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-05-44.png}
+\end{figure}
 
 Todo esto se podria haber hecho de manera manual mediante terminal realizando los comandos anteriormente mencionados en este orden:
 
@@ -92,35 +114,63 @@ Para instalar ``Steghide'' en Ubuntu es necesario usar la orden \verb|sudo apt i
 
 Voy a usar la siguiente imagen para ocultar un mensaje con la herramienta:
 
-%FOTO DE LA IMAGEN DEL PAISAJE
+%imagen
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/imagen.jpg}
+\end{figure}
 
 Y voy a ocultar el siguiente mensaje:
 
-%FOTO DEL MENSAJE
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-27-46.png}
+\end{figure}
 
 Finalmente, para ocultar el mensaje en la imagen se usa la orden \verb|steghide embed -cf imagen -ef texto|:
 
-%SALIDA DEL COMANDO
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-30-08.png}
+\end{figure}
 
 COmo se puede observar, pide un salvoconducto, que es una contrasñé auqe hay que introducir para que se pueda extraer el contenido de la imagen.
 
 Ahora al comparar las dos imagenes, a simple vista no hay ninguna diferencia aparente.
 
-%COMPARACION DE LAS DOS IMAGEENES UNA AL LADO DE OTRA
+%imagen imagenMod
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[H]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/imagen.jpg}
+        \caption{Imagen original (sin modificar).}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[H]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/imagenMod.jpg}
+        \caption{Imagen con archivo oculto.}
+    \end{subfigure}    
+    \caption{Comparativa de imagen original con la que tiene el archivo oculto.}
+\end{figure}
 
 Ahora, al comparar sus hashes podemos ver que son completamente distintos.
 
-%FOTO DEL HASH
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-38-52.png}
+\end{figure}
 
 Ahora bien, existe la orden \verb|compare| que permite comparar dos imágenes y obtener el resultado en otra imagen mostrando como píxeles rojos aquellos que han sido modificados. Usando la orden \verb|compare image1 image2 -compose src diff.png| se puede obtener la siguiente imagen:
 
-%IMAGEN DE DIFERENCIA
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/diff.png}
+\end{figure}
 
 Como se puede ver, han sido modificados muchos pixeles de la imagen original.
 
 Finalemtne, con la orden \verb|steghide extract -sf imagen.jpg| se puede obtener el; archivo oculto en la imagen.
 
-%FOTO DEL COMANDO Y LA SALIDA DEL ARCHIVO COTULO
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-44-23.png}
+\end{figure}
 
 Como se puede ver, pide la contrasñea que se pedia al insertar el archivo en la imagen.
 
@@ -134,7 +184,16 @@ Lo maximo que he conseguido ha sido que arrancase el programa, modelar el input,
 
 Cabe destacar que he probado con Windows 11 también y se produce exactamente el mismo error.
 
-%FOTO DE LA EXCEPCION DE JAVA
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Screenshot_20221030_152701.png}
+    \caption{Estrcutura que deberia haber tenido el decodificador.}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Screenshot_20221030_145831.png}
+    \caption{Error que aparece al intentar ejecutar el programa.}
+\end{figure}
+
 %Nota: El programa no he sido capaz de ejecutarlo usando Ubuntu 22.04.1 LTS. He probado con varias versiones de JDK, pero siempre saltaba con alguna excepción de Java y la ventana no se conseguia abrir. Finalemnte he optado por pasar las imagenes a otra maquina virtual que utiliza Arch Linux y en la que si puedo ejecutar el programa con OpenJDK 8.
 %
 %
