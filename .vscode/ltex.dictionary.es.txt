@@ -202,3 +202,7 @@ rsa3072
 base64
 desx
 qwerty
+passthrough
+GNOME
+Steghide
+hashes

@@ -33,11 +33,13 @@
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
 
-Lo primero que hay que hacer es encriptar el pendrive, esto se puede hacer ejecutando la orden \verb|cryptsetup luksFormat /dev/device| (en mi caso es \verb|/dev/sda|, ya que estoy en una máquina virtual con un pendrive pasado por passthrough). Es importante recordar que el dispositivo no debe estar montado en ningun sitio, si lo estuviera con la orden \verb|umount punto_montaje| se desmonta.
+Lo primero que hay que hacer es encriptar el pendrive, esto se puede hacer ejecutando la orden \verb|cryptsetup luksFormat /dev/device| (en mi caso es \verb|/dev/sda|, ya que estoy en una máquina virtual con un pendrive pasado por passthrough). Es importante recordar que el dispositivo no debe estar montado en ningún sitio, si lo estuviera con la orden \verb|umount punto_montaje| se desmonta.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-51-54.png}
 \end{figure}
+
+\bigskip
 
 Como se puede ver, pide una contraseña de cifrado para encriptar el dispositivo. Una vez encriptado, es necesario abrirlo, se puede hacer con la orden \verb|cryptsetup open /dev/device nombre|, donde nombre indica el nombre que se le pondrá al ser abierto (para acceder a él es necesario buscarlo en la ruta \verb|/dev/mapper/nombre|):
 
@@ -45,11 +47,15 @@ Como se puede ver, pide una contraseña de cifrado para encriptar el dispositivo
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-54-01.png}
 \end{figure}
 
+\newpage
+
 Una vez abierto, es necesario crear un sistema de archivos para que se pueda trabajar con él. Esto se puede hacer con la orden \verb|mkfs.ext4 /dev/mapper/device|:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-57-11.png}
 \end{figure}
+
+\bigskip
 
 Y ahora, se puede usar la orden \verb|mount /dev/mapper/device punto_montaje| como cualquier otro dispositivo.
 
@@ -57,36 +63,52 @@ Y ahora, se puede usar la orden \verb|mount /dev/mapper/device punto_montaje| co
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-58-23.png}
 \end{figure}
 
-Ahora voy a crear el siguiente archivo con algo de texto en su interior:
+\newpage
+
+A continuación, voy a crear el siguiente archivo con algo de texto en su interior:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-59-27.png}
 \end{figure}
 
-A contuinuacion, es necesario desmontar el sistema de archivos primero y luego cerrar lam particion cifrada. Esto primero se puede hacer con la orden \verb|umount punto_montaje|.
+\bigskip
+
+Seguidamente, es necesario desmontar el sistema de archivos primero y luego cerrar la partición cifrada. Esto primero se puede hacer con la orden \verb|umount punto_montaje|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-00-34.png}
 \end{figure}
 
-Lo siguiente es cerrar la particion encriptada, esto se realiza ejecutando la orden \verb|cryptsetup close /dev/mapper/device|
+\bigskip
+
+Lo siguiente es cerrar la partición encriptada.
+
+Esto se realiza ejecutando la orden \verb|cryptsetup close /dev/mapper/device|
 
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-02-02.png}
 \end{figure}
 
-Este ultimo paso es opcional, ya que es imposible que se pueda escribir nada en el dispotivos estando desmontado, pero se puede ejecutar la orden \verb|eject /dev/sda| o hacerlo desde el entorno de escritorio para expulsar el dispositivo.
+\bigskip
+
+El último paso que se explica a continuación paso es opcional, ya que es imposible que se pueda escribir nada en el dispositivo estando desmontado, pero se puede ejecutar la orden \verb|eject /dev/sda| o hacerlo desde el entorno de escritorio para expulsar el dispositivo.
 
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-03-16.png}
+    \centering
+    \includegraphics[width=0.6\textwidth]{imagenes/Captura desde 2022-10-30 11-03-16.png}
 \end{figure}
+
+\newpage
 
 Ahora al volverlo a conectar, GNOME pide la contraseña para desencriptar.
 
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-04-17.png}
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagenes/Captura desde 2022-10-30 11-04-17.png}
 \end{figure}
+
+\bigskip
 
 Una vez desencriptado, GNOME lo monta de manera automática, haciendo accesible el contenido del pendrive.
 
@@ -98,7 +120,9 @@ Una vez desencriptado, GNOME lo monta de manera automática, haciendo accesible 
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-05-44.png}
 \end{figure}
 
-Todo esto se podria haber hecho de manera manual mediante terminal realizando los comandos anteriormente mencionados en este orden:
+\bigskip
+
+Todo esto se podría haber hecho de manera manual mediante terminal realizando los comandos anteriormente mencionados en este orden:
 
 \begin{enumerate}
     \item \verb|cryptsetup open /dev/sda sdaOpen|
@@ -112,11 +136,15 @@ Sin embargo, para el usuario promedio es mejor realizarlo de manera gráfica, co
 
 Para instalar ``Steghide'' en Ubuntu es necesario usar la orden \verb|sudo apt install steghide|
 
+\bigskip
+
 Voy a usar la siguiente imagen para ocultar un mensaje con la herramienta:
 
 %imagen
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/imagen.jpg}
+    \centering
+    \includegraphics[width=0.7\textwidth]{imagenes/imagen.jpg}
+    \caption{Imagen a la que se le va a realizar estenografía.}
 \end{figure}
 
 Y voy a ocultar el siguiente mensaje:
@@ -125,15 +153,23 @@ Y voy a ocultar el siguiente mensaje:
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-27-46.png}
 \end{figure}
 
-Finalmente, para ocultar el mensaje en la imagen se usa la orden \verb|steghide embed -cf imagen -ef texto|:
+\bigskip
+
+Finalmente, para ocultar el mensaje en la imagen se usa la orden:
+
+\verb|steghide embed -cf imagen -ef texto|
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-30-08.png}
 \end{figure}
 
-COmo se puede observar, pide un salvoconducto, que es una contrasñé auqe hay que introducir para que se pueda extraer el contenido de la imagen.
+\bigskip
 
-Ahora al comparar las dos imagenes, a simple vista no hay ninguna diferencia aparente.
+Como se puede observar, pide un salvoconducto, que es una contraseña que hay que introducir para que se pueda extraer el contenido de la imagen.
+
+\bigskip
+
+Ahora, al comparar las dos imágenes, a simple vista no se puede observar ninguna diferencia aparente.
 
 %imagen imagenMod
 \begin{figure}[H]
@@ -152,41 +188,53 @@ Ahora al comparar las dos imagenes, a simple vista no hay ninguna diferencia apa
     \caption{Comparativa de imagen original con la que tiene el archivo oculto.}
 \end{figure}
 
-Ahora, al comparar sus hashes podemos ver que son completamente distintos.
+A continuación, al comparar sus hashes podemos ver que son completamente distintos.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-38-52.png}
 \end{figure}
 
-Ahora bien, existe la orden \verb|compare| que permite comparar dos imágenes y obtener el resultado en otra imagen mostrando como píxeles rojos aquellos que han sido modificados. Usando la orden \verb|compare image1 image2 -compose src diff.png| se puede obtener la siguiente imagen:
+\bigskip
+
+Ahora bien, existe la orden \verb|compare| que permite comparar dos imágenes y obtener el resultado en otra imagen mostrando como píxeles rojos aquellos que han sido modificados de la imagen original. Usando la orden \verb|compare image1 image2 -compose src diff.png| se puede obtener la siguiente imagen:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/diff.png}
 \end{figure}
 
-Como se puede ver, han sido modificados muchos pixeles de la imagen original.
+\bigskip
 
-Finalemtne, con la orden \verb|steghide extract -sf imagen.jpg| se puede obtener el; archivo oculto en la imagen.
+Como se puede ver, han sido modificados muchos píxeles de la imagen original.
+
+\bigskip
+
+Finalmente, con la orden \verb|steghide extract -sf imagen.jpg| se puede obtener el archivo oculto en la imagen.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-44-23.png}
 \end{figure}
 
-Como se puede ver, pide la contrasñea que se pedia al insertar el archivo en la imagen.
+\bigskip
+
+Como se puede observar, pide la contraseña que se pedía al insertar el archivo en la imagen.
 
 
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
 
-Por desgracia, no he sido capaz de poder ejecutar el programa VSL de ninguna forma. He probado con Ubuntu 22.04.1 LTS y Arch Linux actualizado a día 30 de octubre de 2022 y con varias versiones de JDK (8, 11, 18 y 19) y con ninguna ha funcionado. 
+Por desgracia, no he sido capaz de poder ejecutar el programa VSL de ninguna forma. He probado con Ubuntu 22.04.1 LTS y Arch Linux actualizado a día 30 de octubre de 2022 y con varias versiones de JDK (8, 11, 18 y 19). Con ninguna de estas combinaciones ha funcionado. 
 
-Lo maximo que he conseguido ha sido que arrancase el programa, modelar el input, el decodificador y el output y elegir la imagen con el archivo oculto. Sin embargo, al darle a ejecutar experimento se produce una excepción de Java que me impide continuar.
+\bigskip
+
+Lo máximo que he conseguido ha sido que arrancase el programa, modelar el input, el decodificador y el output y elegir la imagen con el archivo oculto. Sin embargo, al darle a ejecutar experimento se produce una excepción de Java que me impide continuar.
+
+\bigskip
 
 Cabe destacar que he probado con Windows 11 también y se produce exactamente el mismo error.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Screenshot_20221030_152701.png}
-    \caption{Estrcutura que deberia haber tenido el decodificador.}
+    \caption{Estructura que debería haber tenido el decodificador.}
 \end{figure}
 
 \begin{figure}[H]
