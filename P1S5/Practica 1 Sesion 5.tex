@@ -1,0 +1,98 @@
+%TODO: ARREGLAR EJERCICIO 1B
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx, graphics, float, hyperref}
+\usepackage{listings}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+
+\title{SSO Práctica 1 Sesión 5}
+\author{Andrés Merlo Trujillo}
+\date{}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+%\addcontentsline{toc}{section}{Ejercicio 1}
+%\section*{Ejercicio 1}
+%\begin{figure}[H]
+%    \includegraphics[width=\textwidth]{imagenes/lsofi.png}
+%\end{figure}
+
+%\addcontentsline{toc}{section}{Ejercicio 1}
+%\section*{Ejercicio 1}
+
+\addcontentsline{toc}{section}{Ejercicio 1}
+\section*{Ejercicio 1}
+
+Lo primero que hay que hacer es encriptar el pendrive, esto se puede hacer ejecutando la orden \verb|cryptsetup luksFormat /dev/device| (en mi caso es \verb|/dev/sda|, ya que estoy en una máquina virtual con un pendrive pasado por passthrough). Es importante recordar que el dispositivo no debe estar montado en ningun sitio, si lo estuviera con la orden \verb|umount punto_montaje| se desmonta.
+
+%foto de la salida
+
+Como se puede ver, pide una contraseña de cifrado para encriptar el dispositivo. Una vez encriptado, es necesario abrirlo, se puede hacer con la orden \verb|cryptsetup open /dev/device nombre|, donde nombre indica el nombre que se le pondrá al ser abierto (para acceder a él es necesario buscarlo en la ruta \verb|/dev/mapper/nombre|):
+
+%Foto del comando
+
+Una vez abierto, es necesario crear un sistema de archivos para que se pueda trabajar con él. Esto se puede hacer con la orden \verb|mkfs.ext4 /dev/mapper/device|:
+
+%foto de la creacion
+
+Y ahora, se puede usar la orden \verb|mount /dev/mapper/device punto_montaje| como cualquier otro dispositivo.
+
+%foto del mount
+
+
+Ahora voy a crear el siguiente archivo con algo de texto en su interior:
+
+%foto del nano
+
+A contuinuacion, es necesario desmontar el sistema de archivos primero y luego cerrar lam particion cifrada. Esto primero se puede hacer con la orden \verb|umoun punto_montaje|.
+
+%FOTO DE UMOUNT
+
+Lo siguiente es cerrar la particion encriptada, esto se realiza ejecutando la orden \verb|cryptsetup close /dev/mapper/device|
+
+%foto de close
+
+Este ultimo paso es opcional, ya que es imposible que se pueda escribir nada en el dispotivos estando desmontado, pero se puede ejecutar la orden \verb|eject /dev/sda| o hacerlo desde el entorno de escritorio para expulsar el dispositivo.
+
+%foto eject
+
+Ahora al volverlo a conectar, GNOME pide la contraseña para desencriptar.
+
+%foto del prompt de GNOME
+
+Una vez desencriptado, GNOME lo monta de manera automática, haciendo accesible el contenido del pendrive.
+
+%foto del contenido
+
+%foto del nano
+
+Todo esto se podria haber hecho de manera manual mediante terminal realizando los comandos anteriormente mencionados en este orden:
+
+\begin{enumerate}
+    \item \verb|cryptsetup open /dev/sda sdaOpen|
+    \item \verb|mount /dev/mapper/sdaOpen /mnt|
+\end{enumerate}
+
+Sin embargo, para el usuario promedio es mejor realizarlo de manera gráfica, como lo que ofrecen entornos de escritorio como GNOME o KDE.
+
+\addcontentsline{toc}{section}{Ejercicio 2}
+\section*{Ejercicio 2}
+
+Para instalar ``Steghide'' en Ubuntu es necesario usar la orden \verb|sudo apt install|
+
+\end{document}
+
+%\begin{figure}[H]
+%    \includegraphics[width=\textwidth]{imagenes/passwdfile.png}
+%    \caption{Ejemplo de entradas en el archivo.}
+%\end{figure}
