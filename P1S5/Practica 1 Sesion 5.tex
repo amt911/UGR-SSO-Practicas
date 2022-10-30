@@ -127,21 +127,29 @@ Como se puede ver, pide la contrasñea que se pedia al insertar el archivo en la
 
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
-Nota: El programa no he sido capaz de ejecutarlo usando Ubuntu 22.04.1 LTS. He probado con varias versiones de JDK, pero siempre saltaba con alguna excepción de Java y la ventana no se conseguia abrir. Finalemnte he optado por pasar las imagenes a otra maquina virtual que utiliza Arch Linux y en la que si puedo ejecutar el programa con OpenJDK 8.
 
+Por desgracia, no he sido capaz de poder ejecutar el programa VSL de ninguna forma. He probado con Ubuntu 22.04.1 LTS y Arch Linux actualizado a día 30 de octubre de 2022 y con varias versiones de JDK (8, 11, 18 y 19) y con ninguna ha funcionado. 
 
-Primero hay que descargar el programa usando el siguiente enlace: \url{http://vsl.sourceforge.net/}.
+Lo maximo que he conseguido ha sido que arrancase el programa, modelar el input, el decodificador y el output y elegir la imagen con el archivo oculto. Sin embargo, al darle a ejecutar experimento se produce una excepción de Java que me impide continuar.
 
-Una vez hecho esto, se descomprime y usando el comando \verb|java -jar programa.jar| se ejecuta (es necesario tener openjdk instalado).
+Cabe destacar que he probado con Windows 11 también y se produce exactamente el mismo error.
 
-%FOTO D LA PANTALLA INICIAL
-
-Ahora hace falta conectar como aparece en el video un ``Input'', con el decodificador ``LSB.D'' y finalmente el Output. Luego, haciendo click derecho, se le da a ``Connect'' y se conectan.
-
-%foto del esquema
-
-Lo siguiente que hay que hacer, es añadirle la imagen en el input modificada, para ello, se le da click derecho y se elige la opcion ``select input''.
-
+%FOTO DE LA EXCEPCION DE JAVA
+%Nota: El programa no he sido capaz de ejecutarlo usando Ubuntu 22.04.1 LTS. He probado con varias versiones de JDK, pero siempre saltaba con alguna excepción de Java y la ventana no se conseguia abrir. Finalemnte he optado por pasar las imagenes a otra maquina virtual que utiliza Arch Linux y en la que si puedo ejecutar el programa con OpenJDK 8.
+%
+%
+%Primero hay que descargar el programa usando el siguiente enlace: \url{http://vsl.sourceforge.net/}.
+%
+%Una vez hecho esto, se descomprime y usando el comando \verb|java -jar programa.jar| se ejecuta (es necesario tener openjdk instalado).
+%
+%%FOTO D LA PANTALLA INICIAL
+%
+%Ahora hace falta conectar como aparece en el video un ``Input'', con el decodificador ``LSB.D'' y finalmente el Output. Luego, haciendo click derecho, se le da a ``Connect'' y se conectan.
+%
+%%foto del esquema
+%
+%Lo siguiente que hay que hacer, es añadirle la imagen en el input modificada, para ello, se le da click derecho y se elige la opcion ``select input''.
+%
 \end{document}
 
 %\begin{figure}[H]
