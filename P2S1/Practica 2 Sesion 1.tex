@@ -85,4 +85,16 @@ Las secciones .ctors y .dtors contienen lo siguiente:
     \item \textbf{.ctors}: Esta seccion almacena punteros inicializados a las funciones del constructor de C++ (constructores de las clases).
     \item \textbf{.dtors}: Esta seccion almacena punteros inicializados a las funciones del destructor de C++ (destructores de las clases).
 \end{itemize}
+
+
+\addcontentsline{toc}{subsection}{Apartado C}
+\subsection*{Apartado C}
+
+Mediante la orden \verb|readelf -r programa| podemos ver las distintas secciones que contiene. Estas son:
+
+\begin{itemize}
+    \item \textbf{.rela.dyn}: Contiene las entradas de reubicacion para simbolos dinamicos; es decir, estas variables deben ser reubicadas en tiempo de ejecucion.
+    \item \textbf{.rela.plt}: Contiene las entradas de reubicacion para simbolos de funciones. Al igual que el anterior, deben ser reubicadas en tiempo de ejecucion.
+\end{itemize}
+
 \end{document}
