@@ -97,4 +97,94 @@ Mediante la orden \verb|readelf -r programa| podemos ver las distintas secciones
     \item \textbf{.rela.plt}: Contiene las entradas de reubicacion para simbolos de funciones. Al igual que el anterior, deben ser reubicadas en tiempo de ejecucion.
 \end{itemize}
 
+Ademas, la version de C++ tiene mas entradas que la version de C, como pasó en el apartado anterior.
+
+
+\addcontentsline{toc}{section}{Ejercicio 2}
+\section*{Ejercicio 2}
+
+
+\addcontentsline{toc}{subsection}{Apartado A}
+\subsection*{Apartado A}
+
+El ocmando \verb|objdump| tiene algunos switches similares a los de \verb|readelf|. A continuacion voy a indicar algunos que se han usado en el ejercicio anterior:
+
+\begin{itemize}
+    \item \verb|readelf -r <archivo>| $\rightarrow$ \verb|objdump -Rr <archivo>|
+    
+    
+    Muestra las entradas de reubicacion del archivo ELF.
+
+    %foto readelf y objdump side by side
+
+
+    \item \verb|readelf -h <archivo>| $\rightarrow$ \verb|objdump -f <archivo>|
+    
+    Muestra las cabeceras del propio archivo ELF.
+
+    %foto side by side
+
+    \item \verb|readelf -S <archivo>| $\rightarrow$ \verb|objdump -h <archivo>|
+    
+    Muestra la informacion de las cabeceras de seccion (section headers).
+
+    %foto side by side
+
+    \item \verb|readelf -l <archivo>| $\rightarrow$ \verb|objdump -p <archivo>|
+    
+    Muestra las cabeceras del programa.
+
+    %foto side by side
+
+\end{itemize}
+
+% TABLE: READELF VS OBJDUMP
+% -r / -Rr
+% -h / -f
+% -S / -h
+% -l / -p
+
+\addcontentsline{toc}{subsection}{Apartado B}
+\subsection*{Apartado B}
+
+Esta herramienta sirve de mucha utilidad desde el punto de ingenieria inversa, ya que permite el desensamblado de un ejecutable en las instrucciones maquina que lo compone.
+
+%foto de eso
+%caption: salida producida por el comando ``objdump -d salidaC'', se puede ver la seccion main en <_start>
+
+Esto simplifica mucho el trabajo, ya que no es necesario buscar en lois manuales de los procesadores que instruccion tiene cada codigo. Ademas, esto permite buscar vulnerabilidades en el programa o incluso el estudio de las distintas condiciones para que continue el codigo para luego poder intentar saltarse las medidas de seguridad.
+
+
+\addcontentsline{toc}{section}{Ejercicio 3}
+\section*{Ejercicio 3}
+
+He realizado la siguiente modificacion al prorgama en su version C:
+
+%modificacion del rpograma con sleep
+
+%Y para la version en C++ tambien he realizado lo mismo:
+
+%modificacion del rpograma con sleep
+
+Ahora, mediante el simbolo ``\&'' se puede ejecutar el programa en segundo plano. A continuacion, se busca el proceso pasando la salida de la orden \verb|ps -e| mediante un pipe a la orden \verb|grep|. Por tanto, en mi caso, la orden para encontrar el PID del programa seria asi: \verb|ps -e | | \verb|grep hola|.
+
+%salida de ps
+
+Y sabiendo que tiene el PID 18770, con cualquier orden para mostrar texto como \verb|nano, cat, bat| se puede ver lo que contieene.
+
+%salida de proc pid maps
+
+Ahora, con la orden \verb|readelf -S <archivo>| podemos ver las secciones que componen el ejecutable:
+
+%foto de la salida
+
+Usando la orden \verb|readelf -Wl <archivo>| se pueden obtener las cabeceras del programa.
+
+%foto
+
+
+El kernel cuando ve INTERP, carga el primer LOAD, despues los segmentos del prorgama interprete y finalemnte se cargan las bibliotecas especificadas en LD\_PRELOAD y los segmentos DYNAMIC. Estos segemntos que se cargan se pueden ver con la orden \verb|readelf -d <archivo>|.
+
+%foto de la salida
+
 \end{document}
