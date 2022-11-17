@@ -37,8 +37,17 @@
 Para ello voy a crear los siguientes programas:
 
 %foto programa C++
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-15 16-06-14.png}
+\end{figure}
+
 
 %foto programa C
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-15 16-06-21.png}
+\end{figure}
+
+
 
 Y voy a usar las siguientes ordenes para compilarlos:
 
@@ -65,12 +74,16 @@ A continuacion explicaré que contiene cada seccion, para obtener informacion se
 Ejecutando la orden \verb|readelf -S ejecutable| podemos obtener las secciones que componen el programa.
 
 %foto de cpp con readelf
+%CPP/merged.png
 
 %foto de c con readelf
+%C/merged.png
 
 Ahora, para mostrar por terminal la diferencia de los archivos a color se puede usar la orden \verb|icdiff archivo1 archivo2|.
 
 %foto de icdiff (quizas haya que cortarlas)
+%icdiff/Captura desde 2022-11-15 16-55-27
+%icdiff/Captura desde 2022-11-15 16-55-41
 
 Como se puede ver, en la primera linea, el offset es distinto, siendo mas alto en el programa escrito en C++. Ademas, se puede ver que algunas secciones del programa escrito en C++ son ligeramente mas grandes que la version en C. Las secciones afectadas son: .gun.hash, .dynsym, .dynstr, .gun.version, .rela.dyn, .rela.plt, .plt, .plt.sec, .text, .eh\_frame\_hdr, .eh\_frame, .init\_array, .fini\_array, .dynamic, .got, .bss, .symtab, y .strtab.
 
@@ -116,25 +129,32 @@ El ocmando \verb|objdump| tiene algunos switches similares a los de \verb|readel
     Muestra las entradas de reubicacion del archivo ELF.
 
     %foto readelf y objdump side by side
-
+    %Captura desde 2022-11-17 17-42-30
+    %Captura desde 2022-11-17 17-42-36
 
     \item \verb|readelf -h <archivo>| $\rightarrow$ \verb|objdump -f <archivo>|
     
     Muestra las cabeceras del propio archivo ELF.
 
     %foto side by side
+    %Captura desde 2022-11-17 17-44-04
+    %Captura desde 2022-11-17 17-44-19
 
     \item \verb|readelf -S <archivo>| $\rightarrow$ \verb|objdump -h <archivo>|
     
     Muestra la informacion de las cabeceras de seccion (section headers).
 
     %foto side by side
+    %C/merged.png
+    %merged.png
 
     \item \verb|readelf -l <archivo>| $\rightarrow$ \verb|objdump -p <archivo>|
     
     Muestra las cabeceras del programa.
 
     %foto side by side
+    %mergedelfl.png
+    %mergedobjdumpp
 
 \end{itemize}
 
@@ -150,7 +170,11 @@ El ocmando \verb|objdump| tiene algunos switches similares a los de \verb|readel
 Esta herramienta sirve de mucha utilidad desde el punto de ingenieria inversa, ya que permite el desensamblado de un ejecutable en las instrucciones maquina que lo compone.
 
 %foto de eso
-%caption: salida producida por el comando ``objdump -d salidaC'', se puede ver la seccion main en <_start>
+%Captura desde 2022-11-17 17-53-55
+%caption: salida producida por el comando ``objdump -d salidaC'', se puede ver la llamada a main en <_start>
+
+%Captura desde 2022-11-17 17-56-56
+%caption: funcion main compilada a ensamblador.
 
 Esto simplifica mucho el trabajo, ya que no es necesario buscar en lois manuales de los procesadores que instruccion tiene cada codigo. Ademas, esto permite buscar vulnerabilidades en el programa o incluso el estudio de las distintas condiciones para que continue el codigo para luego poder intentar saltarse las medidas de seguridad.
 
@@ -161,30 +185,41 @@ Esto simplifica mucho el trabajo, ya que no es necesario buscar en lois manuales
 He realizado la siguiente modificacion al prorgama en su version C:
 
 %modificacion del rpograma con sleep
+%Captura desde 2022-11-17 18-12-25
 
-%Y para la version en C++ tambien he realizado lo mismo:
+% comentado: Y para la version en C++ tambien he realizado lo mismo:
 
 %modificacion del rpograma con sleep
 
 Ahora, mediante el simbolo ``\&'' se puede ejecutar el programa en segundo plano. A continuacion, se busca el proceso pasando la salida de la orden \verb|ps -e| mediante un pipe a la orden \verb|grep|. Por tanto, en mi caso, la orden para encontrar el PID del programa seria asi: \verb|ps -e | | \verb|grep hola|.
 
 %salida de ps
+%ps.png
 
 Y sabiendo que tiene el PID 18770, con cualquier orden para mostrar texto como \verb|nano, cat, bat| se puede ver lo que contieene.
 
 %salida de proc pid maps
+%procPID
 
 Ahora, con la orden \verb|readelf -S <archivo>| podemos ver las secciones que componen el ejecutable:
 
 %foto de la salida
+%C/merged.png
 
 Usando la orden \verb|readelf -Wl <archivo>| se pueden obtener las cabeceras del programa.
 
 %foto
+%Captura desde 2022-11-17 18-38-45
+
+Como en el ejercicio anterior, la salida es la misma usando el comando \verb|objdump -p|:
+
+%salida de objdump
 
 
 El kernel cuando ve INTERP, carga el primer LOAD, despues los segmentos del prorgama interprete y finalemnte se cargan las bibliotecas especificadas en LD\_PRELOAD y los segmentos DYNAMIC. Estos segemntos que se cargan se pueden ver con la orden \verb|readelf -d <archivo>|.
 
 %foto de la salida
+%mergedobjdumpp
+
 
 \end{document}
