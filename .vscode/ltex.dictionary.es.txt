@@ -206,3 +206,14 @@ passthrough
 GNOME
 Steghide
 hashes
+interp
+interp
+SHFALLOC
+SHTPROGBITS
+got
+Table
+SHPROGBITS
+plt
+Procedure
+Linkage
+ELF
