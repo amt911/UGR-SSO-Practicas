@@ -64,45 +64,57 @@ Y voy a usar las siguientes ordenes para compilarlos:
 
 \verb|gcc -o salidaC holaMundo.c|
 
+\bigskip
 
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
 A continuacion explicaré que contiene cada seccion, para obtener informacion se puede usar la orden \verb|man 5 elf|:
 
 \begin{itemize}
-    \item \textbf{.interp}: Esta seccion almacena la ruta del interprete del programa. Si el archvo tiene un segmento que incluye esta seccion, los atributos de la seccion tendran el bit SHF\_ALLOC. La seccion es de tipo SHT\_PROGBITS.
+    \item \textbf{.interp}: Esta seccion almacena la ruta del interprete del programa. Si el archvo tiene un segmento que incluye esta seccion, los atributos de la seccion tendran el bit \texttt{SHF\_ALLOC}. La seccion es de tipo \texttt{SHT\_PROGBITS}.
     
-    \item \textbf{.got}: Esta seccion almacena la tabla de desplazamientos global (Global Offset Table). Es de tipo SH\_PROGBITS y sus atributos son especificos del procesador. 
+    \item \textbf{.got}: Esta seccion almacena la tabla de desplazamientos global (Global Offset Table). Es de tipo \texttt{SH\_PROGBITS} y sus atributos son especificos del procesador. 
     
-    \item \textbf{.got.plt}: Esta seccion almacena la tabla de vinculacion de procedimientos (Procedure Linkage Table). Es de tipo SH\_PROGBITS y sus atributos son especificos del procesador. Sirve para obtener las direcciones a funciones para posteriormente poder ser llamadas.
+    \item \textbf{.got.plt}: Esta seccion almacena la tabla de vinculacion de procedimientos (Procedure Linkage Table). Es de tipo \texttt{SH\_PROGBITS} y sus atributos son especificos del procesador. Sirve para obtener las direcciones a funciones para posteriormente poder ser llamadas.
 \end{itemize}
 
+\newpage
 
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
 
 Ejecutando la orden \verb|readelf -S ejecutable| podemos obtener las secciones que componen el programa.
 
-%foto de cpp con readelf
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{imagenes/CPP/merged.png}
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/CPP/merged.png}
+        \caption{Versión C++.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/C/merged.png}
+        \caption{Versión C.}
+    \end{subfigure}
+
+    \caption{Secciones de los programas.}
 \end{figure}
 
-%foto de c con readelf
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{imagenes/C/merged.png}
-\end{figure}
+\newpage
 
 Ahora, para mostrar por terminal la diferencia de los archivos a color se puede usar la orden \verb|icdiff archivo1 archivo2|.
 
 %foto de icdiff (quizas haya que cortarlas)
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/icdiff/mergedicdiff.png}
+    \caption{Diferencias entre ambas versiones compiladas.}
 \end{figure}
 
-Como se puede ver, en la primera linea, el offset es distinto, siendo mas alto en el programa escrito en C++. Ademas, se puede ver que algunas secciones del programa escrito en C++ son ligeramente mas grandes que la version en C. Las secciones afectadas son: .gun.hash, .dynsym, .dynstr, .gun.version, .rela.dyn, .rela.plt, .plt, .plt.sec, .text, .eh\_frame\_hdr, .eh\_frame, .init\_array, .fini\_array, .dynamic, .got, .bss, .symtab, y .strtab.
+Como se puede ver, en la primera linea, el offset es distinto, siendo mas alto en el programa escrito en C++. Ademas, se puede ver que algunas secciones del programa escrito en C++ son ligeramente mas grandes que la version en C. Estas secciones son: \textbf{.gun.hash, .dynsym, .dynstr, .gun.version, .rela.dyn, .rela.plt, .plt, .plt.sec, .text, .eh\_frame\_hdr, .eh\_frame, .init\_array, .fini\_array, .dynamic, .got, .bss, .symtab, y .strtab.}
+
+\bigskip
 
 Por ultimo, tambien se puede ver que el desplazamiento (offset) y las direcciones de memoria de estas secciones varia entre una version y otra.
 
@@ -116,6 +128,7 @@ Las secciones .ctors y .dtors contienen lo siguiente:
     \item \textbf{.dtors}: Esta seccion almacena punteros inicializados a las funciones del destructor de C++ (destructores de las clases).
 \end{itemize}
 
+\newpage
 
 \addcontentsline{toc}{subsection}{Apartado C}
 \subsection*{Apartado C}
@@ -129,6 +142,7 @@ Mediante la orden \verb|readelf -r programa| podemos ver las distintas secciones
 
 Ademas, la version de C++ tiene mas entradas que la version de C, como pasó en el apartado anterior.
 
+\bigskip
 
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
@@ -177,6 +191,8 @@ El ocmando \verb|objdump| tiene algunos switches similares a los de \verb|readel
         \end{subfigure}
     \end{figure}
 
+    \newpage
+
     \item \verb|readelf -S <archivo>| $\rightarrow$ \verb|objdump -h <archivo>|
     
     Muestra la informacion de las cabeceras de seccion (section headers).
@@ -194,6 +210,8 @@ El ocmando \verb|objdump| tiene algunos switches similares a los de \verb|readel
             \includegraphics[width=\textwidth]{imagenes/merged.png}
         \end{subfigure}
     \end{figure}
+
+    \newpage
 
     \item \verb|readelf -l <archivo>| $\rightarrow$ \verb|objdump -p <archivo>|
     
@@ -227,14 +245,20 @@ El ocmando \verb|objdump| tiene algunos switches similares a los de \verb|readel
 Esta herramienta sirve de mucha utilidad desde el punto de ingenieria inversa, ya que permite el desensamblado de un ejecutable en las instrucciones maquina que lo compone.
 
 %foto de eso
-%Captura desde 2022-11-17 17-53-55
-%caption: salida producida por el comando ``objdump -d salidaC'', se puede ver la llamada a main en <_start>
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-53-55.png}
+    \caption{Salida producida por el comando \texttt{objdump -d salidaC}, se puede ver la llamada a \texttt{main} en \texttt{$<$\_start$>$}}
+\end{figure}
 
-%Captura desde 2022-11-17 17-56-56
-%caption: funcion main compilada a ensamblador.
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-56-56.png}
+    \caption{Funcion \texttt{$<$main$>$} compilada a de C a ensamblador.}
+\end{figure}
 
 Esto simplifica mucho el trabajo, ya que no es necesario buscar en lois manuales de los procesadores que instruccion tiene cada codigo. Ademas, esto permite buscar vulnerabilidades en el programa o incluso el estudio de las distintas condiciones para que continue el codigo para luego poder intentar saltarse las medidas de seguridad.
 
+\bigskip
 
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
@@ -242,41 +266,60 @@ Esto simplifica mucho el trabajo, ya que no es necesario buscar en lois manuales
 He realizado la siguiente modificacion al prorgama en su version C:
 
 %modificacion del rpograma con sleep
-%Captura desde 2022-11-17 18-12-25
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imagenes/Captura desde 2022-11-17 18-12-25.png}
+\end{figure}
 
-% comentado: Y para la version en C++ tambien he realizado lo mismo:
-
-%modificacion del rpograma con sleep
-
-Ahora, mediante el simbolo ``\&'' se puede ejecutar el programa en segundo plano. A continuacion, se busca el proceso pasando la salida de la orden \verb|ps -e| mediante un pipe a la orden \verb|grep|. Por tanto, en mi caso, la orden para encontrar el PID del programa seria asi: \verb|ps -e | | \verb|grep hola|.
+Ahora, mediante el simbolo ``\&'' se puede ejecutar el programa en segundo plano. A continuacion, se busca el proceso pasando la salida de la orden \verb|ps -e| mediante un pipe a la orden \verb|grep|. Por tanto, en mi caso, la orden para encontrar el PID del programa seria asi: \texttt{ps -e $\vert$ grep hola}.
 
 %salida de ps
-%ps.png
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/ps.png}
+\end{figure}
 
-Y sabiendo que tiene el PID 18770, con cualquier orden para mostrar texto como \verb|nano, cat, bat| se puede ver lo que contieene.
+Y sabiendo que tiene el PID \textbf{18770}, con cualquier orden para mostrar texto como \texttt{nano, cat, bat} se puede ver lo que contieene.
 
 %salida de proc pid maps
-%procPID
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/procPID.png}
+\end{figure}
 
 Ahora, con la orden \verb|readelf -S <archivo>| podemos ver las secciones que componen el ejecutable:
 
 %foto de la salida
-%C/merged.png
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/readelfSsleep.png}
+\end{figure}
+
+\newpage
 
 Usando la orden \verb|readelf -Wl <archivo>| se pueden obtener las cabeceras del programa.
 
 %foto
-%Captura desde 2022-11-17 18-38-45
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 18-38-45.png}
+\end{figure}
 
 Como en el ejercicio anterior, la salida es la misma usando el comando \verb|objdump -p|:
 
 %salida de objdump
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imagenes/objdumppsleep.png}
+\end{figure}
 
+El kernel cuando ve \texttt{INTERP}, carga el primer \texttt{LOAD}, despues los segmentos del prorgama interprete y finalemnte se cargan las bibliotecas especificadas en \texttt{LD\_PRELOAD} y los segmentos \texttt{DYNAMIC}. 
 
-El kernel cuando ve INTERP, carga el primer LOAD, despues los segmentos del prorgama interprete y finalemnte se cargan las bibliotecas especificadas en LD\_PRELOAD y los segmentos DYNAMIC. Estos segemntos que se cargan se pueden ver con la orden \verb|readelf -d <archivo>|.
+\bigskip
+
+Estos segemntos dinamicos que se cargan se pueden ver con la orden \verb|readelf -d <archivo>|.
 
 %foto de la salida
-%mergedobjdumpp
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imagenes/Captura desde 2022-11-17 18-47-41.png}
+\end{figure}
 
 
 \end{document}
