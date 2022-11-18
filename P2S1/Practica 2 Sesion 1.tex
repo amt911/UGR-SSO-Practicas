@@ -6,7 +6,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{graphicx, graphics, float, hyperref}
-\usepackage{listings}
+\usepackage{listings, subcaption}
 \usepackage[a4paper, total={6in, 10in}]{geometry}
 
 \title{SSO Práctica 2 Sesión 1}
@@ -36,22 +36,32 @@
 
 Para ello voy a crear los siguientes programas:
 
-%foto programa C++
-\begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-15 16-06-14.png}
-\end{figure}
 
-
-%foto programa C
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-15 16-06-21.png}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-15 16-06-21.png}
+        \caption{Versión C++.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-15 16-06-14.png}
+        \caption{Versión C.}
+    \end{subfigure}
+
+    \caption{Distintas versiones del programa.}
 \end{figure}
 
 
 
 Y voy a usar las siguientes ordenes para compilarlos:
 
+\bigskip
+
 \verb|g++ -o salidaCPP holaMundo.cpp|
+
 \verb|gcc -o salidaC holaMundo.c|
 
 
@@ -74,16 +84,23 @@ A continuacion explicaré que contiene cada seccion, para obtener informacion se
 Ejecutando la orden \verb|readelf -S ejecutable| podemos obtener las secciones que componen el programa.
 
 %foto de cpp con readelf
-%CPP/merged.png
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagenes/CPP/merged.png}
+\end{figure}
 
 %foto de c con readelf
-%C/merged.png
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagenes/C/merged.png}
+\end{figure}
 
 Ahora, para mostrar por terminal la diferencia de los archivos a color se puede usar la orden \verb|icdiff archivo1 archivo2|.
 
 %foto de icdiff (quizas haya que cortarlas)
-%icdiff/Captura desde 2022-11-15 16-55-27
-%icdiff/Captura desde 2022-11-15 16-55-41
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{imagenes/icdiff/mergedicdiff.png}
+\end{figure}
 
 Como se puede ver, en la primera linea, el offset es distinto, siendo mas alto en el programa escrito en C++. Ademas, se puede ver que algunas secciones del programa escrito en C++ son ligeramente mas grandes que la version en C. Las secciones afectadas son: .gun.hash, .dynsym, .dynstr, .gun.version, .rela.dyn, .rela.plt, .plt, .plt.sec, .text, .eh\_frame\_hdr, .eh\_frame, .init\_array, .fini\_array, .dynamic, .got, .bss, .symtab, y .strtab.
 
@@ -129,32 +146,72 @@ El ocmando \verb|objdump| tiene algunos switches similares a los de \verb|readel
     Muestra las entradas de reubicacion del archivo ELF.
 
     %foto readelf y objdump side by side
-    %Captura desde 2022-11-17 17-42-30
-    %Captura desde 2022-11-17 17-42-36
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-42-30.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-42-36.png}
+        \end{subfigure}
+    \end{figure}
 
     \item \verb|readelf -h <archivo>| $\rightarrow$ \verb|objdump -f <archivo>|
     
     Muestra las cabeceras del propio archivo ELF.
 
     %foto side by side
-    %Captura desde 2022-11-17 17-44-04
-    %Captura desde 2022-11-17 17-44-19
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-44-04.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-44-19.png}
+        \end{subfigure}
+    \end{figure}
 
     \item \verb|readelf -S <archivo>| $\rightarrow$ \verb|objdump -h <archivo>|
     
     Muestra la informacion de las cabeceras de seccion (section headers).
 
     %foto side by side
-    %C/merged.png
-    %merged.png
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/C/merged.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/merged.png}
+        \end{subfigure}
+    \end{figure}
 
     \item \verb|readelf -l <archivo>| $\rightarrow$ \verb|objdump -p <archivo>|
     
     Muestra las cabeceras del programa.
 
     %foto side by side
-    %mergedelfl.png
-    %mergedobjdumpp
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/mergedelfl.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{imagenes/mergedobjdumpp}
+        \end{subfigure}
+    \end{figure}    
 
 \end{itemize}
 
