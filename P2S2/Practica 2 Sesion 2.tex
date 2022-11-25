@@ -84,7 +84,7 @@ Mientras que para la parte del compilador hay los siguientes mecanismos:
 
 \begin{itemize}
     \item \textbf{Protección de pila ejecutable}
-    \item \textbf{Protección de rotura de pila}: Mediante el uso de la macro \verb|FORTIFY_SOURCE|, el compilador dará warnings en las secciones de código que potencialmente puedan producir un buffer overflow. Además, en tiempo de ejecución si detecta un buffer overflow aborta el programa y muestra un log con toda la información en el momento del fallo.
+    \item \textbf{Protección de rotura de pila}: Mediante el uso de la macro \verb|FORTIFY_SOURCE|, el compilador dará warnings en las secciones de código que potencialmente puedan producir un buffer overflow. Además, en tiempo de ejecución si detecta un buffer overflow aborta el programa y muestra un trace con toda la información en el momento del fallo.
     \item \textbf{Ejecutables independientes de la posición (PIE)}: Mediante la opción del compilador \verb|-pie| se produce un ejecutable independiente de la posición, esto quiere decir que las distintas partes del programa van a tener un offset para que no se encuentren siempre en una dirección fija.
     \item \textbf{Fuente fortificada}
     \item \textbf{Protector de pila}: Mediante la opción del compilador \verb|-fstack-protector| que habilita la protección de la pila. Hace uso de la técnica ``Stack Canary'', que es un valor que se le asigna a cada función al principio y que al final de la misma se espera que sea igual, si se ha producido un bug o un ataque el programa aborta al ser el valor distinto y se impide el potencial ataque.
@@ -145,7 +145,7 @@ Y si ahora ejecuto \textit{victima}, aparece lo siguiente:
     \caption{Se ve que primero se ejecuta el virus y después el contenido del ejecutable original.}
 \end{figure}
 
-Como se puede observar, este programa esta infectado, y si lo pusiéramos en otro directorio infectaría a los otros. No obstante, esto no es posible porque gracias a la función \verb|searchForELF| se le ha restringido el acceso a solo la carpeta del virus, pero puede tener el potencial de hacer daño.
+Como se puede observar, este programa está infectado, y si lo pusiéramos en otro directorio infectaría a los otros. No obstante, esto no es posible porque gracias a la función \verb|searchForELF| se le ha restringido el acceso a solo la carpeta del virus, pero puede tener el potencial de hacer daño.
 
 \bigskip
 
