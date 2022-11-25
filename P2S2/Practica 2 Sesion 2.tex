@@ -102,10 +102,10 @@ Como se puede observar, este programa esta infectado, y si lo pusieramos en otro
 
 
 
-El script del limpiador tenia ciertos fallos que el interprete detectaba, haciendo que no funcionase. LO que he hecho ha sido arreglarlo, para ello, he hecho las siguientes modificaciones: 
+El script del limpiador tenia ciertos fallos que el interprete detectaba, haciendo que no funcionase. LO he arreglado haciendo las siguientes modificaciones: 
 
 %foto del script limpiador
-%caption: se puede ver que ahora uso bash, he eliminado el let de ORIG_SIZE y he hecho que ahga bien la cuenta esta misma variable
+%caption: se puede ver que ahora uso bash, he cambiado el tamaño del virus, he eliminado el let de ORIG_SIZE y he hecho que ahga bien la cuenta esta misma variable
 
 Despues de estos arreglos, al ejectuarlo aparece l os siguiente:
 
@@ -114,5 +114,21 @@ Despues de estos arreglos, al ejectuarlo aparece l os siguiente:
 Y ahora al ejecutar el ejecutable ``saneado'', aparece la salida correctamente.
 
 El limpiador se podria mejorar haciendo que en vez de tener que ir ejecutable a ejecutbale uno a uno a mano, se pueda pasar un directorio y de manera recursiva vaya limpiando los ejecutables infectados. Para ello, haria falta que el script hiciese una comprobacion de si existe el virus en el ejecutable, ya que siempre intenta eliminar los primeros 21932 Bytes del programa, que es donde reside el virus.
+
+\addcontentsline{toc}{subsection}{Apartado B}
+\subsection*{Apartado B}
+
+Usando un editor de texto avanzado o un IDE como Visual Studio Code, se puede ver que la estructura de datos \verb|Elf32_Ehdr| contiene las siguientes arquitecturas:
+
+%foto de las arquitecturas
+
+Y la lista continua hacia abajo, por lo que solo voy a realizar la comprobacion de si es x86, x86\_64, ARM, ARM64, PowerPC y IA64 (Itanium). Para realizarlo, es necesario usar macros que el compilador \verb|gcc| posee, la lista se encuentra en: \url{https://sourceforge.net/p/predef/wiki/Architectures/}.
+
+Por tanto, el codigo del virus quedaria asi:
+
+%foto del trozo de codigo modificado
+
+
+
 
 \end{document}
