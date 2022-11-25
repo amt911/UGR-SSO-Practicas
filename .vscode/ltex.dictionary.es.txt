@@ -217,3 +217,12 @@ plt
 Procedure
 Linkage
 ELF
+ASLR
+shellcode
+overflow
+Stack
+Canary
+elfvirus
+elfvirus
+IDE
+Code

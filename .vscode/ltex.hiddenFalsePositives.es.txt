@@ -35,3 +35,6 @@
 {"rule":"SUBJUNTIVO_PASADO","sentence":"^\\QFound one or more vulnerable packages.\\E$"}
 {"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QFound one or more vulnerable packages.\\E$"}
 {"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QAdemás, aparece la opción de denegar el acceso a \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q, tras varias modificaciones he llegado a la conclusión de que es necesario para que detecte los usuarios que no sean root, por lo que hay que ponerle el mismo ajuste que a \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
+{"rule":"A_NIVEL_DE","sentence":"^\\QLas protecciones a nivel de kernel son als siguientes:\\E$"}
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QPara que el virus funcione, es necesario modificar el archivo elfvirus.c y modificar las llamadas a la funcion \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q para que use la ruta que he especificado.\\E$"}
+{"rule":"ESPACIO_DESPUES_DE_PUNTO","sentence":"^\\QPara que el virus funcione, es necesario modificar el archivo elfvirus.c y modificar las llamadas a la funcion \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q para que use la ruta que he especificado.\\E$"}
