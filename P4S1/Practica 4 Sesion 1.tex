@@ -40,7 +40,7 @@ Y ahora a modo de realismo, voy a copiar las imagenes usadas durante estas pract
 
 %Foto de la carpeta con archivos y del archivo amenaza
 
-A continuacion desmonto el disco para suponer que he recibido el pendrive asi y para que no pueda realizarle mas modificaciones.
+A continuacion elimino esse archivo y desmonto el disco para suponer que he recibido el pendrive asi y para que no pueda realizarle mas modificaciones.
 
 Ahora voy a seguir los pasos indicados en el guion de practicas, por tanto, lo primero que hay que hacer es obtener la estructura interna de particiones con la orden \verb|fdisk -l /dev/sdX > fdisk.disco1| siendo la X la letra asignada al disco, en mi caso es a. (se puede comprobar con la orden \verb|fdisk -l| o \verb|lsblk|).
 
@@ -50,5 +50,39 @@ Lo siguiente que hay que hacer es crear una imagen forense del disco para evitar
 
 %salida de dd
 
+Ahora es necesario poner la imagen del disco a solo lectura con la orden \verb|chmod 444 imagen.disco1|.
+
+El siguiente paso, que es copiar la imagen a otro disco no es necesario, ya que se puede trabajar directamente sobre la imagen como explicare a continuacion. Ahora se debe montar la imagen con la orden \verb|mount imagen.disco1 /mnt -o noexec,loop|, y al hacer \verb|lsblk -f| se puede ver que está montado correctamente.
+
+%foto de la salida de lsblk
+%caption{Se puede ver que el nombre que tiene es \texttt{loop2} y que se ha montado correctamente en el punto de montaje indicado.}
+
+Ahora es necesario verficar la integridad de los datos del pendrive antes y despues de completar el analisis, para ello se usa la orden \verb|sha1sum /dev/sda1 > SHA.disco1|.
+
+%foto de sha1sum
+
+Y ahora, voy a realizar lo mismo, pero sobre cada archivo. En este caso se debe hacer sobre la imagen porque al montar el pendrive puede darse el caso de que el hash cambie. Para ello, desde la raiz de la imagen montada, se debe hacer con la orden \verb|find . -type f -exec sha1sum {} \; > SHA.listaArchivos|.
+
+%salida del comando con bat
+
+Y se puede realizar la verficiacion con la orden \verb|sha1sum -c ~/SHA.listaArchivos| (se debe estar dentro de la raiz de la imagen)
+
+%salida del comando.
+
+Ahora se puede proceder con seguridad a encontrar el archivo eliminado anteriormente. Para ello, es necesario crear un fichero con las palabras claves mas probables que se encuentren. El fichero tiene la siguiente forma:
+
+%slaida
+
+Ahora con la orden \verb|grep -aibf palabrasClave imagen.disco1 > aciertos.txt| se puede realizar la busqeuda en la imagen:
+
+%salida en aciertos.txt
+
+Como se puede ver, aparece la frase ``Esto es una amenaza, si no nos da algo de dinero publicamos el contenido de su pendr...'', indicando que ha habido una amenaza.
+
+Por ultimo, para asegurarse, se puede usar el comando \texttt{xxd -s 299892684 imagen.disco1 | less} para verlo en la propia imagen:
+
+%salida del comando
+
+Y efectivamente, aqui tamvien aparece.
 
 \end{document}
