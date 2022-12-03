@@ -34,7 +34,7 @@
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
 
-Debido a que le pendrive que tengo es muy lento (usa USB 2.0), voy a crear una particion de 1 GB con el sistema de archivos ext4.
+Voy a crear una partición con el sistema de archivos FAT32 (debido a problemas con Autopsy que me surgieron en los siguientes ejercicios)
 
 Y ahora a modo de realismo, voy a copiar las imagenes usadas durante estas practicas y un archivo dentro de la carpeta ``mis trabajos'' denominado ``amenaza.txt'' con una frase que amenace.
 
@@ -88,8 +88,6 @@ Y efectivamente, aqui tamvien aparece.
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
 
-(NOTA: debido a la lentitud del pendrive que tengo, he decidido usar un pendrive de menor capacidad y con USB 3.0, va a tener exactamente los mismos pasos aplicados que el ejercicios 1, aunque no tendrá el mismo hash seguira produciendo la misma salida.)
-
 EN esta parte es necesario utilizar la herramienta ``GuyMager'' para obtener una imagen forense del mismo pendrive. POr tanto, se descarga el programa mediante \verb|apt| y se abre.
 
 %foto de inicio.
@@ -114,26 +112,37 @@ Al finalizar, se puede ver que ha generado varios trozos de la imagen del pendri
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
 
-Para este ejercicio es necesario tener instalado ``TheSleuthKit'' y ``Autopsy''. Una vez instalado, es necesario ejecutar la siguiente orden: \verb|sudo autopsy| e irse a la URL \verb|http://localhost:9999/autopsy|.
-
-%imagen inicial
+\textbf{NOTA: }La version de Autopsy para Linux con la interfaz web no era capaz de detectar las particiones de la imagen creada con la herramienta del ejercicio anterior, por lo que he decidido usar la ultima version de Autopsy que sí la detecta.
 
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
-Una vez lanzado el servidor, es necesario crear un caso dandole al boton ``NEW CASE''. Dentro del mismo rellenamos los datos que se piden:
 
-%foto de los datos rellenados
+Cuando se ejecuta Autopsy aparece la siguiente pantalla:
 
-Y despues se debe crear un host para este caso, para ello se le da al obton ``ADD HOST'' y se rellenan los datos.
+%foto pantalla
 
-%foto de esto relleno
+Ahora le damos a ``New Case'' y se le elige un nombre, la ubicacion, el numero de caso, algunso datos del examinador:
 
-A continuacion, es necesario añadir la imagen creada con la herramienta ``GuyMager'', para ello, se le da al boton ``ADD IMAGE'' y luego a ``ADD IMAGE FILE''. Despues debemos rellenar la ubicacion de los fragmentos de la imagen utilizando el wildcard ``*'' para indicarle que coja todos los fragmentos.
+%fotos rellenas
 
-%fotos dfe las tres pantalals
+Al darle a Finish, aparece otra venta en la que se pide añadir una fuente de datos, en este caso al imagen creada, para ello se elige ``Disk Image or VM File'' y se elige el primer fragemnto de la imagen:
 
-Finalmente se le da al boton ``ADD'' para que se añadan las imagenes y aparece una pantalla donde se indica las imagenes añadidas junto con algunos detalles (enalce ``details'').
+%fotos rellenas
 
+Tras que el programa procese la imagen, aparece el siguiente panel:
 
+%foto panel
+
+Y ahora es necesario darle a Data Sources $\rightarrow$ imagenPendrive.E01\_1 Host $\rightarrow$ imagenPendrive.E01 $\rightarrow$ vol4.
+
+%foto salida
+
+Como se puede ver, hay 3 particiones que hacian que versiones antiguas de Autopsy (con interfaz web) no pudiesen detectar el sistema de archivos correctamente y solo funcionasen en modo raw.
+
+Ahora bien, hay dos opciones de ver archivos eliminados, la primera es yendo a la ubicacion donde estaba el archivo, y la segunda es dandole al boton del panel de la izquierda ``Deleted Files''.
+
+%foto de deleted files y el otro
+
+Y como se puede ver detecta el archivo eliminado del pendrive y muestra su informacion.
 
 \end{document}
