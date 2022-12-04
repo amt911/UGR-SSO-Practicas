@@ -1,35 +1,62 @@
-%TODO: ARREGLAR EJERCICIO 1B
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref}
-\usepackage{listings}
-\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage{graphicx, graphics, float, fancyhdr, titling}
+\usepackage{listings, subcaption}
+\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\usepackage{hyperref}
 
-\title{SSO Práctica 1 Sesión 2}
-\author{Andrés Merlo Trujillo}
-\date{}
+\setcounter{secnumdepth}{-2}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\title{
+\includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
+\vspace*{1in}
+\textbf{Práctica 1, Sesión 2} \\
+Seguridad en Sistemas Operativos \\
+\vspace*{0.5in}}
+\author{Andrés Merlo Trujillo \\
+\vspace*{0.5in} \\
+E.T.S. de Ingenierías Informática y de Telecomunicación \\
+\textbf{Universidad de Granada}} \date{\today}
+%\date{}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
 }
 
-\begin{document}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
-\maketitle
+\begin{document}
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
 
 \tableofcontents
 
 \newpage
-\addcontentsline{toc}{section}{Ejercicio 1}
-\section*{Ejercicio 1}
 
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\pagestyle{fancy}
+\fancyhead[L]{Andrés Merlo Trujillo}
+\fancyhead[R]{Seguridad en Sistemas Operativos}
+
+\newpage
+\section{Ejercicio 1}
+
+\textbf{Enunciado: }``Resuelve las siguientes cuestiones:''
+
+\subsection{Apartado A}
+
+\textbf{Enunciado: }``Utiliza esta herramienta para conocer que procesos/servicios de nuestro sistema están accediendo a la red o tiene archivos abiertos. Indicar algunos de los servicios que tenéis activos, es decir, la actividad de la red, indicando que información da la herramienta.''
+
+\bigskip
+
 Mediante la orden \verb|lsof -i| ejecutada como root, podemos obtener la información de los servicios y procesos que tienen alguna conexión abierta o archivo abierto.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofi.png}
+    \caption{Procesos con archivos abiertos.}
 \end{figure}
 
 \bigskip
@@ -48,12 +75,11 @@ La orden ofrece 9 columnas con los siguientes significados:
     \item \textbf{NAME: }Punto de montaje y sistema de archivos que usa el archivo abierto. También puede significar la dirección local o remota de internet o de un socket.
 \end{itemize}
 
-\bigskip
+\newpage
 
 A continuación explicaré dos procesos de la salida del comando anterior:
 
-\addcontentsline{toc}{subsubsection}{sshd}
-\subsubsection*{sshd}
+\subsubsection{sshd}
 \begin{itemize}
     \item \textbf{COMMAND: }sshd
     \item \textbf{PID: }1319
@@ -66,8 +92,7 @@ A continuación explicaré dos procesos de la salida del comando anterior:
     \item \textbf{NAME: }*:ssh (LISTEN) (El asterisco indica que espera de cualquier IP, en el puerto ssh (configurable, por defecto el 22)).
 \end{itemize}
 
-\addcontentsline{toc}{subsubsection}{avahi-daemon}
-\subsubsection*{avahi-daemon}
+\subsubsection{avahi-daemon}
 \begin{itemize}
     \item \textbf{COMMAND: }avahi-dae (avahi-daemon)
     \item \textbf{PID: }1144
@@ -81,44 +106,55 @@ A continuación explicaré dos procesos de la salida del comando anterior:
 \end{itemize}
 
 
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
+
+\textbf{Enunciado: }``Qué órdenes y opciones darías para conocer que cuenta podría estar generando tráfico saliente malicioso de \texttt{ssh} y dónde se encuentra el archivo.''
+
+\bigskip
+
 Leyendo el manual, hace falta usar el switch \verb|-i|, como en el apartado anterior, y añadiendo que busque las conexiones con el servicio ``ssh''. Por tanto, el comando quedaría así: \verb|lsof -i :ssh|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofisshlisten.png}
+    \caption{Búsqueda de conexiones con SSH.}
 \end{figure}
 
 Ahora mismo no hay nadie conectado, solo están los ``daemons'' a la escucha de peticiones de conexión. Si ahora me conecto desde otra máquina virtual a la de Ubuntu, la salida es la siguiente:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofissharch.png}
+    \caption{Prueba con una conexión abierta para SSH.}
 \end{figure}
 
 
 Aparecen dos líneas nuevas y en el apartado \verb|NAME| se ve que la conexión es entre el usuario ``andres-kvm'' (Ubuntu) usando el servicio ``ssh'' (en mi caso es el puerto 22)  y el usuario ``archlinux'' en el puerto 57686, que es un puerto que se asigna aleatoriamente para enviar información (escuchar) a ``archlinux''.
 
-\newpage
+\bigskip
 
 Con la orden \verb|lsof -c sshd| se puede ver los archivos que tiene abiertos SSH:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofcsshd.png}
+    \caption{Archivos abiertos por SSH.}
 \end{figure}
 
 Como se puede ver, aparece el usuario conectado y con el mismo PID aparecen todos los archivos abiertos por \verb|sshd|
 
+\newpage
+
+\subsection{Apartado C}
+
+\textbf{Enunciado: }``Muestra los archivos a los que está accediendo un proceso concreto y los que están en uso por un usuario.''
+
 \bigskip
 
-\addcontentsline{toc}{subsection}{Apartado C}
-\subsection*{Apartado C}
 Para mostrar los archivos que usa un proceso concreto, es necesario referenciarlo con su PID. Para ello es necesario usar el siguiente comando: \verb|lsof -p PID|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lsofp.png}
+    \caption{Archivos que usa el PID 4029.}
 \end{figure} 
 
-\newpage
 
 Y ahora para ver los archivos que está usando un usuario concreto, se debe usar el switch \verb|-u|: \verb|lsof -u usuario|
 
@@ -128,6 +164,8 @@ Y ahora para ver los archivos que está usando un usuario concreto, se debe usar
 \end{figure}
 
 \bigskip
+
+\newpage
 
 Por último, para obtener los archivos que tiene abiertos un proceso \textbf{Y} un usuario, es necesario usar el switch adicional \verb|-a|. Esto es debido a que por defecto solo busca, en caso de haber varios switches, utilizando un criterio \textbf{OR}. Comando: \verb|lsof -u usuario -p PID -a|
 
@@ -139,25 +177,30 @@ Por último, para obtener los archivos que tiene abiertos un proceso \textbf{Y} 
 
 \newpage
 
-\addcontentsline{toc}{section}{Ejercicio 2}
-\section*{Ejercicio 2}
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\section{Ejercicio 2}
+\textbf{Enunciado: }``Instalar y ejecutar la citada herramienta en vuestro sistema de cara a:''
+
+\subsection{Apartado A}
+\textbf{Enunciado: }``Mostrar que vulnerabilidades hay en vuestro sistema de prácticas. Suponiendo que el equipo de trabajo está destinado al desarrollo de aplicaciones, asignarle un grado de severidad a cada uno de los avisos en una escala: alta, media, o baja (esta escala no tiene porque coincidir con la que usa Lynix) e indicar qué pasos debemos dar para que los test tengan éxito, y se aumente el grado de endurecimiento del sistema.''
+
+\bigskip
+
 Para ver que vulnerabilidades hay en el sistema es necesario instalar el paquete \verb|lynis| junto al comando \verb|lynis audit system|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisresults1.png}
+    \caption{Resultado de la ejecución de \texttt{lynis}.}
 \end{figure}
 
-\bigskip
+\newpage
 
 Y las posibles vulnerabilidades son las siguientes:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lyniswarnings1.png}
+    \caption{Posibles vulnerabilidades (marcadas en rojo como warnings).}
 \end{figure}
 
-\newpage
 
 Como se puede ver, solo hay dos avisos. Suponiendo que es una máquina para desarrollar aplicaciones, voy a listar los grados de severidad:
 
@@ -173,6 +216,7 @@ Como se puede ver, solo hay dos avisos. Suponiendo que es una máquina para desa
 
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{imagenes/ufwstatus.png}
+        \caption{Estado del firewall.}
     \end{figure}
 \end{itemize}
 
@@ -182,28 +226,34 @@ Ahora, ejecutando de nuevo \verb|lynis audit system| aparece la siguiente puntua
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lynisresults2.png}
+    \caption{Resultado de la segunda ejecución de \texttt{lynis}.}
 \end{figure}
 
-\newpage
 
 Y al ver los warnings se ve que no aparece ninguno:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lyniswarnings2.png}
+    \caption{Ya no se producen más advertencias, solo sugerencias.}
 \end{figure}
 
 Por tanto, en cuanto a advertencias el sistema ya está ``seguro'' (nunca se puede decir con total seguridad). En cuanto a las sugerencias, las principales son para reforzar SSH y el uso de bloqueadores de IP como \verb|fail2ban|. No son fallos demasiado críticos.
 
 \bigskip
 
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
+
+\textbf{Enunciado: }``Comprobar para que antivirus pasa los test la herramienta. Elija otro antivirus para Linux que no esté entre los chequeados por la herramienta. Indicar qué debemos hacer para que la herramienta lo detecte y no muestre en el informe final que no tenemos solución antivirus cuando no es cierto.''
+
+\bigskip
+
 Lynis permite añadir nuevos tests o modificar existentes para añadirles más funcionalidad. Todo esto se realiza mediante los archivos que se encuentran en el directorio \verb|/usr/share/lynis/include|.
 
 En este caso, para poder ver los antivirus que detecta actualmente es necesario inspeccionar el archivo \verb|/usr/share/lynis/include/tests_malware|:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/antivirus1.png}
+    \caption{Macros utilizadas para la detección de antivirus.}
 \end{figure}
 
 \newpage
@@ -245,6 +295,7 @@ Ahora, modifico el archivo anterior y añado la macro:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{imagenes/macro.png}
+    \caption{Es necesario añadir la macro para el programa elegido.}
 \end{figure}
 
 \bigskip
@@ -253,6 +304,7 @@ Y añadimos un nuevo ``if'' en la cadena del test ``MALW-3280'':
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/unhidetest.png}
+    \caption{Código necesario para la detección de \texttt{unhide}.}
 \end{figure}
 
 \newpage
@@ -276,29 +328,38 @@ Y si desinstalo \verb|unhide| aparece como que no hay ningún antivirus instalad
 
 \newpage
 
-\addcontentsline{toc}{section}{Ejercicio 3}
-\subsection*{Ejercicio 3}
+\section{Ejercicio 3}
+\textbf{Enunciado: }``Instalar y ejecutar la citada herramienta en vuestro sistema de cara a:''
+
+\bigskip
 
 Para instalar la herramienta en Ubuntu se ejecuta la orden: \verb|sudo apt install rkhunter|.
 
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\subsection{Apartado A}
+
+\textbf{Enunciado: }``Realizar un análisis del sistema para ver si esta o no comprometido.''
+
+\bigskip
+
 Para realizar el análisis es necesario ejecutar el comando: \verb|sudo rkhunter --check|
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/rkhuntersalida1.png}
+    \caption{Salida de la ejecución de \texttt{rkhunter}.}
 \end{figure}
 
 Como se puede ver en los resultados, aparece que hay alguna advertencia. Ahora, revisando el archivo \verb|/var/log/rkhunter.log| y buscando la palabra ``Warning''.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/warn1.png}
+    \caption{Búsqueda de alguna advertencia.}
 \end{figure}
 
 La primera advertencia tiene que ver con la posible modificación del binario \verb|lwp-request|, en caso de ser una modificación malintencionada, un atacante podría modificar el binario para recibir todos los datos que se envían o reciben a través de él (por ejemplo, si se usa SSH, poner un keylogger para obtener las contraseñas).
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/warn2.png}
+    \caption{Otra advertencia.}
 \end{figure}
 
 \bigskip
@@ -307,12 +368,17 @@ La segunda advertencia tiene que ver con la seguridad de la configuración SSH, 
 
 \newpage
 
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
+
+\textbf{Enunciado: }``De los avisos, soluciona los que sean falsos positivos, bien eliminando los tests bien ajustándolos adecuadamente.''
+
+\bigskip
+
 El primer error se puede solucionar cambiando en \verb|/etc/rkhunter.log| el macro \verb|PKGMGR| (por defecto esta a ``NONE''), en el caso de Ubuntu y Debian se debe cambiar a ``DPKG''. Este cambio hace que coteje con los hashes de cada paquete para ver si han sido modificados malintencionadamente:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/rkhuntermacrodpkg.png}
+    \caption{Cambio de la configuración de \texttt{rkhunter} para que funcione correctamente.}
 \end{figure}
 
 Una vez realizado este cambio, se debe ejecutar el comando \verb|sudo rkhunter --propupd|.
@@ -322,7 +388,10 @@ Todo esto se puede solucionar cambiando en el archivo de configuración \verb|/e
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/sshpermit.png}
+    \caption{Prohibición de login a root por SSH para quitar la otra advertencia.}
 \end{figure}
+
+\newpage
 
 Además, es necesario reiniciar el servicio con el comando \verb|systemctl restart ssh|.
 
@@ -330,6 +399,7 @@ Por último, para comprobar que el sistema ya no tiene más advertencias, ejecut
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/rkhunterokk.png}
+    \caption{Salida correcta y sin advertencias.}
 \end{figure}
 
 Y como se puede ver, el sistema ya es seguro, eran solo falsos positivos en el primer caso, y en el segundo una mala configuración de un servicio importante.
