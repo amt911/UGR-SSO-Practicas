@@ -1,22 +1,45 @@
-%TODO: ARREGLAR EJERCICIO 1B
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref}
-\usepackage{listings}
-\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage{graphicx, graphics, float, fancyhdr, titling}
+\usepackage{listings, subcaption}
+\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\usepackage{hyperref}
 
-\title{SSO Práctica 1 Sesión 3}
-\author{Andrés Merlo Trujillo}
-\date{}
+\setcounter{secnumdepth}{-2}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\title{
+\includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
+\vspace*{1in}
+\textbf{Práctica 1, Sesión 3} \\
+Seguridad en Sistemas Operativos \\
+\vspace*{0.5in}}
+\author{Andrés Merlo Trujillo \\
+\vspace*{0.5in} \\
+E.T.S. de Ingenierías Informática y de Telecomunicación \\
+\textbf{Universidad de Granada}} \date{\today}
+%\date{}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
 }
 
-\begin{document}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
-\maketitle
+\begin{document}
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
+
+\tableofcontents
+
+\newpage
+
+\pagestyle{fancy}
+\fancyhead[L]{Andrés Merlo Trujillo}
+\fancyhead[R]{Seguridad en Sistemas Operativos}
 
 %\tableofcontents
 %
@@ -26,9 +49,11 @@
 %\begin{figure}[H]
 %    \includegraphics[width=\textwidth]{imagenes/lsofi.png}
 %\end{figure}
+\section{Ejercicio 1}
+\textbf{Enunciado: }``Determinar los perfiles activos en la distribución Linux de tu equipo. Elige uno de los perfiles y analiza/comenta sus características.''
 
-\addcontentsline{toc}{section}{Ejercicio 1}
-\section*{Ejercicio 1}
+\bigskip
+
 Con la orden \verb|aa-status| o la orden \verb|apparmor_status| se pueden ver los perfiles activos en Ubuntu:
 
 \begin{figure}[H]
@@ -43,11 +68,13 @@ Ahora voy a elegir el perfil \verb|/usr/bin/freshclam|, para poder ver el archiv
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{imagenes/Captura desde 2022-10-18 16-13-59.png}
+    \caption{Contenido del perfil para \texttt{freshclam}.}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{imagenes/Captura desde 2022-10-18 16-14-08.png}
+    \caption{Contenido del perfil para \texttt{freshclam}.}
 \end{figure}
 
 Las componentes principales son las siguientes:
@@ -111,9 +138,11 @@ También se puede ver que contiene una lista de archivos y directorios junto con
     \item \textbf{Cx: }Permite transiciones a un perfil hijo. Con la C mayúscula se usa ``secure exec'' de glibc.
 \end{itemize}
 
+\section{Ejercicio 2}
+\textbf{Enunciado: }``Selecciona un programa de tu distribución que no tenga perfil asociado y crea y activa un perfil con los privilegios que estimes oportunos. Indica cómo se han reflejado estos en el perfil.''
 
-\addcontentsline{toc}{section}{Ejercicio 2}
-\section*{Ejercicio 2}
+\bigskip
+
 Voy a generar un perfil para el programa \verb|nano|, la característica principal que voy a añadir es prohibirle el acceso a un archivo denominado \verb|/root/archivoProhibido| el cual contiene lo siguiente:
 
 
@@ -131,7 +160,10 @@ Para saber su ruta absoluta se puede usar la orden \verb|which nano|:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{imagenes/which.png}
+    \caption{Ruta donde se encuentra el comando.}
 \end{figure}
+
+\newpage
 
 Ahora para generar el perfil se ejecuta el comando \verb|aa-genprof /usr/bin/nano|:
 
@@ -161,10 +193,13 @@ Al ser el archivo de configuración de \verb|nano|, es recomendable deshabilitar
 
 Además, aparece la opción de denegar el acceso a \verb|/etc/passwd|, tras varias modificaciones he llegado a la conclusión de que es necesario para que detecte los usuarios que no sean root, por lo que hay que ponerle el mismo ajuste que a \verb|/etc/nanorc|.
 
+\newpage
+
 Finalmente, el archivo generado por defecto es el siguiente:
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 17-23-45.png}
+    \caption{Archivo de perfil generado para \texttt{nano}.}
 \end{figure}
 
 Esta configuración va a prohibir por defecto el acceso a todos los directorios, salvo los explícitamente mencionados. Si se quiere que se permita acceso a los directorios \verb|/home| y \verb|/root|, pero prohibiendo el acceso a \verb|/root/archivoProhibido| se debe poner lo siguiente:
@@ -173,7 +208,10 @@ Esta configuración va a prohibir por defecto el acceso a todos los directorios,
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-18 17-30-04.png}
+    \caption{Prohibición de acceso a ``archivoProhibido''.}
 \end{figure}
+
+\newpage
 
 Ahora, haciendo \verb|systemctl reload apparmor| se recargan todos los perfiles y como se puede observar, si hago \verb|nano /root/prueba| permite la creación del archivo.
 
