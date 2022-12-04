@@ -1,35 +1,55 @@
-%TODO: CORREGIR COMANDOS PARA QUE SE VEAN CON VERB
-%TODO: INTENTAR QUITAR LA MORRAYA QUE NO SIRVA
-%TODO: INTENTAR NO REPETIR TANTAS COSAS EN EL EJERCICIO 3
-%TODO: REVISAR DOCUMENTO PARA FALLOS ORTOGRAFICOS/GRAMATICALES
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref}
-\usepackage{listings}
-\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage{graphicx, graphics, float, fancyhdr, titling}
+\usepackage{listings, subcaption}
+\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\usepackage{hyperref}
 
-\title{SSO Práctica 1 Sesión 1}
-\author{Andrés Merlo Trujillo}
-\date{}
+\setcounter{secnumdepth}{-2}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\title{
+\includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
+\vspace*{1in}
+\textbf{Práctica 1, Sesión 1} \\
+Seguridad en Sistemas Operativos \\
+\vspace*{0.5in}}
+\author{Andrés Merlo Trujillo \\
+\vspace*{0.5in} \\
+E.T.S. de Ingenierías Informática y de Telecomunicación \\
+\textbf{Universidad de Granada}} \date{\today}
+%\date{}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
 }
 
-\begin{document}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
-\maketitle
+\begin{document}
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
 
 \tableofcontents
 
 \newpage
-\addcontentsline{toc}{section}{Ejercicio 1}
-\section*{Ejercicio 1}
+
+\pagestyle{fancy}
+\fancyhead[L]{Andrés Merlo Trujillo}
+\fancyhead[R]{Seguridad en Sistemas Operativos}
+
+\section{Ejercicio 1}
+
+\textbf{Enunciado: }``Indicar los formatos internos de los archivos /etc/passwd, /etc/group, /etc/shadow y /etc/gshadow, es decir, cual es el significado de cada uno de los campos que componen los registros de los mismos.''
+
+\bigskip
+
 A continuación, voy a explicar el formato y el significado de cada uno de los campos. Para ello, voy a dividir cada archivo en subsecciones:
 
-\addcontentsline{toc}{subsection}{/etc/passwd}
-\subsection*{/etc/passwd}
+\subsection{/etc/passwd}
 \textbf{Formato:} \verb|nombre_login:contra_encriptada:UID:GID:comentario:shell|
 
 \begin{figure}[H]
@@ -61,8 +81,7 @@ Este fichero está formado por líneas de 7 campos separados por ``:''. Los camp
 
 \newpage
 
-\addcontentsline{toc}{subsection}{/etc/group}
-\subsection*{/etc/group}
+\subsection{/etc/group}
 \textbf{Formato: }\verb|nombre_grupo:contra:GID:usuario1,usuario2,...|
 
 \begin{figure}[H]
@@ -86,8 +105,7 @@ Este fichero está formado por 4 campos separados por ``:''. EL significado de c
 
 \newpage
 
-\addcontentsline{toc}{subsection}{/etc/shadow}
-\subsection*{/etc/shadow}
+\subsection{/etc/shadow}
 \textbf{Formato: }\verb|login:pass:last_change:min_age:max_age:pass_warn:pass_inact:acc_exp:reserved|
 
 \begin{figure}[H]
@@ -141,8 +159,7 @@ Este fichero está formado por líneas de 9 campos separados por ``:''. Los camp
 \end{enumerate}
 
 
-\addcontentsline{toc}{subsection}{/etc/gshadow}
-\subsection*{/etc/gshadow}
+\subsection{/etc/gshadow}
 \textbf{Formato: }\verb|group_name:encrypted_pass:admin1,admin2,...:member1,member2,...|
 
 \bigskip
@@ -169,8 +186,12 @@ Este fichero está también formado por 4 campos separados por el símbolo ``:''
     \item \textbf{Miembros: }Lista de usuarios separados por coma. Los miembros del grupo pueden acceder al mismo sin necesitar la contraseña.
 \end{enumerate}
 
-\addcontentsline{toc}{section}{Ejercicio 2}
-\section*{Ejercicio 2}
+\section{Ejercicio 2}
+
+\textbf{Enunciado: }`` Modificar el archivo /etc/login.defs para que los usuarios creados a partir de ese momento tengan un valor asignado para la directiva \texttt{LOGIN\_TIMEOUT}. Crear un usuario y comprobar que tiene efecto la citada directiva.''
+
+\bigskip
+
 En este ejercicio se pide modificar el valor de la variable \verb|LOGIN_TIMEOUT| y comprobar sus efectos con un usuario nuevo que se haya creado manualmente.
 
 \bigskip
@@ -182,7 +203,7 @@ Para ello, modifico la variable, que estaba por defecto a \textbf{60 segundos}:
     \caption{Valor por defecto.}
 \end{figure}
 
-\bigskip
+\newpage
 
 Y lo cambio a otro valor, por ejemplo, \textbf{5 segundos}:
 
@@ -191,22 +212,23 @@ Y lo cambio a otro valor, por ejemplo, \textbf{5 segundos}:
     \caption{Valor cambiado a 5 segundos.}
 \end{figure}
 
-\newpage
 
 A continuación, creo el usuario llamado ``prueba'', le cambio la contraseña y hago login con él desde la terminal. Cuando se encuentre en la parte de pedir la contraseña de este usuario nuevo, se espera un tiempo hasta que la terminal devuelva un mensaje:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/tout5login.png}
+    \caption{Timeout cambiado a 5 segundos.}
 \end{figure}
 
 Como se puede ver, pone que han pasado 5 segundos y el acceso ha caducado.
 
-\bigskip
+\newpage
 
 Ahora, pruebo con otro valor, por ejemplo \textbf{12 segundos}:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/tout12.png}
+    \caption{Timeout ahora cambiado en la configuración a 12 segundos.}
 \end{figure}
 
 \bigskip
@@ -216,13 +238,19 @@ E intento iniciar sesión de nuevo con el usuario ``prueba'' y espero en la part
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{imagenes/tout12login.png}
+    \caption{Funciona correctamente a 12 segundos.}
 \end{figure}
 
 Como se puede ver, el timeout ahora es distinto.
 
+\newpage
 
-\addcontentsline{toc}{section}{Ejercicio 3}
-\section*{Ejercicio 3}
+\section{Ejercicio 3}
+
+\textbf{Enunciado: }``Crear un ACL para un archivo de vuestro sistema de forma que el usuario creado en el Ejercicio 2 tenga acceso de lectura y escritura.''
+
+\bigskip
+
 En este ejercicio se pide crear un archivo y darle, mediante un ACL, permisos de lectura y escritura al usuario creado (en mi caso sigue siendo ``prueba''). Para ello, mediante la orden \verb|touch| creo el archivo denominado \verb|ejercicio3|.
 
 \bigskip
@@ -241,23 +269,28 @@ Ahora, con la orden \verb|setfacl -m u:prueba:rw ejercicio3| se le dará al usua
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/getfaclnew.png}
+    \caption{Permisos modificados.}
 \end{figure}
 
 Como se puede observar, ahora aparece una línea que indica que el usuario ``prueba'' tiene permisos ``rw''.
 
 
-\addcontentsline{toc}{section}{Ejercicio 4}
-\section*{Ejercicio 4}
+\section{Ejercicio 4}
+
+\textbf{Enunciado: }``En el sistema que tenemos en uso, indicar los archivos de configuración existentes y comentar la misión de un par de ellos y cómo lo hacen.''
+
+\bigskip
+
 Con el comando \verb|ls| muestro los archivos que se encuentran en el directorio \verb|/etc/pam.d|:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lspam.png}
+    \caption{Módulos PAM implementados por defecto.}
 \end{figure}
 
 A continuación explicaré dos archivos:
 
-\addcontentsline{toc}{subsection}{/etc/pam.d/chfn}
-\subsection*{/etc/pam.d/chfn}
+\subsection{/etc/pam.d/chfn}
 Permite cambiar la información personal de un usuario tales como: el nombre, el número de teléfono, de habitación, etc. Estos datos luego pueden ser leídos por comandos como \verb|finger|.
 
 \bigskip
@@ -266,14 +299,14 @@ El contenido del archivo es:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/pamchfn.png}
+    \caption{Contenido del módulo PAM para \texttt{chfn}.}
 \end{figure}
 
 La función de la línea 7 es para no pedir la contraseña al usuario root cuando esté usando este comando. Para ello, hace uso del campo de control \verb|sufficient|, que hace que si tiene éxito retorne sin ejecutar más módulos. Además, hace uso del módulo \verb|pam_rootok.so| que hace que solo tenga éxito si el usuario tiene el UID a 0 (es el usuario root).
 
 \newpage
 
-\addcontentsline{toc}{subsection}{/etc/pam.d/chsh}
-\subsection*{/etc/pam.d/chsh}
+\subsection{/etc/pam.d/chsh}
 El comando \verb|chsh| permite cambiar la shell por defecto del usuario que lo invoca. Si no se le pasa ningún parámetro se activa el modo interactivo para realizar el cambio de shell.
 
 \bigskip
@@ -282,6 +315,7 @@ El contenido del archivo es el siguiente:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/pamchsh.png}
+    \caption{Contenido del módulo PAM para \texttt{chsh}.}
 \end{figure}
 
 
@@ -294,16 +328,20 @@ La función de la línea 12 es de permitir al superusuario cambiar la shell sin 
 
 \newpage
 
-\addcontentsline{toc}{section}{Ejercicio 5}
-\section*{Ejercicio 5}
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\section{Ejercicio 5}
+\subsection{Apartado A}
+
+\textbf{Enunciado: }``Modificar la configuración para que se la autenticación exija que la clave de un usuario tenga una longitud mínima. Deberemos utilizar el módulo pam\_pwquality (recordar que pam\_cracklib esta en desuso) ¡Cuidado! pues modificaciones inadecuadas pueden dejar sin acceso a usuarios que existen en el sistema.''
+
+\bigskip
+
 Es necesario modificar el archivo PAM \verb|common-password| y en Ubuntu 22.04 ya como primera línea aparece el uso del módulo \verb|pam_pwquality|. 
 
 Ahora bien si leemos el manual de este módulo con \verb|man 8 pam_pwquality| se puede ver que hay un argumento denominado \verb|minlen| y que valor por defecto es \textbf{8}. No obstante, no se puede bajar del valor 4, ya que es un límite que tiene \verb|Cracklib| y mostrará que la contraseña es muy corta. Por eso, voy a poner el límite a \textbf{15 caracteres}.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/passwordminlen15.png}
+    \caption{Modificación de la longitud mínima para las contraseñas.}
 \end{figure}
 
 \bigskip
@@ -312,14 +350,19 @@ Y ahora al usar el comando \verb|passwd| y poner una contraseña con menos de 15
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/passwordminlen15passwd.png}
+    \caption{Intento de poner una contraseña menor de 15 caracteres.}
 \end{figure}
 
 Y al agotarse los intentos (que son 3) se sale del programa.
 
 \newpage
 
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
+
+\textbf{Enunciado: }``Piensa otra modificación de tu preferencia e impleméntala. Por ejemplo, deshabilitar el acceso a root directo por consola, evitar que un usuario que no es el root tire el sistema, etc.''
+
+\bigskip
+
 En esta parte he restringido el acceso al comando \verb|su| para así evitar que un usuario que ponga el comando sin \verb|sudo| pueda entrar. En cambio, si ponen \verb|sudo su| sí van a poder entrar, pero esto es así porque son usuarios administradores (y es una decisión de diseño, ya que en otro caso no podría usar nadie \verb|sudo|), en ese caso lo recomendable es deshabilitar el acceso al grupo \verb|sudo| (en el caso de Ubuntu) para que no lo pueda usar (editando el archivo sudoers mediante el comando \verb|visudo|).
 
 \bigskip
@@ -340,9 +383,10 @@ Ahora, al ejecutar el comando \verb|su| con un usuario normal aparece lo siguien
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{imagenes/sudenyuser.png}
+    \caption{Ya no se puede ejecutar el comando \texttt{su}.}
 \end{figure}
 
-\bigskip
+\newpage
 
 En cambio, si el usuario puede usar \verb|sudo|, si puede acceder.
 
@@ -354,8 +398,12 @@ En cambio, si el usuario puede usar \verb|sudo|, si puede acceder.
 
 
 
-\addcontentsline{toc}{section}{Ejercicio 6}
-\section*{Ejercicio 6}
+\section{Ejercicio 6}
+
+\textbf{Enunciado: }``Crear en el sistema un usuario con las características que deseéis, entrando como ese usuario cambiar la contraseña y analizar los archivos log para ver el mensaje correspondiente.''
+
+\bigskip
+
 En Ubuntu 22.04 los cambios de contraseña no se almacenan en \verb|/var/log/messages|, sino en \verb|/var/log/auth.log|. \href{https://ubuntu.com/tutorials/viewing-and-monitoring-log-files#2-log-files-locations}{Enlace} a la guía.
 
 \bigskip
@@ -364,18 +412,25 @@ Voy a crear el usuario ``ejercicio6'' y le voy a cambiar la contraseña:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/createejercicio6.png}
+    \caption{Cambio de contraseña.}
 \end{figure}
+
+\newpage
 
 Y ahora, al mostrar el archivo \verb|/var/log/auth.log| aparecen las siguientes líneas:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/authcreateejercicio6.png}
+    \caption{Cambio de contraseña reflejado en el log.}
 \end{figure}
 
-\newpage
 
-\addcontentsline{toc}{section}{Ejercicio 7}
-\section*{Ejercicio 7}
+\section{Ejercicio 7}
+
+\textbf{Enunciado: }``Modificar el archivo sudoers para que un usuario determinado tenga acceso a todas las órdenes del root.''
+
+\bigskip
+
 Para empezar, el propio archivo \verb|sudoers| recomienda usar la orden \verb|visudo|. Por tanto, es necesario usar \verb|visudo| para que no haya problemas después. Además, por defecto usa el editor \verb|vi|, esto se puede cambiar usando el comando siguiente: \verb|EDITOR=nano visudo|
 
 \bigskip
@@ -384,6 +439,7 @@ Ahora, voy a asignarle permisos para usar sudo al usuario ``prueba'' que no se e
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/sudoprueba.png}
+    \caption{El usuario ``prueba'' no tiene permisos para usar \texttt{sudo}.}
 \end{figure}
 
 \bigskip
@@ -392,8 +448,10 @@ Si añadimos la siguiente línea en el archivo \verb|sudoers| tendremos acceso c
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/sudoersprueba.png}
+    \caption{Añadido el usuario ``prueba'' a sudoers.}
 \end{figure}
 
+\newpage
 
 Y ahora al hacer una prueba se puede ver que ya funciona:
 
@@ -403,19 +461,25 @@ Y ahora al hacer una prueba se puede ver que ya funciona:
     \caption{Puede usar el comando ``sudo'' sin estar en el grupo con el mismo nombre.}
 \end{figure}
 
+\newpage
 
+\section{Ejercicio 8}
 
-\addcontentsline{toc}{section}{Ejercicio 8}
-\section*{Ejercicio 8}
+\textbf{Enunciado: }``Analiza el contenido de estos archivos de registro del sistema de prácticas y comprueba que efectivamente se registran los eventos indicados.''
+
+\bigskip
+
 Voy a examinar cada uno de los archivos y comprobar que se registran eventos que realizaré. Para ello, voy a dividir la explicación en subsecciones para cada uno de los archivos.
 
-\addcontentsline{toc}{subsection}{/var/log/lastlog}
-\subsection*{/var/log/lastlog}
+\subsection{/var/log/lastlog}
 Este archivo almacena información sobre le ultimo inicio de sesión de los usuarios. Para acceder a la información es necesario utilizar el comando \verb|lastlog|:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastlogejercicio6never.png}
+    \caption{Salida del comando \texttt{lastlog}.}
 \end{figure}
+
+\newpage
 
 Como se puede ver, el usuario ``ejercicio6'' nunca ha iniciado sesión en el sistema. Ahora si inicio sesión y vuelvo a usar la orden \verb|lastlog| aparece lo siguiente:
 
@@ -426,23 +490,23 @@ Como se puede ver, el usuario ``ejercicio6'' nunca ha iniciado sesión en el sis
 
 %Como se puede ver aparece la fecha del último inicio de sesión del usuario ``ejercicio6''.
 
-\addcontentsline{toc}{subsection}{/var/log/wtmp}
-\subsection*{/var/log/wtmp}
+\subsection{/var/log/wtmp}
 Almacena los \textit{login} y \textit{logout} de los distintos usuarios del sistema. Se accede con el comando \verb|last|. 
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastnormal.png}
+    \caption{Salida del comando \texttt{last}.}
 \end{figure}
 
-\bigskip
+\newpage
 
 Ahora con el comando \verb|last --since today| muestra solo la información de hoy.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lasttoday.png}
+    \caption{Salida del comando \texttt{last}, pero solo desde hoy.}
 \end{figure}
 
-\newpage
 
 A continuación, voy a iniciar sesión con el usuario ``prueba'' y a hacer logout para ver como se almacena la información:
 
@@ -451,12 +515,14 @@ A continuación, voy a iniciar sesión con el usuario ``prueba'' y a hacer logou
     \caption{Se puede observar como el usuario ``prueba'' aparece en la primera línea.}
 \end{figure}
 
-\addcontentsline{toc}{subsection}{/var/log/utmp}
-\subsection*{/var/log/utmp}
+\newpage
+
+\subsection{/var/log/utmp}
 Muestra los usuarios que están \textit{loggeados} en el sistema. Se puede obtener esta información mediante la orden \verb|who|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/whonormal.png}
+    \caption{Salida del comando \texttt{who}.}
 \end{figure}
 
 \bigskip
@@ -465,14 +531,17 @@ Ahora si inicio sesión con el usuario ``prueba'', debería aparecer usando de n
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/whoprueba.png}
+    \caption{Salida del comando \texttt{who} con el usuario ``prueba'' con la sesión iniciada.}
 \end{figure}
 
-\addcontentsline{toc}{subsection}{/var/log/btmp}
-\subsection*{/var/log/btmp}
+\newpage
+
+\subsection{/var/log/btmp}
 Muestra los intentos fallidos de inicio de sesión en el sistema. Se puede obtener con la orden \verb|lastb|.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastbnormal.png}
+    \caption{Salida del comando \texttt{lastb}.}
 \end{figure}
 
 \bigskip
@@ -484,27 +553,27 @@ Ahora, si hago que falle el inicio de sesión del usuario ``prueba'' debería de
     \caption{Se puede ver que las dos primeras líneas pertenecen a intentos de login con el usuario ``prueba''.}
 \end{figure}
 
-\addcontentsline{toc}{subsection}{/var/log/sudo}
-\subsection*{/var/log/sudo}
+\subsection{/var/log/sudo}
 Este archivo, al menos en Ubuntu, no existe, por tanto no puedo mostrar información al respecto sobre la actividad del uso de \verb|sudo|.
 
-\addcontentsline{toc}{subsection}{/var/log/messages}
-\subsection*{/var/log/messages}
+\subsection{/var/log/messages}
 En Ubuntu (no sé si en otras distribuciones también) ya no existe este archivo porque duplicaba información con \verb|/var/log/syslog|. Por tanto, voy a mostrar este último archivo:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/syslog.png}
+    \caption{Contenido del archivo ``syslog''.}
 \end{figure}
 
-\addcontentsline{toc}{section}{Ejercicio 9}
-\section*{Ejercicio 9}
+\section{Ejercicio 9}
 
-\addcontentsline{toc}{subsection}{PC de mi casa}
-\subsection*{PC de mi casa}
+\textbf{Enunciado: }``Analizar las conexiones al sistema que utilizas para realizar las prácticas y al de casa. ¿Hay o ha habido alguna conexión ajena al equipo?''
+
+\subsection{PC de mi casa}
 Para comprobar los intentos de inicio de sesión fallidos en el ordenador de mi casa, voy a usar la orden \verb|lastb|:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastbcasa.png}
+    \caption{Salida del comando \texttt{lastb} en mi ordenador personal.}
 \end{figure}
 
 El único intento fallido de inicio de sesión que he tenido ha sido provocado por mí en el momento de hacer esta parte del ejercicio.
@@ -515,6 +584,7 @@ Ahora, muestro con el comando \verb|last| los login y logout del sistema:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastcasa.png}
+    \caption{Salida del comando \texttt{last} en mi ordenador personal.}    
 \end{figure}
 
 Por lo que puedo ver, no ha habido ningún inicio en el sistema por SSH (se mostraría en la tercera columna la dirección IP del que lo ha intentado).
@@ -525,30 +595,33 @@ Por último, con la orden \verb|lastlog| muestro los inicios de sesión producid
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastlogcasa.png}
+    \caption{Salida del comando \texttt{lastlog} en mi ordenador personal.}
 \end{figure}
 
 Como se puede ver, no hay ninguno en el que aparezca SSH y los inicios de sesión me concuerdan, lo cual me puede indicar que el sistema no ha sido (a simple vista) comprometido.
 
 \newpage
 
-\addcontentsline{toc}{subsection}{PC de prácticas (máquina virtual)}
-\subsection*{PC de prácticas (máquina virtual)}
+\subsection{PC de prácticas (máquina virtual)}
 Voy a usar los mismos comandos para la máquina virtual y comprobar su seguridad. Para suponer que el sistema ha sido comprometido, he usado SSH desde el ordenador de mi casa (host) hacia la máquina virtual.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastbip.png}
+    \caption{Salida del comando \texttt{lastb} en la máquina virtual.}
 \end{figure}
 
 Como se puede ver, la dirección IP ``192.168.122.1'' ha intentado conectarse a la máquina con el usuario ``andres'' por SSH. 
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastip.png}
+    \caption{Salida del comando \texttt{last} en la máquina virtual.}
 \end{figure}
 
 También se ve que alguien ha entrado al sistema con SSH usando el usuario ``andres''.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/lastlogip.png}
+    \caption{Salida del comando \texttt{lastlog} en la máquina virtual.}
 \end{figure}
 
 Aquí también se puede observar que alguien ha accedido con la misma dirección IP anterior mediante SSH y ha conseguido iniciar sesión en el sistema.
