@@ -2,25 +2,44 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref}
+\usepackage{graphicx, graphics, float, hyperref, fancyhdr, titling}
 \usepackage{listings, subcaption}
-\usepackage[a4paper, total={6in, 10in}]{geometry}
-
-\title{SSO Práctica 4 Sesión 1}
-\author{Andrés Merlo Trujillo}
-\date{}
+\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\renewcommand{\footrulewidth}{0.4pt}
+\title{
+\includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
+\vspace*{1in}
+\textbf{Práctica 4, Sesión 1} \\
+Seguridad en Sistemas Operativos \\
+\vspace*{0.5in}}
+\author{Andrés Merlo Trujillo \\
+\vspace*{0.5in} \\
+E.T.S. de Ingenierías Informática y de Telecomunicación \\
+\textbf{Universidad de Granada}} \date{\today}
+%\date{}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
 }
 
-\begin{document}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
+
+\begin{document}
+\begin{titlingpage}
 \maketitle
+\end{titlingpage}
+
+\newpage
 
 \tableofcontents
 
 \newpage
+
+\pagestyle{fancy}
+\fancyhead[L]{Andrés Merlo Trujillo}
+\fancyhead[R]{Seguridad en Sistemas Operativos}
 %\addcontentsline{toc}{section}{Ejercicio 1}
 %\section*{Ejercicio 1}
 %\begin{figure}[H]
