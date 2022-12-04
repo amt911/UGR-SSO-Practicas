@@ -226,3 +226,11 @@ elfvirus
 elfvirus
 IDE
 Code
+Autopsy
+loop16
+hash
+xxd
+GuyMager
+imagenPendrive
+metadatos
+Alison
