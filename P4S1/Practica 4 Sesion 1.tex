@@ -42,15 +42,13 @@ E.T.S. de Ingenierías Informática y de Telecomunicación \\
 \fancyhead[L]{Andrés Merlo Trujillo}
 \fancyhead[R]{Seguridad en Sistemas Operativos}
 %\addcontentsline{toc}{section}{Ejercicio 1}
-%\section*{Ejercicio 1}
+%\section{Ejercicio 1}
 %\begin{figure}[H]
 %    \centering
 %    \includegraphics[width=\textwidth]{imagenes/passwdfile.png}
 %\end{figure}
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 1}
-\section*{Ejercicio 1}
+\section{Ejercicio 1}
 
 \textbf{Enunciado:} ``Vamos a crear en nuestro pendrive un archivo con un supuesto texto de una amenaza y luego vamos a borrarlo. Aplicando las herramientas anteriores vamos a intentar recuperar lo que quede del archivo borrado haciendo una copia del pendrive sobre la que trabajar, no directamente
 sobre el pendrive.''
@@ -170,9 +168,7 @@ Y efectivamente, aquí también aparece indicando de que ha habido una amenaza q
 
 \newpage
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 2}
-\section*{Ejercicio 2}
+\section{Ejercicio 2}
 
 \textbf{Enunciado: }``Realizar una imagen forense del  pendrive con la herramienta \verb|guymager|''
 
@@ -229,16 +225,12 @@ Al finalizar, se puede ver que ha generado varios trozos de la imagen del pendri
 
 \newpage
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 3}
-\section*{Ejercicio 3}
+\section{Ejercicio 3}
 
 \textbf{NOTA: }La versión de Autopsy para Linux con la interfaz web no era capaz de detectar las particiones de la imagen creada con la herramienta del ejercicio anterior, por lo que he decidido usar la última versión de Autopsy que sí la detecta.
 
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\subsection{Apartado A}
 
 \textbf{Enunciado: } ``Como en el ejercicio 1 y partiendo de la imagen forense del 2, buscar con la herramienta Autopsy las evidencias de la amenaza realizada.''
 
@@ -325,15 +317,11 @@ Y como se puede ver detecta el archivo eliminado del pendrive y muestra su infor
 %SECCION DE IMAGENES DE WINDOWS
 \newpage
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
 
 \textbf{NOTA: }Ahora voy a usar la versión de Windows de Autopsy, ya que me he dado cuenta de que contiene muchas más opciones que la versión de Linux no tiene (como ponerle nombre a las cuentas del sistema operativo, que en Linux no pasa, o poder ver los correos electrónicos).
 
-\phantomsection
-\addcontentsline{toc}{subsubsection}{a.- ¿Cuándo se creó la hoja de cálculo?}
-\subsubsection*{a.- ¿Cuándo se creó la hoja de cálculo?}
+\subsubsection{a.- ¿Cuándo se creó la hoja de cálculo?}
 
 Lo primero de todo es encontrar la hoja de cálculo en la imagen del ordenador de Jean. Es posible buscarla dándole a File Views $\rightarrow$ By Extension $\rightarrow$ Documents $\rightarrow$ Office.
 
@@ -368,9 +356,7 @@ El más notable es que fue creado por Alison Smith y que hay otra fecha de creac
 
 \newpage
 
-\phantomsection
-\addcontentsline{toc}{subsubsection}{b.- ¿Cómo llegó de su computador al sitio web de la competencia?}
-\subsubsection*{b.- ¿Cómo llegó de su computador al sitio web de la competencia?}
+\subsubsection{b.- ¿Cómo llegó de su computador al sitio web de la competencia?}
 
 Sabiendo los testimonios de los posibles implicados, se puede intuir que Jean envió por error la hoja de cálculo a otra persona, posiblemente a alguien de la empresa de la competencia.
 
@@ -430,9 +416,7 @@ Además, se ve que Jean le manda la hoja de cálculo que se ha filtrado y al dí
 
 La conclusión final a esta pregunta es que Jean mandó al correo de Alison la hoja de cálculo, pero al estar mal configurado (de manera malintencionada o no) fue enviado al atacante.
 
-\phantomsection
-\addcontentsline{toc}{subsubsection}{c.- ¿Quién más de la compañía está involucrado?}
-\subsubsection*{c.- ¿Quién más de la compañía está involucrado?}
+\subsubsection{c.- ¿Quién más de la compañía está involucrado?}
 
 Es difícil de saber, pero se sabe claramente que el correo de Alison tuvo un problema de configuración y estaba usando otra dirección de correo (alex@m57.biz) en el momento del ataque. Esto puede indicar que algún empleado obtuvo acceso al ordenador de Alison y ``desconfiguró'' su correo, dejando vía libre para poder usar el real. Puede que haya sido otro empleado descontento con la empresa que haya usado el correo de Alison para obtener la información, pero no se sabe a ciencia cierta.
 

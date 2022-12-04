@@ -5,6 +5,9 @@
 \usepackage{listings, subcaption}
 \usepackage[a4paper, total={6in, 9.5in}]{geometry}
 \usepackage{hyperref}
+
+\setcounter{secnumdepth}{-2}
+
 \renewcommand{\footrulewidth}{0.4pt}
 \title{
 \includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
@@ -38,17 +41,13 @@ E.T.S. de Ingenierías Informática y de Telecomunicación \\
 \fancyhead[L]{Andrés Merlo Trujillo}
 \fancyhead[R]{Seguridad en Sistemas Operativos}
 %\addcontentsline{toc}{section}{Ejercicio 1}
-%\section*{Ejercicio 1}
+%\section{Ejercicio 1}
 %\begin{figure}[H]
 %    \includegraphics[width=\textwidth]{imagenes/lsofi.png}
 %\end{figure}
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 1}
-\section*{Ejercicio 1}
+\section{Ejercicio 1}
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\subsection{Apartado A}
 
 \textbf{Enunciado: }``Utiliza la herramienta gpg para crear unas claves personales.''
 
@@ -87,9 +86,7 @@ Y para mostrar las claves privadas se utiliza el comando \verb|gpg --list-secret
     \caption{Listado de claves privadas.}
 \end{figure}
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
 
 \textbf{Enunciado: }``Una vez creadas, utilízalas para cifrar y descifrar un archivo.''
 
@@ -132,9 +129,7 @@ Por último, para descifrar el mensaje se utiliza la orden \verb|gpg --decrypt p
 \end{figure}
 
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado C}
-\subsection*{Apartado C}
+\subsection{Apartado C}
 
 \textbf{Enunciado: }``Agrúpate con un compañero e intercambiar un archivo cifrado por cada uno que el otro debe descifrar.''
 
@@ -225,9 +220,7 @@ Y finalmente se puede leer el mensaje sin problema alguno.
 
 \newpage
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 2}
-\section*{Ejercicio 2}
+\section{Ejercicio 2}
 
 \textbf{Enunciado: }``Utiliza la herramienta \texttt{openssl} para cifrar y descifrar un archivo con un algoritmo y clave de tu elección.''
 

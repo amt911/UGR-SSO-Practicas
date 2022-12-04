@@ -39,15 +39,13 @@ E.T.S. de Ingenierías Informática y de Telecomunicación \\
 \fancyhead[R]{Seguridad en Sistemas Operativos}
 
 %\addcontentsline{toc}{section}{Ejercicio 1}
-%\section*{Ejercicio 1}
+%\section{Ejercicio 1}
 %\begin{figure}[H]
 %    \includegraphics[width=\textwidth]{imagenes/passwdfile.png}
 %    \caption{Ejemplo de entradas en el archivo.}
 %\end{figure}
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 1}
-\section*{Ejercicio 1}
+\section{Ejercicio 1}
 
 \textbf{Enunciado: }``Para el sistema que utilizas, indica la arquitectura, distribución y compilador que utilizas e indica que protecciones se utilizan de cara a proteger un binario ELF.''
 
@@ -113,14 +111,10 @@ Mientras que para la parte del compilador hay los siguientes mecanismos:
 
 \newpage
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 2}
-\section*{Ejercicio 2}
+\section{Ejercicio 2}
 
 \textbf{Enunciado: }``Podemos mejorar el siguiente virus:''
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\subsection{Apartado A}
 
 \textbf{Enunciado: }``Escribiendo un mejor escaner/limpiador para él.''
 
@@ -206,9 +200,7 @@ Y ahora al ejecutar el ejecutable ``saneado'', aparece la salida correctamente s
 
 El limpiador se podría mejorar haciendo que en vez de tener que ir ejecutable a ejecutable uno a uno a mano, se pueda pasar un directorio y de manera recursiva vaya limpiando los ejecutables infectados. Para ello, haría falta que el script hiciese una comprobación de si existe el virus en el ejecutable, ya que siempre intenta eliminar los primeros 21932 Bytes del programa, que es donde reside el virus.
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
 
 \textbf{Enunciado: }``Añadir \verb|#ifdef| para comprobar la arquitectura de forma que cambie de forma automática el valor \verb|EM_386| en tiempo de compilación para adaptarlo al sistema donde estemos.''
 

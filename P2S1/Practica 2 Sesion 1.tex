@@ -38,14 +38,12 @@ E.T.S. de Ingenierías Informática y de Telecomunicación \\
 \fancyhead[L]{Andrés Merlo Trujillo}
 \fancyhead[R]{Seguridad en Sistemas Operativos}
 %\addcontentsline{toc}{section}{Ejercicio 1}
-%\section*{Ejercicio 1}
+%\section{Ejercicio 1}
 %\begin{figure}[H]
 %    \includegraphics[width=\textwidth]{imagenes/passwdfile.png}
 %    \caption{Ejemplo de entradas en el archivo.}
 %\end{figure}
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 1}
-\section*{Ejercicio 1}
+\section{Ejercicio 1}
 
 \textbf{Enunciado: }``Construye y compila un programa simple, por ejemplo uno similar al “Hola, Mundo”, en dos versiones: una en C y otra en C++.''
 
@@ -84,9 +82,7 @@ Y voy a usar las siguientes órdenes para compilarlos:
 \bigskip
 
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\subsection{Apartado A}
 
 \textbf{Enunciado: }``Consulta los manuales, o en Internet que contienen las secciones \texttt{.interp}, \texttt{.got}, \texttt{got.ptl}.''
 
@@ -103,9 +99,7 @@ A continuación explicaré que contiene cada sección, para obtener información
 \end{itemize}
 
 \newpage
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
 
 \textbf{Enunciado: }``Compara los ELFs de las dos versiones listando las secciones ¿hay alguna diferencia relevante respecto a las secciones de un programa compilado con gcc? ¿qué contienen las secciones \texttt{.ctors} y \texttt{.dtors}?''
 
@@ -159,9 +153,7 @@ Las secciones .ctors y .dtors contienen lo siguiente:
 
 \newpage
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado C}
-\subsection*{Apartado C}
+\subsection{Apartado C}
 
 \textbf{Enunciado: }``Con la opción \texttt{readelf -r} podemos ver las secciones de reubicación. Indicar que contienen estas secciones.''
 
@@ -178,15 +170,11 @@ Además, la versión de C++ tiene más entradas que la versión de C, como pasó
 
 \bigskip
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 2}
-\section*{Ejercicio 2}
+\section{Ejercicio 2}
 
 \textbf{Enunciado: }``Mira en el manual en línea o en Internet las opciones de la orden objdump, e indica:''
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado A}
-\subsection*{Apartado A}
+\subsection{Apartado A}
 
 \textbf{Enunciado: }``qué opciones nos permiten ver la información que nos suministra \texttt{readelf}.''
 
@@ -292,9 +280,7 @@ El comando \verb|objdump| tiene algunos switches similares a los de \verb|readel
 % -S / -h
 % -l / -p
 
-\phantomsection
-\addcontentsline{toc}{subsection}{Apartado B}
-\subsection*{Apartado B}
+\subsection{Apartado B}
 
 \textbf{Enunciado: }``qué otras opciones nos permite realizar \texttt{objdump} desde el punto de la ingeniería inversa.''
 
@@ -318,9 +304,7 @@ Esto simplifica mucho el trabajo, ya que no es necesario buscar en los manuales 
 
 \bigskip
 
-\phantomsection
-\addcontentsline{toc}{section}{Ejercicio 3}
-\section*{Ejercicio 3}
+\section{Ejercicio 3}
 
 \textbf{Enunciado: }``Modifica el programa realizado en el ejercicio anterior para que el programa se detenga durante un rato, por ejemplo, con un \texttt{sleep()}, al objeto de que podamos visualizar el archivo \textit{/proc/$<$PID$>$/maps} de su ejecución. Ahora analiza la información de su ELF para entrever cómo se ha construido dicho proceso a través de la información del ELF, por ejemplo, las direcciones y permisos de las regiones de texto y datos, etc.''
 
