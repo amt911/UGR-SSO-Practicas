@@ -145,4 +145,55 @@ Ahora bien, hay dos opciones de ver archivos eliminados, la primera es yendo a l
 
 Y como se puede ver detecta el archivo eliminado del pendrive y muestra su informacion.
 
+%SECCION DE IMAGENES DE WINDOWS
+
+\addcontentsline{toc}{subsection}{Apartado B}
+\subsection*{Apartado B}
+
+\textbf{NOTA: }Ahora voy a usar la versión de Windows de Autopsy, ya que me he dado cuenta que contiene muchas mas opciones que la version de Linux no tiene (como ponerle nombre a las cuentas del sistema operativo, que en Linux no pasa).
+
+\addcontentsline{toc}{subsubsection}{¿Cuándo se creó la hoja de cálculo?}
+\subsubsection*{¿Cuando se creó la hojra de calculo?}
+
+Lo primero de todo es encontrar la hoja de calculo en la imagen del ordenador de Jean. Es posible buscarla dandole a File Views $\rightarrow$ By Extension $\rightarrow$ Documents $\rightarrow$ Office.
+
+%foto
+%caption{Como se puede observar, es el documento que ha sido filtrado}
+
+AHora hay qeu darle a la pestaña ``File Metadata'' donde se indican todos los datos relacionados con el documento.
+
+%foto
+
+Se puede ver que la hoja de calculo fue creada el \textbf{20 de julio de 2008 a las 03:28:03 CEST}.
+
+Ademas, en la pestaña ``Text'', justo debajo del contenido del documento, aparecen mas datos interesantes.
+
+%foto
+
+El mas notable es que fue creado por Alison Smith y que hay otra fecha de creacion distinta a la pestanña de los metadatos, pero personalmente creo que es mejor fiarse de la de metadatos, ya que estos datos pueden ser modificados.
+
+\addcontentsline{toc}{subsubsection}{¿Como llegó de su computador al sitio web de la competencia?}
+\subsubsection*{¿Como llegó de su computador al sitio web de la competencia?}
+
+Sabiendo los testimonios de los posibles implicados, se puede intuir que Jean envió por error la hoja de cálculo a otra persona, posiblemente a alguien de la empresa de la competencia.
+
+Para tener pruebas fehacientes de esto, podemos mirar el historial de correos de Jean, para ello, nos vamos a Data Artifacts $\rightarrow$ E-Mail Messages $\rightarrow$ Default $\rightarrow$ Default.
+
+%foto overview
+
+Tras mirar la conversacion entre Jean y Alice, pidiendole a Jean que trabaje y que no mande correos extraños que parecen SPAM, aparece un correo muy interesante de Alison.
+
+%fotos hacker
+%caption para una de ellas: Se puede ver que le insiste a Jean que le envie la informacion y le dice que no se lo diga a nadie.
+
+Además, se ve que Jean le manda la hoja de calculo que se ha filtrado y al dia siguiente algunos empleados le preguntan que por que su informacion esta en internet, preguntandole a Jean que si la que hay sobre el es correcta. Por tanto se puede asumir que el correo de Alison ha sido comprometido y ha sido usado de manera maliciosa para obtener estos datos.
+
+La conclusion final a esta pregunta es que Jean mandó al correo de Alison la hoja de calculo, pero al estar mal configurado (de manera malintencionada o no) fue enviado al atacante.
+
+
+\addcontentsline{toc}{subsubsection}{¿Quién más de la compañía está involucrado?}
+\subsubsection*{¿Quién más de la compañía está involucrado?}
+
+Es difícil de saber, pero se sabe claramente que el correo de Alison tuvo un problema de configuración y estaba usando otra direccion de correo (alex@m57.biz) en el momento del ataque. Esto puede indicar que algún empleado obtuvo acceso al ordendador de Alison y ``desconfiguró'' su correo, dejando vía libre para poder usar el real. Puede que haya sido otro empleado descontento con la empresa que haya usado el correo de Alison para obtener la informacion, pero no se sabe a ciencia cierta.
+
 \end{document}
