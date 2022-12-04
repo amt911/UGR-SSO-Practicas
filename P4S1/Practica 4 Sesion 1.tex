@@ -27,8 +27,8 @@
 %\addcontentsline{toc}{section}{Ejercicio 1}
 %\section*{Ejercicio 1}
 %\begin{figure}[H]
+%    \centering
 %    \includegraphics[width=\textwidth]{imagenes/passwdfile.png}
-%    \caption{Ejemplo de entradas en el archivo.}
 %\end{figure}
 
 \addcontentsline{toc}{section}{Ejercicio 1}
@@ -39,58 +39,94 @@ Voy a crear una partición con el sistema de archivos FAT32 (debido a problemas 
 Y ahora a modo de realismo, voy a copiar las imagenes usadas durante estas practicas y un archivo dentro de la carpeta ``mis trabajos'' denominado ``amenaza.txt'' con una frase que amenace.
 
 %Foto de la carpeta con archivos y del archivo amenaza
-%Captura desde 2022-12-02 17-34-22
-%Captura desde 2022-12-02 17-35-50
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 17-34-22.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 17-35-50.png}
+    \caption{Contenido del archivo a eliminar del pendrive.}
+\end{figure}
 
 A continuacion elimino esse archivo y desmonto el disco para suponer que he recibido el pendrive asi y para que no pueda realizarle mas modificaciones.
 
 Ahora voy a seguir los pasos indicados en el guion de practicas, por tanto, lo primero que hay que hacer es obtener la estructura interna de particiones con la orden \verb|fdisk -l /dev/sdX > fdisk.disco1| siendo la X la letra asignada al disco, en mi caso es a. (se puede comprobar con la orden \verb|fdisk -l| o \verb|lsblk|).
 
 %foto de la salida del comando
-%Captura desde 2022-12-03 21-28-00
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-28-00.png}
+\end{figure}
 
 Lo siguiente que hay que hacer es crear una imagen forense del disco para evitar invalidar el contenido del pendrive y trabajar de forma segura sobre una copia. Esto se realiza mediante la orden \verb|dd if=/dev/sda1 of=imagen.disco1 bs=512|.
 
 %salida de dd
-%Captura desde 2022-12-03 21-31-25
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-31-25.png}
+\end{figure}
 
 Ahora es necesario poner la imagen del disco a solo lectura con la orden \verb|chmod 444 imagen.disco1|. El siguiente paso, que es copiar la imagen a otro disco no es necesario, ya que se puede trabajar directamente sobre la imagen como explicare a continuacion. Ahora se debe montar la imagen con la orden \verb|mount imagen.disco1 /mnt -o noexec,loop|, y al hacer \verb|lsblk -f| se puede ver que está montado correctamente.
 
 %foto de la salida de lsblk
-%Captura desde 2022-12-03 21-32-34
-%caption{Se puede ver que el nombre que tiene es \texttt{loop16} y que se ha montado correctamente en el punto de montaje indicado.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-32-34.png}
+    \caption{Se puede ver que el nombre que tiene es \texttt{loop16} y que se ha montado correctamente en el punto de montaje indicado.}
+\end{figure}
 
 Ahora es necesario verficar la integridad de los datos del pendrive antes y despues de completar el analisis, para ello se usa la orden \verb|sha1sum /dev/sda1 > SHA.disco1|.
 
 %foto de sha1sum
-%Captura desde 2022-12-03 21-36-15
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-36-15.png}
+\end{figure}
 
 Y ahora, voy a realizar lo mismo, pero sobre cada archivo. En este caso se debe hacer sobre la imagen porque al montar el pendrive puede darse el caso de que el hash cambie. Para ello, desde la raiz de la imagen montada, se debe hacer con la orden \verb|find . -type f -exec sha1sum {} \; > SHA.listaArchivos|.
 
 %salida del comando con bat
-%Captura desde 2022-12-02 18-41-07
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 18-41-07.png}
+\end{figure}
 
 Y se puede realizar la verficiacion con la orden \verb|sha1sum -c ~/SHA.listaArchivos| (se debe estar dentro de la raiz de la imagen)
 
 %salida del comando.
-%Captura desde 2022-12-02 18-43-28
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 18-43-28.png}
+    \caption{Fragmento de la comprobacion de los hashes.}
+\end{figure}
 
 Ahora se puede proceder con seguridad a encontrar el archivo eliminado anteriormente. Para ello, es necesario crear un fichero con las palabras claves mas probables que se encuentren. El fichero tiene la siguiente forma:
 
 %slaida
-%Captura desde 2022-12-02 18-52-07
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 18-52-07.png}
+\end{figure}
 
 Ahora con la orden \verb|grep -aibf palabrasClave imagen.disco1 > aciertos.txt| se puede realizar la busqeuda en la imagen:
 
 %salida en aciertos.txt
-%Captura desde 2022-12-03 21-38-57
-%caption: En la dirección 13153337247 hay algo sospechoso.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-38-57.png}
+    \caption{En la dirección 13153337247 hay algo sospechoso.}
+\end{figure}
 Como se puede ver, aparece la frase ``Esto es una amenaza, si no nos da algo de dinero publicamos el contenido de su pendri...'', indicando que ha habido una amenaza.
 
 Por ultimo, para asegurarse, se puede usar el comando \texttt{xxd -s 299892684 imagen.disco1 | less} para verlo en la propia imagen:
 
 %salida del comando
-%Captura desde 2022-12-03 21-39-24
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{imagenes/Captura desde 2022-12-03 21-39-24.png}
+\end{figure}
 
 Y efectivamente, aqui tamvien aparece indicando de que ha habido una amenaza que se ha eliminado.
 
@@ -100,28 +136,43 @@ Y efectivamente, aqui tamvien aparece indicando de que ha habido una amenaza que
 EN esta parte es necesario utilizar la herramienta ``GuyMager'' para obtener una imagen forense del mismo pendrive. POr tanto, se descarga el programa mediante \verb|apt| y se abre.
 
 %foto de inicio.
-%Captura desde 2022-12-02 19-33-30
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 19-33-30.png}
+\end{figure}
 
 Y se pulsa con click derecho en el dispositivo que se quiera realizar la imagen, en mi caso \verb|/dev/sda|, y le damos a ``Acquire image''.
 
 %ventana nueva
-%Captura desde 2022-12-02 19-33-37
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imagenes/Captura desde 2022-12-02 19-33-37.png}
+\end{figure}
 
 Y ahora simplemente rellenamos los campos que se piden y al final quedan asi:
 
 %foto de esto relleno
-%Captura desde 2022-12-02 19-36-04
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imagenes/Captura desde 2022-12-02 19-36-04.png}
+\end{figure}
 
 Por ultimo, es necesario darle a ``Start'' para que comience el proceso.
 
 %foto del progreso
-%Captura desde 2022-12-02 19-48-29
-%caption{Progreso de creacion de imagen forense.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 19-48-29.png}
+    \caption{Progreso de creacion de imagen forense.}
+\end{figure}
 
 Al finalizar, se puede ver que ha generado varios trozos de la imagen del pendrive.
 
 %foto
-%Captura desde 2022-12-02 19-50-53
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 19-50-53.png}
+\end{figure}
 
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
@@ -134,38 +185,66 @@ Al finalizar, se puede ver que ha generado varios trozos de la imagen del pendri
 Cuando se ejecuta Autopsy aparece la siguiente pantalla:
 
 %foto pantalla
-%Captura desde 2022-12-03 21-22-16
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-22-16.png}
+\end{figure}
 
 Ahora le damos a ``New Case'' y se le elige un nombre, la ubicacion, el numero de caso, algunso datos del examinador:
 
 %fotos rellenas
-%Captura desde 2022-12-03 21-42-29
-%Captura desde 2022-12-03 21-43-15
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-42-29.png}
+    \caption{Primera ventana para rellenar datos sobre el caso.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-43-15.png}
+    \caption{Segunda venta para rellenar datos sobre el caso.}
+\end{figure}
 
 Al darle a Finish, aparece otra ventana en la que se pide añadir una fuente de datos, en este caso al imagen creada, para ello se elige ``Disk Image or VM File'' y se elige el primer fragemnto de la imagen:
 
 %fotos rellenas
-%Captura desde 2022-12-03 21-45-13
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-45-13.png}
+\end{figure}
 
 Tras que el programa procese la imagen, aparece el siguiente panel:
 
 %foto panel
-%Captura desde 2022-12-03 21-46-02
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-46-02.png}
+\end{figure}
 
 Y ahora es necesario darle a Data Sources $\rightarrow$ imagenPendrive.E01\_1 Host $\rightarrow$ imagenPendrive.E01 $\rightarrow$ vol4.
 
 %foto salida
-%Captura desde 2022-12-03 21-47-44
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-47-44.png}
+\end{figure}
 
 Como se puede ver, hay 3 particiones que hacian que versiones antiguas de Autopsy (con interfaz web) no pudiesen detectar el sistema de archivos correctamente y solo funcionasen en modo raw.
 
 Ahora bien, hay dos opciones de ver archivos eliminados, la primera es yendo a la ubicacion donde estaba el archivo, y la segunda es dandole al boton del panel de la izquierda ``Deleted Files''.
 
 %foto de deleted files y el otro
-%Captura desde 2022-12-03 21-52-53
-%caption: Archivo encontrado en ``Deleted Files''.
-%Captura desde 2022-12-03 21-53-51
-%caption: Archivo encontrado yendo a la ruta en el qie se encontraba.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-52-53.png}
+    \caption{Archivo encontrado en ``Deleted Files''.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-53-51.png}
+    \caption{Archivo encontrado yendo a la ruta en el qie se encontraba.}
+\end{figure}
 
 Y como se puede ver detecta el archivo eliminado del pendrive y muestra su informacion.
 
@@ -182,20 +261,29 @@ Y como se puede ver detecta el archivo eliminado del pendrive y muestra su infor
 Lo primero de todo es encontrar la hoja de calculo en la imagen del ordenador de Jean. Es posible buscarla dandole a File Views $\rightarrow$ By Extension $\rightarrow$ Documents $\rightarrow$ Office.
 
 %foto
-%Windows/Captura de pantalla (5)
-%caption{Como se puede observar abajo en ``Text'', es el documento que ha sido filtrado.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (5).png}
+    \caption{Como se puede observar abajo en ``Text'', es el documento que ha sido filtrado.}
+\end{figure}
 
 AHora hay qeu darle a la pestaña ``File Metadata'' donde se indican todos los datos relacionados con el documento.
 
 %foto
-%Windows/Captura de pantalla (6)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (6).png}
+\end{figure}
 
 Se puede ver que la hoja de calculo fue creada el \textbf{20 de julio de 2008 a las 03:28:03 CEST}.
 
 Ademas, en la pestaña ``Text'', justo debajo del contenido del documento, aparecen mas datos interesantes.
 
 %foto
-%Windows/Captura de pantalla (7)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (7).png}
+\end{figure}
 
 El mas notable es que fue creado por Alison Smith y que hay otra fecha de creacion distinta a la pestanña de los metadatos, pero personalmente creo que es mejor fiarse de la de metadatos, ya que estos datos pueden ser modificados.
 
@@ -207,15 +295,24 @@ Sabiendo los testimonios de los posibles implicados, se puede intuir que Jean en
 Para tener pruebas fehacientes de esto, podemos mirar el historial de correos de Jean, para ello, nos vamos a Data Artifacts $\rightarrow$ E-Mail Messages $\rightarrow$ Default $\rightarrow$ Default.
 
 %foto overview
-%Windows/Captura de pantalla (8)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (8).png}
+\end{figure}
 
 Tras mirar la conversacion entre Jean y Alison, pidiendole a Jean que trabaje y que no mande correos extraños que parecen SPAM, aparece un correo muy interesante de Alison.
 
 %fotos hacker
-%Windows/Captura de pantalla (9)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (9).png}
+\end{figure}
 
-%Windows/Captura de pantalla (10)
-%caption para una de ellas: Se puede ver que le insiste a Jean que le envie la informacion y le dice que no se lo diga a nadie.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (10).png}
+    \caption{Para una de ellas: Se puede ver que le insiste a Jean que le envie la informacion y le dice que no se lo diga a nadie.}
+\end{figure}
 
 Además, se ve que Jean le manda la hoja de calculo que se ha filtrado y al dia siguiente algunos empleados le preguntan que por que su informacion esta en internet, preguntandole a Jean que si la que hay sobre el es correcta. Por tanto se puede asumir que el correo de Alison ha sido comprometido y ha sido usado de manera maliciosa para obtener estos datos.
 
