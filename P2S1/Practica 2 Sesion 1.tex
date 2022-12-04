@@ -1,29 +1,42 @@
-%TODO: CORREGIR COMANDOS PARA QUE SE VEAN CON VERB
-%TODO: INTENTAR QUITAR LA MORRAYA QUE NO SIRVA
-%TODO: INTENTAR NO REPETIR TANTAS COSAS EN EL EJERCICIO 3
-%TODO: REVISAR DOCUMENTO PARA FALLOS ORTOGRAFICOS/GRAMATICALES
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref}
+\usepackage{graphicx, graphics, float, fancyhdr, titling}
 \usepackage{listings, subcaption}
-\usepackage[a4paper, total={6in, 10in}]{geometry}
-
-\title{SSO Práctica 2 Sesión 1}
-\author{Andrés Merlo Trujillo}
-\date{}
+\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\usepackage{hyperref}
+\renewcommand{\footrulewidth}{0.4pt}
+\title{
+\includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
+\vspace*{1in}
+\textbf{Práctica 2, Sesión 1} \\
+Seguridad en Sistemas Operativos \\
+\vspace*{0.5in}}
+\author{Andrés Merlo Trujillo \\
+\vspace*{0.5in} \\
+E.T.S. de Ingenierías Informática y de Telecomunicación \\
+\textbf{Universidad de Granada}} \date{\today}
+%\date{}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
 }
 
-\begin{document}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
-\maketitle
+\begin{document}
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
 
 \tableofcontents
 
 \newpage
+
+\pagestyle{fancy}
+\fancyhead[L]{Andrés Merlo Trujillo}
+\fancyhead[R]{Seguridad en Sistemas Operativos}
 %\addcontentsline{toc}{section}{Ejercicio 1}
 %\section*{Ejercicio 1}
 %\begin{figure}[H]
@@ -33,6 +46,10 @@
 
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
+
+\textbf{Enunciado: }``Construye y compila un programa simple, por ejemplo uno similar al “Hola, Mundo”, en dos versiones: una en C y otra en C++.''
+
+\bigskip
 
 Para ello voy a crear los siguientes programas:
 
@@ -66,8 +83,15 @@ Y voy a usar las siguientes órdenes para compilarlos:
 
 \bigskip
 
+
+\phantomsection
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
+
+\textbf{Enunciado: }``Consulta los manuales, o en Internet que contienen las secciones \texttt{.interp}, \texttt{.got}, \texttt{got.ptl}.''
+
+\bigskip
+
 A continuación explicaré que contiene cada sección, para obtener información se puede usar la orden \verb|man 5 elf|:
 
 \begin{itemize}
@@ -79,9 +103,13 @@ A continuación explicaré que contiene cada sección, para obtener información
 \end{itemize}
 
 \newpage
-
+\phantomsection
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
+
+\textbf{Enunciado: }``Compara los ELFs de las dos versiones listando las secciones ¿hay alguna diferencia relevante respecto a las secciones de un programa compilado con gcc? ¿qué contienen las secciones \texttt{.ctors} y \texttt{.dtors}?''
+
+\bigskip
 
 Ejecutando la orden \verb|readelf -S ejecutable| podemos obtener las secciones que componen el programa.
 
@@ -108,7 +136,8 @@ Ahora, para mostrar por terminal la diferencia de los archivos a color se puede 
 
 %foto de icdiff (quizas haya que cortarlas)
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/icdiff/mergedicdiff.png}
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/icdiff/mergedicdiff.png}
     \caption{Diferencias entre ambas versiones compiladas.}
 \end{figure}
 
@@ -130,8 +159,13 @@ Las secciones .ctors y .dtors contienen lo siguiente:
 
 \newpage
 
+\phantomsection
 \addcontentsline{toc}{subsection}{Apartado C}
 \subsection*{Apartado C}
+
+\textbf{Enunciado: }``Con la opción \texttt{readelf -r} podemos ver las secciones de reubicación. Indicar que contienen estas secciones.''
+
+\bigskip
 
 Mediante la orden \verb|readelf -r programa| podemos ver las distintas secciones que contiene. Estas son:
 
@@ -144,12 +178,19 @@ Además, la versión de C++ tiene más entradas que la versión de C, como pasó
 
 \bigskip
 
+\phantomsection
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
 
+\textbf{Enunciado: }``Mira en el manual en línea o en Internet las opciones de la orden objdump, e indica:''
 
+\phantomsection
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
+
+\textbf{Enunciado: }``qué opciones nos permiten ver la información que nos suministra \texttt{readelf}.''
+
+\bigskip
 
 El comando \verb|objdump| tiene algunos switches similares a los de \verb|readelf|. A continuación voy a indicar algunos que se han usado en el ejercicio anterior:
 
@@ -165,13 +206,18 @@ El comando \verb|objdump| tiene algunos switches similares a los de \verb|readel
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-42-30.png}
+            \caption{Versión \texttt{readelf}.}
         \end{subfigure}
         \hfill
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-42-36.png}
+            \caption{Versión \texttt{objdump}.}
         \end{subfigure}
+        \caption{Salida de ambas versiones.}
     \end{figure}
+
+    \newpage
 
     \item \verb|readelf -h <archivo>| $\rightarrow$ \verb|objdump -f <archivo>|
     
@@ -183,15 +229,16 @@ El comando \verb|objdump| tiene algunos switches similares a los de \verb|readel
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-44-04.png}
+            \caption{Versión \texttt{readelf}.}
         \end{subfigure}
         \hfill
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 17-44-19.png}
+            \caption{Versión \texttt{objdump}.}
         \end{subfigure}
+        \caption{Salida de ambas versiones.}
     \end{figure}
-
-    \newpage
 
     \item \verb|readelf -S <archivo>| $\rightarrow$ \verb|objdump -h <archivo>|
     
@@ -200,15 +247,18 @@ El comando \verb|objdump| tiene algunos switches similares a los de \verb|readel
     %foto side by side
     \begin{figure}[H]
         \centering
-        \begin{subfigure}{0.49\textwidth}
+        \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/C/merged.png}
+            \caption{Versión \texttt{readelf}.}
         \end{subfigure}
         \hfill
-        \begin{subfigure}{0.49\textwidth}
+        \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/merged.png}
+            \caption{Versión \texttt{objdump}.}
         \end{subfigure}
+        \caption{Salida de ambas versiones.}
     \end{figure}
 
     \newpage
@@ -223,12 +273,15 @@ El comando \verb|objdump| tiene algunos switches similares a los de \verb|readel
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/mergedelfl.png}
+            \caption{Versión \texttt{readelf}.}
         \end{subfigure}
         \hfill
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[width=\textwidth]{imagenes/mergedobjdumpp}
+            \caption{Versión \texttt{objdump}.}
         \end{subfigure}
+        \caption{Salida de ambas versiones.}
     \end{figure}    
 
 \end{itemize}
@@ -239,8 +292,13 @@ El comando \verb|objdump| tiene algunos switches similares a los de \verb|readel
 % -S / -h
 % -l / -p
 
+\phantomsection
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
+
+\textbf{Enunciado: }``qué otras opciones nos permite realizar \texttt{objdump} desde el punto de la ingeniería inversa.''
+
+\bigskip
 
 Esta herramienta sirve de mucha utilidad desde el punto de ingeniería inversa, ya que permite el desensamblado de un ejecutable en las instrucciones máquina que lo compone.
 
@@ -260,8 +318,13 @@ Esto simplifica mucho el trabajo, ya que no es necesario buscar en los manuales 
 
 \bigskip
 
+\phantomsection
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
+
+\textbf{Enunciado: }``Modifica el programa realizado en el ejercicio anterior para que el programa se detenga durante un rato, por ejemplo, con un \texttt{sleep()}, al objeto de que podamos visualizar el archivo \textit{/proc/$<$PID$>$/maps} de su ejecución. Ahora analiza la información de su ELF para entrever cómo se ha construido dicho proceso a través de la información del ELF, por ejemplo, las direcciones y permisos de las regiones de texto y datos, etc.''
+
+\bigskip
 
 He realizado la siguiente modificación al programa en su versión C:
 
@@ -269,27 +332,37 @@ He realizado la siguiente modificación al programa en su versión C:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{imagenes/Captura desde 2022-11-17 18-12-25.png}
+    \caption{Modificación realizada al programa.}
 \end{figure}
+
+\newpage
 
 Ahora, mediante el símbolo ``\&'' se puede ejecutar el programa en segundo plano. A continuación, se busca el proceso pasando la salida de la orden \verb|ps -e| mediante un pipe a la orden \verb|grep|. Por tanto, en mi caso, la orden para encontrar el PID del programa sería así: \texttt{ps -e $\vert$ grep hola}.
 
 %salida de ps
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/ps.png}
+    \caption{Detección del PID usando la orden \texttt{ps}.}
 \end{figure}
+
 
 Y sabiendo que tiene el PID \textbf{18770}, con cualquier orden para mostrar texto como \texttt{nano, cat, bat} se puede ver lo que contiene.
 
 %salida de proc pid maps
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/procPID.png}
+    \caption{Contenido del archivo del directorio \texttt{/proc/PID/maps}.}
 \end{figure}
+
+\newpage
 
 Ahora, con la orden \verb|readelf -S <archivo>| podemos ver las secciones que componen el ejecutable:
 
 %foto de la salida
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{imagenes/readelfSsleep.png}
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/readelfSsleep.png}
+    \caption{Secciones que componen el ejecutable.}
 \end{figure}
 
 \newpage
@@ -299,7 +372,10 @@ Usando la orden \verb|readelf -Wl <archivo>| se pueden obtener las cabeceras del
 %foto
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-17 18-38-45.png}
+    \caption{Cabeceras del programa.}
 \end{figure}
+
+\newpage
 
 Como en el ejercicio anterior, la salida es la misma usando el comando \verb|objdump -p|:
 
@@ -307,11 +383,12 @@ Como en el ejercicio anterior, la salida es la misma usando el comando \verb|obj
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{imagenes/objdumppsleep.png}
+    \caption{Salida del comando.}
 \end{figure}
 
 El kernel cuando ve \texttt{INTERP}, carga el primer \texttt{LOAD}, después los segmentos del programa interprete y finalmente se cargan las bibliotecas especificadas en \texttt{LD\_PRELOAD} y los segmentos \texttt{DYNAMIC}. 
 
-\bigskip
+\newpage
 
 Estos segmentos dinámicos que se cargan se pueden ver con la orden \verb|readelf -d <archivo>|.
 
@@ -319,6 +396,7 @@ Estos segmentos dinámicos que se cargan se pueden ver con la orden \verb|readel
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{imagenes/Captura desde 2022-11-17 18-47-41.png}
+    \caption{Segmentos dinámicos usados por el programa.}
 \end{figure}
 
 

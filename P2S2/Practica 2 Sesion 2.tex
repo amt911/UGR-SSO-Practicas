@@ -49,6 +49,10 @@ E.T.S. de Ingenierías Informática y de Telecomunicación \\
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
 
+\textbf{Enunciado: }``Para el sistema que utilizas, indica la arquitectura, distribución y compilador que utilizas e indica que protecciones se utilizan de cara a proteger un binario ELF.''
+
+\bigskip
+
 Para obtener la arquitectura de la CPU, voy a utilizar la orden \verb|lscpu|.
 
 %foto de lscpu
@@ -113,9 +117,14 @@ Mientras que para la parte del compilador hay los siguientes mecanismos:
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
 
+\textbf{Enunciado: }``Podemos mejorar el siguiente virus:''
 \phantomsection
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
+
+\textbf{Enunciado: }``Escribiendo un mejor escaner/limpiador para él.''
+
+\bigskip
 
 Para que el virus funcione, es necesario modificar el archivo \textit{elfvirus.c} y modificar las llamadas a la función \verb|searchForELF| para que use la ruta que he especificado.
 
@@ -200,6 +209,10 @@ El limpiador se podría mejorar haciendo que en vez de tener que ir ejecutable a
 \phantomsection
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
+
+\textbf{Enunciado: }``Añadir \verb|#ifdef| para comprobar la arquitectura de forma que cambie de forma automática el valor \verb|EM_386| en tiempo de compilación para adaptarlo al sistema donde estemos.''
+
+\bigskip
 
 Usando un editor de texto avanzado o un IDE como Visual Studio Code, se puede ver que la estructura de datos \verb|Elf32_Ehdr| contiene las siguientes arquitecturas (no son todas) en el archivo \verb|elf.h|:
 
