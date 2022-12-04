@@ -52,6 +52,11 @@ E.T.S. de Ingenierías Informática y de Telecomunicación \\
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
 
+\textbf{Enunciado:} ``Vamos a crear en nuestro pendrive un archivo con un supuesto texto de una amenaza y luego vamos a borrarlo. Aplicando las herramientas anteriores vamos a intentar recuperar lo que quede del archivo borrado haciendo una copia del pendrive sobre la que trabajar, no directamente
+sobre el pendrive.''
+
+\bigskip
+
 Voy a crear una partición con el sistema de archivos FAT32 (debido a problemas con Autopsy que me surgieron en los siguientes ejercicios) en el pendrive. Ahora a modo de realismo, voy a copiar las imágenes usadas durante estas prácticas y un archivo dentro de la carpeta ``mis trabajos'' denominado ``amenaza.txt'' con una frase que amenace.
 
 %Foto de la carpeta con archivos y del archivo amenaza
@@ -69,7 +74,7 @@ Voy a crear una partición con el sistema de archivos FAT32 (debido a problemas 
 
 A continuación elimino ese archivo y desmonto el disco para suponer que he recibido el pendrive así y para que no pueda realizarle más modificaciones.
 
-\bigskip
+\newpage
 
 Ahora voy a seguir los pasos indicados en el guion de prácticas, por tanto, lo primero que hay que hacer es obtener la estructura interna de particiones con \verb|fdisk -l /dev/sdX > fdisk.disco1| siendo la X la letra asignada al disco, en mi caso es \verb|sda|. (se puede comprobar con la orden \verb|fdisk -l| o \verb|lsblk|).
 
@@ -79,8 +84,6 @@ Ahora voy a seguir los pasos indicados en el guion de prácticas, por tanto, lo 
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-28-00.png}
     \caption{Salida del comando \texttt{fdisk}.}
 \end{figure}
-
-\newpage
 
 Lo siguiente que hay que hacer es crear una imagen forense del disco para evitar invalidar el contenido del pendrive y trabajar de forma segura sobre una copia. Esto se realiza mediante la orden \verb|dd if=/dev/sda1 of=imagen.disco1 bs=512|.
 
@@ -109,8 +112,6 @@ También es necesario verificar la integridad de los datos del pendrive antes y 
     \caption{Salida de la orden \texttt{sha1sum}.}
 \end{figure}
 
-\newpage
-
 Y ahora, voy a realizar lo mismo, pero sobre cada archivo. En este caso se debe hacer sobre la imagen porque al montar el pendrive puede darse el caso de que el hash cambie. Para ello, desde la raíz de la imagen montada, se debe hacer con la orden siguiente: 
 
 \verb|find . -type f -exec sha1sum {} \; > SHA.listaArchivos|.
@@ -122,6 +123,8 @@ Y ahora, voy a realizar lo mismo, pero sobre cada archivo. En este caso se debe 
     \caption{Hash de cada archivo de la imagen.}
 \end{figure}
 
+\newpage
+
 Y se puede realizar la verificación con la orden \verb|sha1sum -c ~/SHA.listaArchivos| (se debe estar dentro de la raíz de la imagen)
 
 %salida del comando.
@@ -131,8 +134,6 @@ Y se puede realizar la verificación con la orden \verb|sha1sum -c ~/SHA.listaAr
     \caption{Fragmento de la comprobación de los hashes.}
 \end{figure}
 
-\newpage
-
 Ahora se puede proceder con seguridad a encontrar el archivo eliminado anteriormente. Para ello, es necesario crear un fichero con las palabras claves más probables que se encuentren. El fichero tiene la siguiente forma:
 
 %slaida
@@ -141,6 +142,8 @@ Ahora se puede proceder con seguridad a encontrar el archivo eliminado anteriorm
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-02 18-52-07.png}
     \caption{Diccionario de palabras clave a buscar en la imagen.}
 \end{figure}
+
+\newpage
 
 Ahora con la orden \verb|grep -aibf palabrasClave imagen.disco1 > aciertos.txt| se puede realizar la búsqueda en la imagen:
 
@@ -170,6 +173,10 @@ Y efectivamente, aquí también aparece indicando de que ha habido una amenaza q
 \phantomsection
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
+
+\textbf{Enunciado: }``Realizar una imagen forense del  pendrive con la herramienta \verb|guymager|''
+
+\bigskip
 
 En esta parte es necesario utilizar la herramienta ``GuyMager'' para obtener una imagen forense del mismo pendrive. Por tanto, se descarga el programa mediante \verb|apt| y se abre.
 
@@ -220,15 +227,22 @@ Al finalizar, se puede ver que ha generado varios trozos de la imagen del pendri
     \caption{Archivos generados por el programa.}
 \end{figure}
 
+\newpage
+
 \phantomsection
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
 
 \textbf{NOTA: }La versión de Autopsy para Linux con la interfaz web no era capaz de detectar las particiones de la imagen creada con la herramienta del ejercicio anterior, por lo que he decidido usar la última versión de Autopsy que sí la detecta.
 
+
 \phantomsection
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
+
+\textbf{Enunciado: } Como en el ejercicio 1 y partiendo de la imagen forense del 2, buscar con la herramienta Autopsy las evidencias de la amenaza realizada.
+
+\bigskip
 
 Cuando se ejecuta Autopsy aparece la siguiente pantalla:
 
@@ -236,6 +250,7 @@ Cuando se ejecuta Autopsy aparece la siguiente pantalla:
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-03 21-22-16.png}
+    \caption{Pantalla principal de Autopsy.}
 \end{figure}
 
 \newpage
@@ -308,6 +323,7 @@ Ahora bien, hay dos opciones de ver archivos eliminados: la primera es yendo a l
 Y como se puede ver detecta el archivo eliminado del pendrive y muestra su información.
 
 %SECCION DE IMAGENES DE WINDOWS
+\newpage
 
 \phantomsection
 \addcontentsline{toc}{subsection}{Apartado B}
@@ -327,6 +343,8 @@ Lo primero de todo es encontrar la hoja de cálculo en la imagen del ordenador d
     \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (5).png}
     \caption{Como se puede observar abajo en ``Text'', es el documento que ha sido filtrado.}
 \end{figure}
+
+\newpage
 
 Ahora hay que darle a la pestaña ``File Metadata'' donde se indican todos los datos relacionados con el documento.
 
@@ -372,7 +390,7 @@ Tras mirar la conversación entre Jean y Alison, pidiéndole a Jean que trabaje 
 %fotos hacker
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{imagenes/Windows/Captura de pantalla (9).png}
+    \includegraphics[width=0.95\textwidth]{imagenes/Windows/Captura de pantalla (9).png}
     \caption{Alison, supuestamente, pidiéndole a Jean que le mande una hoja de cálculo con datos personales de los empleados.}
 \end{figure}
 
