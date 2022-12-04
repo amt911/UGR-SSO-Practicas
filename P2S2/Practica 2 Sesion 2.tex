@@ -1,29 +1,43 @@
-%TODO: CORREGIR COMANDOS PARA QUE SE VEAN CON VERB
-%TODO: INTENTAR QUITAR LA MORRAYA QUE NO SIRVA
-%TODO: INTENTAR NO REPETIR TANTAS COSAS EN EL EJERCICIO 3
-%TODO: REVISAR DOCUMENTO PARA FALLOS ORTOGRAFICOS/GRAMATICALES
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref}
+\usepackage{graphicx, graphics, float, fancyhdr, titling}
 \usepackage{listings, subcaption}
-\usepackage[a4paper, total={6in, 10in}]{geometry}
-
-\title{SSO Práctica 2 Sesión 2}
-\author{Andrés Merlo Trujillo}
-\date{}
+\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\usepackage{hyperref}
+\renewcommand{\footrulewidth}{0.4pt}
+\title{
+\includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
+\vspace*{1in}
+\textbf{Práctica 2, Sesión 2} \\
+Seguridad en Sistemas Operativos \\
+\vspace*{0.5in}}
+\author{Andrés Merlo Trujillo \\
+\vspace*{0.5in} \\
+E.T.S. de Ingenierías Informática y de Telecomunicación \\
+\textbf{Universidad de Granada}} \date{\today}
+%\date{}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
 }
 
-\begin{document}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
-\maketitle
+\begin{document}
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
 
 \tableofcontents
 
 \newpage
+
+\pagestyle{fancy}
+\fancyhead[L]{Andrés Merlo Trujillo}
+\fancyhead[R]{Seguridad en Sistemas Operativos}
+
 %\addcontentsline{toc}{section}{Ejercicio 1}
 %\section*{Ejercicio 1}
 %\begin{figure}[H]
@@ -31,6 +45,7 @@
 %    \caption{Ejemplo de entradas en el archivo.}
 %\end{figure}
 
+\phantomsection
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
 
@@ -39,6 +54,7 @@ Para obtener la arquitectura de la CPU, voy a utilizar la orden \verb|lscpu|.
 %foto de lscpu
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-23 10-33-11.png}
+    \caption{Salida del comando.}
 \end{figure}
 
 \bigskip
@@ -49,6 +65,7 @@ Para saber la distribución, hay dos formas: la primera depende del entorno de e
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{imagenes/Captura desde 2022-11-23 10-37-46.png}
+    \caption{Distribución utilizada mediante los ajustes de GNOME.}
 \end{figure}
 
 \bigskip
@@ -59,9 +76,10 @@ La segunda opción es usando el comando \verb|lsb_release -a|, que indica por te
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{imagenes/Captura desde 2022-11-23 10-38-58.png}
+    \caption{Distribución utilizada mediante línea de comandos.}
 \end{figure}
 
-\bigskip
+\newpage
 
 Ahora, para obtener la versión del compilador, se utiliza el comando \verb|gcc --version|:
 
@@ -70,7 +88,6 @@ Ahora, para obtener la versión del compilador, se utiliza el comando \verb|gcc 
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-23 10-39-52.png}
 \end{figure}
 
-\newpage
 
 Ahora bien, los mecanismos para proteger los binarios ELF son diversos y se encuentran implementados en el kernel y en el compilador. Las protecciones del kernel son las siguientes:
 
@@ -90,9 +107,13 @@ Mientras que para la parte del compilador hay los siguientes mecanismos:
     \item \textbf{Protector de pila}: Mediante la opción del compilador \verb|-fstack-protector| que habilita la protección de la pila. Hace uso de la técnica ``Stack Canary'', que es un valor que se le asigna a cada función al principio y que al final de la misma se espera que sea igual, si se ha producido un bug o un ataque el programa aborta al ser el valor distinto y se impide el potencial ataque.
 \end{itemize}
 
+\newpage
+
+\phantomsection
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
 
+\phantomsection
 \addcontentsline{toc}{subsection}{Apartado A}
 \subsection*{Apartado A}
 
@@ -101,9 +122,9 @@ Para que el virus funcione, es necesario modificar el archivo \textit{elfvirus.c
 %foto de eso
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-25 17-29-47.png}
+    \caption{Modificación del directorio al que afecta el virus.}
 \end{figure}
 
-\newpage
 
 A continuación, es necesario compilar el programa y con la orden \verb|ls -l| se obtiene el tamaño del virus:
 
@@ -114,7 +135,7 @@ A continuación, es necesario compilar el programa y con la orden \verb|ls -l| s
     \caption{El ejecutable se llama \texttt{virus}, y como se puede ver tiene un tamaño de \textbf{21932}.}
 \end{figure}
 
-\bigskip
+\newpage
 
 Por tanto, en el \verb|#define VIRUS_SIZE| se pone ese tamaño:
 
@@ -131,6 +152,7 @@ Se compila y ahora al ejecutar el virus infectado aparece lo siguiente:
 %foto de la salida del virus
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-11-23 12-32-53.png}
+    \caption{Salida de la ejecución del virus.}
 \end{figure}
 
 Como se puede ver ha infectado el programa \textit{victima}, que es un Hola Mundo escrito en C.
@@ -169,12 +191,13 @@ Después de estos arreglos, al ejecutarlo aparece lo siguiente:
 
 \bigskip
 
-Y ahora al ejecutar el ejecutable ``saneado'', aparece la salida correctamente.
+Y ahora al ejecutar el ejecutable ``saneado'', aparece la salida correctamente sin ejecutar el virus.
 
 \bigskip
 
 El limpiador se podría mejorar haciendo que en vez de tener que ir ejecutable a ejecutable uno a uno a mano, se pueda pasar un directorio y de manera recursiva vaya limpiando los ejecutables infectados. Para ello, haría falta que el script hiciese una comprobación de si existe el virus en el ejecutable, ya que siempre intenta eliminar los primeros 21932 Bytes del programa, que es donde reside el virus.
 
+\phantomsection
 \addcontentsline{toc}{subsection}{Apartado B}
 \subsection*{Apartado B}
 
@@ -183,7 +206,7 @@ Usando un editor de texto avanzado o un IDE como Visual Studio Code, se puede ve
 %foto de las arquitecturas
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{imagenes/Captura desde 2022-11-23 13-07-09.png}
+    \includegraphics[width=0.45\textwidth]{imagenes/Captura desde 2022-11-23 13-07-09.png}
     \caption{Alguna de las arquitecturas disponibles.}
 \end{figure}
 
