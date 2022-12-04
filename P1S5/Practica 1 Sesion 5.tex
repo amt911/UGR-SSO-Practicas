@@ -1,26 +1,42 @@
-%TODO: ARREGLAR EJERCICIO 1B
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{graphicx, graphics, float, hyperref, caption, subcaption}
-\usepackage{listings}
-\usepackage[a4paper, total={6in, 10in}]{geometry}
-
-\title{SSO Práctica 1 Sesión 5}
-\author{Andrés Merlo Trujillo}
-\date{}
+\usepackage{graphicx, graphics, float, fancyhdr, titling}
+\usepackage{listings, subcaption}
+\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\usepackage{hyperref}
+\renewcommand{\footrulewidth}{0.4pt}
+\title{
+\includegraphics[width=1.75in]{imagenes/UGR-Logo.png} \\
+\vspace*{1in}
+\textbf{Práctica 1, Sesión 5} \\
+Seguridad en Sistemas Operativos \\
+\vspace*{0.5in}}
+\author{Andrés Merlo Trujillo \\
+\vspace*{0.5in} \\
+E.T.S. de Ingenierías Informática y de Telecomunicación \\
+\textbf{Universidad de Granada}} \date{\today}
+%\date{}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
 }
 
-\begin{document}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
-\maketitle
+\begin{document}
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
 
 \tableofcontents
 
 \newpage
+
+\pagestyle{fancy}
+\fancyhead[L]{Andrés Merlo Trujillo}
+\fancyhead[R]{Seguridad en Sistemas Operativos}
 %\addcontentsline{toc}{section}{Ejercicio 1}
 %\section*{Ejercicio 1}
 %\begin{figure}[H]
@@ -29,14 +45,19 @@
 
 %\addcontentsline{toc}{section}{Ejercicio 1}
 %\section*{Ejercicio 1}
-
+\phantomsection
 \addcontentsline{toc}{section}{Ejercicio 1}
 \section*{Ejercicio 1}
+
+\textbf{Enunciado: }``Utilizar \texttt{cryptsetup} para crear una partición encriptada en un pendrive. Escribir un archivo en él. Desmontarlo y extraerlo. ¿Qué ocurre cuando volvemos a conectarlo?''
+
+\bigskip
 
 Lo primero que hay que hacer es encriptar el pendrive, esto se puede hacer ejecutando la orden \verb|cryptsetup luksFormat /dev/device| (en mi caso es \verb|/dev/sda|, ya que estoy en una máquina virtual con un pendrive pasado por passthrough). Es importante recordar que el dispositivo no debe estar montado en ningún sitio, si lo estuviera con la orden \verb|umount punto_montaje| se desmonta.
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-51-54.png}
+    \caption{Formateo de la partición para ser un contenedor LUKS.}
 \end{figure}
 
 \bigskip
@@ -45,6 +66,7 @@ Como se puede ver, pide una contraseña de cifrado para encriptar el dispositivo
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-54-01.png}
+    \caption{Contenedor LUKS desencriptado.}
 \end{figure}
 
 \newpage
@@ -53,6 +75,7 @@ Una vez abierto, es necesario crear un sistema de archivos para que se pueda tra
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-57-11.png}
+    \caption{Creación del sistema de archivos dentro del contenedor LUKS.}
 \end{figure}
 
 \bigskip
@@ -61,6 +84,7 @@ Y ahora, se puede usar la orden \verb|mount /dev/mapper/device punto_montaje| co
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-58-23.png}
+    \caption{Montaje del sistema de archivos desencriptado.}
 \end{figure}
 
 \newpage
@@ -69,6 +93,7 @@ A continuación, voy a crear el siguiente archivo con algo de texto en su interi
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 10-59-27.png}
+    \caption{Archivo a encriptar.}
 \end{figure}
 
 \bigskip
@@ -77,6 +102,7 @@ Seguidamente, es necesario desmontar el sistema de archivos primero y luego cerr
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-00-34.png}
+    \caption{Desmontaje de la partición desencriptada.}
 \end{figure}
 
 \bigskip
@@ -88,6 +114,7 @@ Esto se realiza ejecutando la orden \verb|cryptsetup close /dev/mapper/device|
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-02-02.png}
+    \caption{Cierre del contenedor LUKS.}
 \end{figure}
 
 \bigskip
@@ -97,15 +124,15 @@ El último paso que se explica a continuación paso es opcional, ya que es impos
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{imagenes/Captura desde 2022-10-30 11-03-16.png}
+    \caption{Extracción del pendrive.}
 \end{figure}
-
-\newpage
 
 Ahora al volverlo a conectar, GNOME pide la contraseña para desencriptar.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{imagenes/Captura desde 2022-10-30 11-04-17.png}
+    \caption{Pantalla para introducir la contraseña de cifrado.}
 \end{figure}
 
 \bigskip
@@ -114,10 +141,12 @@ Una vez desencriptado, GNOME lo monta de manera automática, haciendo accesible 
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-05-16.png}
+    \caption{Contenido del pendrive cifrado.}
 \end{figure}
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-05-44.png}
+    \caption{Contenido del archivo cifrado del pendrive.}
 \end{figure}
 
 \bigskip
@@ -131,8 +160,15 @@ Todo esto se podría haber hecho de manera manual mediante terminal realizando l
 
 Sin embargo, para el usuario promedio es mejor realizarlo de manera gráfica, como lo que ofrecen entornos de escritorio como GNOME o KDE.
 
+\newpage
+
+\phantomsection
 \addcontentsline{toc}{section}{Ejercicio 2}
 \section*{Ejercicio 2}
+
+\textbf{Enunciado: }``Utilizar la herramienta \textit{Steghide} para ocultar un mensaje dentro de una imagen, tal como acabamos de ver. Comparar los archivos portador antes y después de usar la técnica para ver las diferencias.''
+
+\bigskip
 
 Para instalar ``Steghide'' en Ubuntu es necesario usar la orden \verb|sudo apt install steghide|
 
@@ -151,6 +187,7 @@ Y voy a ocultar el siguiente mensaje:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-27-46.png}
+    \caption{Mensaje que se va a insertar en la imagen.}
 \end{figure}
 
 \bigskip
@@ -161,6 +198,7 @@ Finalmente, para ocultar el mensaje en la imagen se usa la orden:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-30-08.png}
+    \caption{Inserción del mensaje en la imagen.}
 \end{figure}
 
 \bigskip
@@ -192,14 +230,16 @@ A continuación, al comparar sus hashes podemos ver que son completamente distin
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-38-52.png}
+    \caption{Diferencias hash de las dos imágenes.}
 \end{figure}
 
-\bigskip
+\newpage
 
 Ahora bien, existe la orden \verb|compare| que permite comparar dos imágenes y obtener el resultado en otra imagen mostrando como píxeles rojos aquellos que han sido modificados de la imagen original. Usando la orden \verb|compare image1 image2 -compose src diff.png| se puede obtener la siguiente imagen:
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/diff.png}
+    \caption{Diferencias a nivel de píxeles de ambas imágenes.}
 \end{figure}
 
 \bigskip
@@ -212,15 +252,22 @@ Finalmente, con la orden \verb|steghide extract -sf imagen.jpg| se puede obtener
 
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-10-30 11-44-23.png}
+    \caption{Obtención del mensaje oculto.}
 \end{figure}
 
 \bigskip
 
 Como se puede observar, pide la contraseña que se pedía al insertar el archivo en la imagen.
 
+\newpage
 
+\phantomsection
 \addcontentsline{toc}{section}{Ejercicio 3}
 \section*{Ejercicio 3}
+
+\textbf{Enunciado: }``Utilizar VSL para analizar la imagen esteganográfica generada en el ejercicio anterior para detectar información oculta.''
+
+\bigskip
 
 Por desgracia, no he sido capaz de poder ejecutar el programa VSL de ninguna forma. He probado con Ubuntu 22.04.1 LTS y Arch Linux actualizado a día 30 de octubre de 2022 y con varias versiones de JDK (8, 11, 18 y 19). Con ninguna de estas combinaciones ha funcionado. 
 
