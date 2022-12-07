@@ -69,7 +69,7 @@ Y ahora si nos vamos al directorio \textit{evidencias} deberia aparecer lo sigui
 
 Antes de nada hace falta instalar \verb|volatility| y descargarse la imagen RAM de PRADO. %Tambien cabe destacar que los paqeutes \verb|python python-crypto| han sido sustituidos por \verb|python3 python3-cryptography|.
 
-\subsection{¿A qué sistema operativo corresponde la imagen?}
+\subsection{a) ¿A qué sistema operativo corresponde la imagen?}
 
 Primero, para comprobar si usa Linux, se usa el comando \verb|strings memory.img | grep -i "Linux version" | uniq|, en caso de no devolver nada, es otro sistema operativo, seguramente Windows.
 
@@ -89,12 +89,40 @@ Y ahora, usando el comando \verb|vol.py -f memory.img imageinfo| se puede intuir
 
 Como se puede ver, está usando Windows y por los perfiles sugeridos, parece ser que está usando Windows 7 o Windows Server 2008.
 
-\subsection{Listar los procesos en ejecución en el momento de la adquisición.}
+\subsection{b) Listar los procesos en ejecución en el momento de la adquisición.}
 
 Usando la orden \verb|vol.py -f memory.img --profile=Win7SP1x64 pslist| se puede obtener esa informacion:
 
 %foto de eso
 %caption: Salida del comando.
 
+\subsection{c) Basado en el apartado b), ¿qué navegador se estaba usando en el momento de la adquisición?}
+
+Basandome en la salida del comando anterior, se puede ver que se estaba eejcutando \verb|chrome.exe|.
+
+%foto anterior recortada
+%caption: \texttt{chrome.exe} en ejeciciopn.
+
+\subsection{d) ¿Cuál era el identificador de dicho proceso?}
+
+El identificador se puede ver en la tercera columna, tienen el identificador 3564, 4316 y 3120.
+\subsection{e) ¿Qué aplicación se utilizó para realizar la adquisición?}
+El ultimo proceso de todos de la salida del comando anterior muestra que es FTK Imager.
+
+%foto de eso
+%caption: Proceso en ejecucion para crear la imagen de la RAM.
+\subsection{Mostrar las conexiones de red.}
+Para obtener las conexiones de red se usa el comando \verb|vol.py -f memory.img --profile=Win7SP1x64 netscan|.
+
+%foto
+%salida de algunas conexiones en el ordenador
+\subsection{f) ¿A qué dirección IP estaba conectado Chrome cuando se realizó la adquisición?}
+
+Se puede pasar por un \verb|grep| el comando anterior para obtener de forma rápida las direcciones IP. El comando quedaría así: \verb|vol.py -f memory.img --profile=Win7SP1x64 netscan | grep "chrome.exe"|.
+
+%foto
+%caption: Conexiones abiertas por Chrome.
+
+Por tanto, las conexiones que tenia abiertas eran la de \textbf{74.125.228.206:443}, \textbf{74.125.228.216:80} y \textbf{184.168.27.206:80}.
 
 \end{document}
