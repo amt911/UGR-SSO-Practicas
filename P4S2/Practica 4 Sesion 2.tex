@@ -53,16 +53,16 @@ E.T.S. de Ingenierías Informática y de Telecomunicación \\
 
 \section{Ejercicio 1}
 
-Primero hay que saber la version exacta del kernel para poder instalar el paquete \verb|linux-headers|, para ello, se usa el comando \verb|uname -r|:
+Primero hay que saber la versión exacta del kernel para poder instalar el paquete \verb|linux-headers|, para ello, se usa el comando \verb|uname -r|:
 
 %salida comando
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{imagenes/Captura desde 2022-12-06 11-37-14.png}
-    \caption{Version del kernel que está usando mi distribucion.}
+    \caption{Versión del kernel que está usando mi distribución.}
 \end{figure}
 
-Ahora lo que hay que hacer es instalar \verb|LiME| siguiendo las instrucciones proporcionadas en el guion de practicas. Una vez instalado, como es en maquina local, se ejecuta el comando:
+Ahora lo que hay que hacer es instalar \verb|LiME| siguiendo las instrucciones proporcionadas en el guion de prácticas. Una vez instalado, como es en máquina local, se ejecuta el comando:
 
 \noindent
 \verb|insmod lime-5.15.0-56-generic.ko path=/home/usuario/evidencias/volcado101 format=raw|
@@ -74,7 +74,7 @@ Ahora lo que hay que hacer es instalar \verb|LiME| siguiendo las instrucciones p
     \caption{Volcado de memoria realizado.}
 \end{figure}
 
-Y ahora si nos vamos al directorio \textit{evidencias} deberia aparecer lo siguiente:
+Y ahora si nos vamos al directorio \textit{evidencias} debería aparecer lo siguiente:
 
 %foto del archivo
 \begin{figure}[H]
@@ -90,13 +90,13 @@ Antes de nada hace falta instalar \verb|volatility| y descargarse la imagen RAM 
 
 \subsection{a) ¿A qué sistema operativo corresponde la imagen?}
 
-Primero, para comprobar si usa Linux, se usa el comando \verb|strings memory.img | grep -i "Linux version" | uniq|, en caso de no devolver nada, es otro sistema operativo, seguramente Windows.
+Primero, para comprobar si usa Linux, se usa el comando \texttt{strings memory.img | grep -i ``Linux version'' | uniq}, en caso de no devolver nada, es otro sistema operativo, seguramente Windows.
 
 %foto para windows
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-06 12-56-51.png}
-    \caption{salida para un SO distinto de linux.}
+    \caption{Salida para un SO distinto de Linux.}
 \end{figure}
 
 En cambio, con la imagen del ejercicio anterior (Linux) sale lo siguiente:
@@ -105,7 +105,7 @@ En cambio, con la imagen del ejercicio anterior (Linux) sale lo siguiente:
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/Captura desde 2022-12-06 12-56-51-linux.png}
-    \caption{en el volcado de memoria de Ubuntu sí aparecen referencias.}
+    \caption{En el volcado de memoria de Ubuntu sí aparecen referencias.}
 \end{figure}
 
 
@@ -122,19 +122,19 @@ Como se puede ver, está usando Windows y por los perfiles sugeridos, parece ser
 
 \subsection{b) Listar los procesos en ejecución en el momento de la adquisición.}
 
-Usando la orden \verb|vol.py -f memory.img --profile=Win7SP1x64 pslist| se puede obtener esa informacion:
+Usando la orden \verb|vol.py -f memory.img --profile=Win7SP1x64 pslist| se puede obtener esa información:
 
 %foto de eso
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/pslist.png}
-    \caption{Procesos en ejecucion en el momento de realizar el volcado de memoria.}
+    \caption{Procesos en ejecución en el momento de realizar el volcado de memoria.}
 \end{figure}
 
 \newpage
 \subsection{c) Basado en el apartado b), ¿qué navegador se estaba usando en el momento de la adquisición?}
 
-Basandome en la salida del comando anterior, se puede ver que se estaba eejcutando \verb|chrome.exe|.
+Basándome en la salida del comando anterior, se puede ver que se estaba ejecutando \verb|chrome.exe|.
 
 %foto anterior recortada
 \begin{figure}[H]
@@ -147,13 +147,13 @@ Basandome en la salida del comando anterior, se puede ver que se estaba eejcutan
 
 El identificador se puede ver en la tercera columna, tienen el identificador 3564, 4316 y 3120.
 \subsection{e) ¿Qué aplicación se utilizó para realizar la adquisición?}
-El ultimo proceso de todos de la salida del comando anterior muestra que es FTK Imager.
+El último proceso de todos de la salida del comando anterior muestra que es FTK Imager.
 
 %foto de eso
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{imagenes/pslist-2.png}
-    \caption{FTK Imager en ejecucion para crear la imagen de la RAM.}
+    \caption{FTK Imager en ejecución para crear la imagen de la RAM.}
 \end{figure}
 \subsection{f) Mostrar las conexiones de red.}
 Para obtener las conexiones de red se usa el comando:
@@ -164,7 +164,7 @@ Para obtener las conexiones de red se usa el comando:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/netscan.png}
-    \caption{algunas conexiones que tenia ordenador.}
+    \caption{Algunas conexiones que tenía ordenador.}
 \end{figure}
 \subsection{g) ¿A qué dirección IP estaba conectado Chrome cuando se realizó la adquisición?}
 
@@ -177,6 +177,6 @@ Se puede pasar por un \verb|grep| el comando anterior para obtener de forma ráp
     \caption{Conexiones abiertas por Chrome.}
 \end{figure}
 
-Por tanto, las conexiones que tenia abiertas eran la de \textbf{74.125.228.206:443}, \textbf{74.125.228.216:80} y \textbf{184.168.27.206:80}.
+Por tanto, las conexiones que tenía abiertas eran la de \textbf{74.125.228.206:443}, \textbf{74.125.228.216:80} y \textbf{184.168.27.206:80}.
 
 \end{document}
